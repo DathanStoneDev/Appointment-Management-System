@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.stone.controller.LoginController">
    <children>
       <Button fx:id="loginButton" layoutX="217.0" layoutY="277.0" mnemonicParsing="false" onAction="#loginToApp" prefHeight="25.0" prefWidth="140.0" text="Login" />
@@ -18,6 +17,11 @@
       <Label layoutX="189.0" layoutY="64.0" text="Scheduling Application">
          <font>
             <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="locationLabel" layoutX="14.0" layoutY="369.0" prefHeight="17.0" prefWidth="106.0">
+         <font>
+            <Font name="System Italic" size="12.0" />
          </font>
       </Label>
    </children>
