@@ -9,7 +9,7 @@ public class DatabaseConnection {
 
     private static Connection conn;
 
-    public static Connection getConnection() {
+    public static Connection startConnection() {
         ResourceBundle reader;
         reader = ResourceBundle.getBundle("db");
         try {
@@ -21,7 +21,11 @@ public class DatabaseConnection {
         } return conn;
     }
 
-    public static Connection closeConnection (){
+    public static Connection getConnection() {
+        return conn;
+    }
+
+    public static Connection closeConnection() {
         try {
             if(conn != null) {
                 conn.close();

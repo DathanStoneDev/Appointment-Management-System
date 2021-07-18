@@ -6,8 +6,8 @@ public class Country {
 
     private int countryId;
     private String country;
-    private Date date;
+    private Date createDate;
     private String createdBy;
-    private Timestamp timestampUpdate;
-    private String updateBy;
+    private Timestamp lastUpdate;
+    private String lastUpdateBy;
 }
