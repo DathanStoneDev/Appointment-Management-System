@@ -5,10 +5,18 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+/**
+ * Database connection methods.
+ */
 public class DatabaseConnection {
 
+    //connection variable.
     private static Connection conn;
 
+    /**
+     * Starts the initial connection.
+     * @return connection to conn variable.
+     */
     public static Connection startConnection() {
         ResourceBundle reader;
         reader = ResourceBundle.getBundle("db");
@@ -21,10 +29,18 @@ public class DatabaseConnection {
         } return conn;
     }
 
+    /**
+     * gets the connection without restarting the process through the DriverManager.
+     * @return conn/
+     */
     public static Connection getConnection() {
         return conn;
     }
 
+    /**
+     * closes the connection
+     * @return null if the connection could not be closed.
+     */
     public static Connection closeConnection() {
         try {
             if(conn != null) {
@@ -32,7 +48,7 @@ public class DatabaseConnection {
                 System.out.println("Connection is closed.");
             }
         } catch (SQLException e) {
-            System.out.println("Could not close the application: " + e.getMessage());
+            System.out.println("Could not close the connection: " + e.getMessage());
         } return null;
     }
 }
