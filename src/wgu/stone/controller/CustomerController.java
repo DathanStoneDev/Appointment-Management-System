@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import wgu.stone.DAO.CustomerDAOImpl;
 import wgu.stone.model.Customer;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -38,8 +39,8 @@ public class CustomerController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         //Initialize tableview and columns
-        //customerRecords.setItems();
-        customerIdColumn.setCellValueFactory(new PropertyValueFactory<Customer, Integer>("customerID"));
+        customerRecords.setItems(CustomerDAOImpl.getAllCustomers());
+        customerIdColumn.setCellValueFactory(new PropertyValueFactory<Customer, Integer>("customerId"));
         customerNameColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerName"));
         customerPostalCodeColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerPostalCode"));
         customerPhoneColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerPhoneNumber"));
