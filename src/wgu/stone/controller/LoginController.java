@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
 
-    //fields for user name and password.
+    //fields for username and password.
     @FXML private TextField userNameField;
     @FXML private PasswordField passwordField;
 
@@ -45,7 +45,7 @@ public class LoginController implements Initializable {
         String userName = userNameField.getText();
         String userPassword = passwordField.getText();
         if(UserDAOImpl.checkUserInfo(userName, userPassword)) {
-            Parent addProduct = FXMLLoader.load(getClass().getResource("/wgu/stone/view/CreateCustomerForm.fxml"));
+            Parent addProduct = FXMLLoader.load(getClass().getResource("/wgu/stone/view/CustomerMainForm.fxml"));
             Scene addProductScene = new Scene(addProduct);
             Stage window = (Stage) loginButton.getScene().getWindow();
             window.setScene(addProductScene);

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="381.0" prefWidth="487.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.stone.controller.CustomerController">
+    <Label layoutX="223.0" layoutY="20.0" text="Customer Records">
+        <font>
+          <Font name="System Bold" size="18.0" />
+        </font>
+    </Label>
+    <TableView fx:id="customerRecords" layoutY="57.0" prefHeight="262.0" prefWidth="600.0">
+      <columns>
+          <TableColumn fx:id="customerIdColumn" prefWidth="47.0" text="ID" />
+          <TableColumn fx:id="customerNameColumn" prefWidth="76.0" text="Name" />
+          <TableColumn fx:id="customerPostalCodeColumn" prefWidth="76.0" text="Postal Code" />
+          <TableColumn fx:id="customerPhoneColumn" prefWidth="73.0" text="Phone" />
+          <TableColumn fx:id="customerCountryColumn" prefWidth="73.0" text="Country" />
+          <TableColumn fx:id="customerFLDColumn" prefWidth="73.0" text="FLD" />
+          <TableColumn fx:id="customerAddressColumn" prefWidth="180.0" text="Address" />
+      </columns>
+    </TableView>
+    <ButtonBar layoutX="14.0" layoutY="329.0" prefHeight="40.0" prefWidth="249.0">
+      <buttons>
+          <Button fx:id="addCustomerButton" mnemonicParsing="false" text="Add" />
+          <Button fx:id="updateCustomerButton" mnemonicParsing="false" text="Update" />
+          <Button fx:id="deleteCustomerButton" mnemonicParsing="false" text="Delete" />
+      </buttons>
+    </ButtonBar>
+    <Button fx:id="exitAppButton" layoutX="562.0" layoutY="14.0" mnemonicParsing="false" text="X" />
+    <Button fx:id="viewAppointmentsButton" layoutX="420.0" layoutY="337.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="154.0" text="View Appointments" />
+</AnchorPane>
