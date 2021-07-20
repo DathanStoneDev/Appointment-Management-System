@@ -3,11 +3,11 @@ package wgu.stone.DAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import wgu.stone.database.DatabaseConnection;
+import wgu.stone.model.Country;
 import wgu.stone.model.Customer;
 import wgu.stone.model.FirstLevelDivisions;
-
 import java.sql.*;
-import java.time.LocalDateTime;
+
 
 /**
  * Contains the method implementations for customers.
@@ -89,21 +89,50 @@ public class CustomerDAOImpl {
         }
     }
 
-    public static void populateDivisionList() {
+    /**
+     * Filters what goes into that division list that will be passed into the division combobox.
+     * @param countryName passed from setDivisionCombo method as a string.
+     * @return list of divisions corresponding to a country.
+     */
+    public static ObservableList<FirstLevelDivisions> filterDivisionList(String countryName) {
 
-        String sql = "SELECT Division_ID, Division FROM first_level_divisions";
+        ObservableList<FirstLevelDivisions> divisions = FXCollections.observableArrayList();
+        String sql = "SELECT d.Division, d.Division_ID FROM first_level_divisions d JOIN countries c ON c.Country_ID = d.COUNTRY_ID WHERE c.Country = ?";
 
-        try(Statement statement = DatabaseConnection.getConnection().createStatement()) {
-            ResultSet rs = statement.executeQuery(sql);
+        try(PreparedStatement preparedStatement = DatabaseConnection.getConnection().prepareStatement(sql)) {
+            preparedStatement.setString(1, countryName);
+            ResultSet rs = preparedStatement.executeQuery();
             while(rs.next()) {
                 FirstLevelDivisions division = new FirstLevelDivisions();
                 division.setDivisionId(rs.getInt("Division_ID"));
                 division.setDivisionName(rs.getString("Division"));
-                division.addDivisionToList(division);
+                divisions.add(division);
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+           e.printStackTrace();
         }
+        return divisions;
+    }
+
+    /**
+     * retrieves all the countries in the database.
+     * @return list of countries.
+     */
+    public static ObservableList<Country> getCountries() {
+
+        ObservableList<Country> countries = FXCollections.observableArrayList();
+        String sql = "SELECT Country FROM countries";
+
+        try(Statement statement = DatabaseConnection.getConnection().createStatement()) {
+            ResultSet rs = statement.executeQuery(sql);
+            while(rs.next()) {
+                Country country = new Country();
+                country.setCountry(rs.getString("Country"));
+                countries.add(country);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } return countries;
     }
 
 }

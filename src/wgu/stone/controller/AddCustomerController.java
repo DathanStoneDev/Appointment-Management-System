@@ -1,15 +1,21 @@
 package wgu.stone.controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import wgu.stone.DAO.CustomerDAOImpl;
 import wgu.stone.DAO.UserDAOImpl;
+import wgu.stone.model.Country;
 import wgu.stone.model.Customer;
 import wgu.stone.model.FirstLevelDivisions;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -26,12 +32,14 @@ public class AddCustomerController implements Initializable {
     @FXML private Button exitAppButton;
     @FXML private Button cancelButton;
 
+    //ComboBoxes in the AddCustomerForm.
     @FXML private ComboBox<FirstLevelDivisions> divisionCombo;
+    @FXML private ComboBox<Country> countryCombo;
 
     /**
      * Adds a new customer to the database when hitting the save button.
      */
-    public void addNewCustomer() {
+    public void addNewCustomer() throws IOException {
 
         String customerName = customerNameField.getText();
         String customerAddress = customerAddressField.getText();
@@ -45,20 +53,24 @@ public class AddCustomerController implements Initializable {
                 loggedInUser, lastUpdatedBy, divisionId);
 
         CustomerDAOImpl.insertNewCustomer(customer);
+
+        Parent addCustomer = FXMLLoader.load(getClass().getResource("/wgu/stone/view/CustomerMainForm.fxml"));
+        Scene addCustomerScene = new Scene(addCustomer);
+        Stage window = (Stage) saveNewCustomerButton.getScene().getWindow();
+        window.setScene(addCustomerScene);
+        window.show();
     }
 
-    public void initDivisionComboBox() {
-        try {
-            CustomerDAOImpl.populateDivisionList();
-            divisionCombo.setItems(FirstLevelDivisions.getDivisionList());
-        } catch (NullPointerException e) {
-            System.out.println(e.getMessage());
-        }
-
+    /**
+     * Sets the divisionComboBox selection to the generated list from the filterDivisionList method.
+     * The selection is based on the country that is selected in the country combobox.
+     */
+    public void setDivisionCombo() {
+        divisionCombo.setItems(CustomerDAOImpl.filterDivisionList(countryCombo.getSelectionModel().getSelectedItem().toString()));
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        initDivisionComboBox();
+        countryCombo.setItems(CustomerDAOImpl.getCountries());
     }
 }

@@ -8,8 +8,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="465.0" prefWidth="798.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.stone.controller.CustomerMainController">
-    <Label layoutX="223.0" layoutY="20.0" text="Customer Records">
+<AnchorPane prefHeight="389.0" prefWidth="798.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.stone.controller.CustomerMainController">
+    <Label layoutX="322.0" layoutY="13.0" text="Customer Records">
         <font>
           <Font name="System Bold" size="18.0" />
         </font>
@@ -32,6 +32,6 @@
           <Button fx:id="deleteCustomerButton" mnemonicParsing="false" text="Delete" />
       </buttons>
     </ButtonBar>
-    <Button fx:id="exitAppButton" layoutX="562.0" layoutY="14.0" mnemonicParsing="false" text="X" />
-    <Button fx:id="viewAppointmentsButton" layoutX="420.0" layoutY="337.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="154.0" text="View Appointments" />
+    <Button fx:id="exitAppButton" layoutX="760.0" layoutY="14.0" mnemonicParsing="false" onAction="#exitApplication" text="X" />
+    <Button fx:id="viewAppointmentsButton" layoutX="606.0" layoutY="337.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="154.0" text="View Appointments" />
 </AnchorPane>

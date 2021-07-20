@@ -34,6 +34,10 @@ public class CustomerMainController implements Initializable {
     @FXML private Button exitAppButton;
     @FXML private Button viewAppointmentsButton;
 
+    /**
+     * Sends the user to the addCustomerForm when the addCustomerButton is clicked.
+     * @throws IOException
+     */
     public void goToAddCustomerForm() throws IOException {
         Parent addCustomer = FXMLLoader.load(getClass().getResource("/wgu/stone/view/AddCustomerForm.fxml"));
         Scene addCustomerScene = new Scene(addCustomer);
@@ -51,6 +55,11 @@ public class CustomerMainController implements Initializable {
             if(result.isPresent() && result.get() == ButtonType.OK) {
                 CustomerDAOImpl.deleteCustomer(customer.getCustomerId());
             }
+    }
+
+    public void exitApplication() {
+        Stage window = (Stage) exitAppButton.getScene().getWindow();
+        window.close();
     }
 
     /**
