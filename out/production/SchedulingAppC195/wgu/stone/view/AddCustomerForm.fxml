@@ -17,7 +17,7 @@
       <Label layoutX="52.0" layoutY="153.0" text="Address" />
       <Label layoutX="31.0" layoutY="211.0" text="Postal Code" />
       <Label layoutX="14.0" layoutY="265.0" text="Phone Number" />
-      <ComboBox layoutX="448.0" layoutY="149.0" prefWidth="150.0" />
+      <ComboBox fx:id="divisionCombo" layoutX="448.0" layoutY="149.0" onAction="#initDivisionComboBox" prefWidth="150.0" />
       <ComboBox layoutX="279.0" layoutY="149.0" prefWidth="150.0" />
       <Label layoutX="448.0" layoutY="125.0" text="First-Division-Level" />
       <Label layoutX="280.0" layoutY="125.0" text="Country" />

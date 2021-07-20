@@ -1,26 +1,18 @@
 package wgu.stone.model;
 
-import java.sql.Timestamp;
-import java.util.Date;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class FirstLevelDivisions {
 
     private int divisionId;
-    private String division;
-    private Date createDate;
-    private String createdBy;
-    private Timestamp lastUpdate;
-    private String lastUpdatedBy;
-    private int customerId;
+    private String divisionName;
+    private static ObservableList<FirstLevelDivisions> divisions = FXCollections.observableArrayList();
 
-    public FirstLevelDivisions(int divisionId, String division, Date createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy, int customerId) {
+    public FirstLevelDivisions(int divisionId, String divisionName) {
         this.divisionId = divisionId;
-        this.division = division;
-        this.createDate = createDate;
-        this.createdBy = createdBy;
-        this.lastUpdate = lastUpdate;
-        this.lastUpdatedBy = lastUpdatedBy;
-        this.customerId = customerId;
+        this.divisionName = divisionName;
     }
 
     public FirstLevelDivisions() {
@@ -35,51 +27,32 @@ public class FirstLevelDivisions {
         this.divisionId = divisionId;
     }
 
-    public String getDivision() {
-        return division;
+    public String getDivisionName() {
+        return divisionName;
     }
 
-    public void setDivision(String division) {
-        this.division = division;
+    public void setDivisionName(String divisionName) {
+        this.divisionName = divisionName;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public ObservableList<FirstLevelDivisions> getDivisions() {
+        return divisions;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public void setDivisions(ObservableList<FirstLevelDivisions> divisions) {
+        this.divisions = divisions;
     }
 
-    public String getCreatedBy() {
-        return createdBy;
+    public void addDivisionToList(FirstLevelDivisions division) {
+        divisions.add(division);
     }
 
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
+    public static ObservableList<FirstLevelDivisions> getDivisionList(){
+        return divisions;
     }
 
-    public Timestamp getLastUpdate() {
-        return lastUpdate;
-    }
-
-    public void setLastUpdate(Timestamp lastUpdate) {
-        this.lastUpdate = lastUpdate;
-    }
-
-    public String getLastUpdatedBy() {
-        return lastUpdatedBy;
-    }
-
-    public void setLastUpdatedBy(String lastUpdatedBy) {
-        this.lastUpdatedBy = lastUpdatedBy;
-    }
-
-    public int getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomer(int customerId) {
-        this.customerId = customerId;
+    @Override
+    public String toString() {
+        return "ID: " + divisionId + "   " + "Division: " + divisionName;
     }
 }

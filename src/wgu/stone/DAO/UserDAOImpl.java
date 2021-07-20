@@ -1,8 +1,6 @@
 package wgu.stone.DAO;
 
 import wgu.stone.database.DatabaseConnection;
-import wgu.stone.model.User;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import wgu.stone.database.DatabaseConnection;
 import wgu.stone.model.Customer;
+import wgu.stone.model.FirstLevelDivisions;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -83,6 +84,23 @@ public class CustomerDAOImpl {
         try(PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(sql)) {
             ps.setInt(1, id);
             ps.executeQuery();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void populateDivisionList() {
+
+        String sql = "SELECT Division_ID, Division FROM first_level_divisions";
+
+        try(Statement statement = DatabaseConnection.getConnection().createStatement()) {
+            ResultSet rs = statement.executeQuery(sql);
+            while(rs.next()) {
+                FirstLevelDivisions division = new FirstLevelDivisions();
+                division.setDivisionId(rs.getInt("Division_ID"));
+                division.setDivisionName(rs.getString("Division"));
+                division.addDivisionToList(division);
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
