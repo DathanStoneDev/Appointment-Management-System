@@ -1,6 +1,8 @@
 package wgu.stone.DAO;
 
 import wgu.stone.database.DatabaseConnection;
+import wgu.stone.model.User;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,6 +11,7 @@ import java.sql.SQLException;
  * Contains the method implementations for users.
  */
 public class UserDAOImpl {
+    public static String loggedInUser;
 
     /**
      * validates the username and password.
@@ -26,6 +29,7 @@ public class UserDAOImpl {
                 String userName = rs.getString("User_Name");
                 String password = rs.getString("Password");
                 if(un.equals(userName) && up.equals(password)) {
+                    loggedInUser = userName;
                     return true;
                 }
             }

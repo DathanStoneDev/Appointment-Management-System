@@ -5,10 +5,8 @@ import javafx.collections.ObservableList;
 import wgu.stone.database.DatabaseConnection;
 import wgu.stone.model.Customer;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.time.LocalDateTime;
 
 /**
  * Contains the method implementations for customers.
@@ -49,18 +47,25 @@ public class CustomerDAOImpl {
         return null;
     }
 
+    /**
+     * Inserts a new customer into the database from a customer object passed by the AddCustomerController
+     * @param customer object passed in.
+     */
+    public static void insertNewCustomer(Customer customer) {
 
-    public static void insertNewCustomer(String cn, String ca, String cz, String cp) {
-
-        String sql = "INSERT INTO customers(Customer_Name, Address, Postal_Code, Phone) VALUES(?, ?, ?, ?)";
+        String sql = "INSERT INTO customers(Customer_Name, Address, Postal_Code, Phone, Created_By, " +
+                "Last_Updated_By, Division_ID) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
         try(PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(sql)) {
 
-            ps.setString(1, cn);
-            ps.setString(2, ca);
-            ps.setString(3, cz);
-            ps.setString(4, cp);
-            ps.executeQuery();
+            ps.setString(1, customer.getCustomerName());
+            ps.setString(2, customer.getCustomerAddress());
+            ps.setString(3, customer.getCustomerPostalCode());
+            ps.setString(4, customer.getCustomerPhoneNumber());
+            ps.setString(5, customer.getCreatedBy());
+            ps.setString(6, customer.getLastUpdatedBy());
+            ps.setInt(7, customer.getDivisionId());
+            ps.executeUpdate();
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
