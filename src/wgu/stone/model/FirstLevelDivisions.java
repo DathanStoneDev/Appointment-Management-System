@@ -11,18 +11,16 @@ public class FirstLevelDivisions {
     private String createdBy;
     private Timestamp lastUpdate;
     private String lastUpdatedBy;
+    private int customerId;
 
-    //foreign key reference.
-    private Customer customer;
-
-    public FirstLevelDivisions(int divisionId, String division, Date createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy, Customer customer) {
+    public FirstLevelDivisions(int divisionId, String division, Date createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy, int customerId) {
         this.divisionId = divisionId;
         this.division = division;
         this.createDate = createDate;
         this.createdBy = createdBy;
         this.lastUpdate = lastUpdate;
         this.lastUpdatedBy = lastUpdatedBy;
-        this.customer = customer;
+        this.customerId = customerId;
     }
 
     public FirstLevelDivisions() {
@@ -77,11 +75,11 @@ public class FirstLevelDivisions {
         this.lastUpdatedBy = lastUpdatedBy;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public int getCustomerId() {
+        return customerId;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setCustomer(int customerId) {
+        this.customerId = customerId;
     }
 }

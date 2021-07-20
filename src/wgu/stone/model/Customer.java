@@ -1,7 +1,6 @@
 package wgu.stone.model;
 
-import java.sql.Date;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class Customer {
 
@@ -10,13 +9,13 @@ public class Customer {
     private String customerAddress;
     private String customerPostalCode;
     private String customerPhoneNumber;
-    private Date createDate;
+    private LocalDateTime createDate;
     private String createdBy;
-    private Timestamp lastUpdate;
+    private LocalDateTime lastUpdate;
     private String lastUpdatedBy;
-
-    //foreign key reference.
-    private FirstLevelDivisions divisionId;
+    private int divisionId;
+    private String customerCountry;
+    private String divisionName;
 
     /**
      * Constructor for values that will be put into the database.
@@ -30,7 +29,7 @@ public class Customer {
      * @param divisionId
      */
     public Customer(String customerName, String customerAddress, String customerPostalCode, String customerPhoneNumber,
-                    String createdBy, String lastUpdatedBy, FirstLevelDivisions divisionId) {
+                    String createdBy, String lastUpdatedBy, int divisionId) {
         this.customerName = customerName;
         this.customerAddress = customerAddress;
         this.customerPostalCode = customerPostalCode;
@@ -87,11 +86,11 @@ public class Customer {
         this.customerPhoneNumber = customerPhoneNumber;
     }
 
-    public Date getCreateDate() {
+    public LocalDateTime getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
     }
 
@@ -103,11 +102,11 @@ public class Customer {
         this.createdBy = createdBy;
     }
 
-    public Timestamp getLastUpdate() {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(Timestamp lastUpdate) {
+    public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 
@@ -119,11 +118,27 @@ public class Customer {
         this.lastUpdatedBy = lastUpdatedBy;
     }
 
-    public FirstLevelDivisions getDivisionId() {
+    public int getDivisionId() {
         return divisionId;
     }
 
-    public void setDivisionId(FirstLevelDivisions divisionId) {
+    public void setDivisionId(int divisionId) {
         this.divisionId = divisionId;
+    }
+
+    public String getCustomerCountry() {
+        return customerCountry;
+    }
+
+    public void setCustomerCountry(String customerCountry) {
+        this.customerCountry = customerCountry;
+    }
+
+    public String getDivisionName() {
+        return divisionName;
+    }
+
+    public void setDivisionName(String divisionName) {
+        this.divisionName = divisionName;
     }
 }

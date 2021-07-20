@@ -4,6 +4,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import wgu.stone.database.DatabaseConnection;
 import wgu.stone.model.Customer;
+
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -14,13 +16,17 @@ import java.sql.Statement;
 public class CustomerDAOImpl {
 
     /**
-     * Gets all the customers in the data base and adds them to an observable list.
+     * Gets all the customers in the database and adds them to an observable list.
      * @return Observable list of customers that is then passed into the Customer controller and initialized there.
      */
     public static ObservableList<Customer> getAllCustomers() {
 
         ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
-        String sql = "SELECT Customer_ID, Customer_Name, Address, Postal_Code, Phone FROM customers";
+        String sql = "SELECT customers.Customer_ID, customers.Customer_Name, customers.Address, customers.Postal_Code, "
+                + "customers.Phone, first_level_divisions.Division, countries.Country FROM customers " +
+                "JOIN first_level_divisions" +
+                " ON customers.Division_ID = first_level_divisions.Division_ID " +
+                "JOIN countries ON countries.Country_ID = first_level_divisions.COUNTRY_ID";
 
         try(Statement statement = DatabaseConnection.getConnection().createStatement();
             ResultSet rs = statement.executeQuery(sql)) {
@@ -31,6 +37,8 @@ public class CustomerDAOImpl {
                 customer.setCustomerAddress(rs.getString("Address"));
                 customer.setCustomerPostalCode(rs.getString("Postal_Code"));
                 customer.setCustomerPhoneNumber(rs.getString("Phone"));
+                customer.setDivisionName(rs.getString("Division"));
+                customer.setCustomerCountry(rs.getString("Country"));
                 allCustomers.add(customer);
             }
             return allCustomers;
@@ -40,4 +48,39 @@ public class CustomerDAOImpl {
         }
         return null;
     }
+
+
+    public static void insertNewCustomer(String cn, String ca, String cz, String cp) {
+
+        String sql = "INSERT INTO customers(Customer_Name, Address, Postal_Code, Phone) VALUES(?, ?, ?, ?)";
+
+        try(PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(sql)) {
+
+            ps.setString(1, cn);
+            ps.setString(2, ca);
+            ps.setString(3, cz);
+            ps.setString(4, cp);
+            ps.executeQuery();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Deletes a customer from the database
+     * @param id passed from CustomerMainController to determine customer to delete.
+     */
+    public static void deleteCustomer(int id) {
+
+        String sql = "DELETE FROM customers WHERE Customer_Id = ? AND ";
+
+        try(PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ps.executeQuery();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 }
