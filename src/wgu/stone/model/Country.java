@@ -1,4 +1,7 @@
 package wgu.stone.model;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import java.sql.Date;
 import java.sql.Timestamp;
 
@@ -10,6 +13,7 @@ public class Country {
     private String createdBy;
     private Timestamp lastUpdate;
     private String lastUpdateBy;
+    private static ObservableList<Country> countries = FXCollections.observableArrayList();
 
     public Country(int countryId, String country, Date createDate, String createdBy, Timestamp lastUpdate, String lastUpdateBy) {
         this.countryId = countryId;
@@ -70,6 +74,18 @@ public class Country {
 
     public void setLastUpdateBy(String lastUpdateBy) {
         this.lastUpdateBy = lastUpdateBy;
+    }
+
+    public static ObservableList<Country> getCountries() {
+        return countries;
+    }
+
+    public static void setCountries(ObservableList<Country> countries) {
+        Country.countries = countries;
+    }
+
+    public static void addCountries(Country country) {
+        countries.add(country);
     }
 
     @Override

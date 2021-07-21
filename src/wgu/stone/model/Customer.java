@@ -39,14 +39,45 @@ public class Customer {
         this.divisionId = divisionId;
     }
 
-    /**
-     * Default constructor
-     */
-    public Customer() {
-
+    public Customer(String customerName, String customerAddress, String customerPostalCode, String customerPhoneNumber,
+                    String createdBy, String lastUpdatedBy, int divisionId, String customerCountry, String divisionName) {
+        this.customerName = customerName;
+        this.customerAddress = customerAddress;
+        this.customerPostalCode = customerPostalCode;
+        this.customerPhoneNumber = customerPhoneNumber;
+        this.createdBy = createdBy;
+        this.lastUpdatedBy = lastUpdatedBy;
+        this.divisionId = divisionId;
+        this.customerCountry = customerCountry;
+        this.divisionName = divisionName;
     }
 
+    /**
+     * Default constructor
+     * @param customerId
+     * @param customerName
+     * @param customerAddress
+     * @param postalCode
+     * @param customerPhoneNumber
+     * @param lastUpdatedBy
+     * @param divisionId
+     * @param countryName
+     * @param divisionName
+     */
+    public Customer() {
+    }
 
+    public Customer(int customerId, String customerName, String customerAddress, String postalCode, String customerPhoneNumber, String lastUpdatedBy, int divisionId, String countryName, String divisionName) {
+        this.customerId = customerId;
+        this.customerName = customerName;
+        this.customerAddress = customerAddress;
+        this.customerPostalCode = postalCode;
+        this.customerPhoneNumber = customerPhoneNumber;
+        this.lastUpdatedBy = lastUpdatedBy;
+        this.divisionId = divisionId;
+        this.customerCountry = countryName;
+        this.divisionName = divisionName;
+    }
 
     public int getCustomerId() {
         return customerId;
@@ -143,4 +174,5 @@ public class Customer {
     public void setDivisionName(String divisionName) {
         this.divisionName = divisionName;
     }
+
 }

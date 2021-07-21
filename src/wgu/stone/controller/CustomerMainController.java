@@ -57,6 +57,23 @@ public class CustomerMainController implements Initializable {
             }
     }
 
+    public void goToUpdateCustomerForm() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/wgu/stone/view/UpdateCustomerForm.fxml"));
+        Parent updateCustomer = loader.load();
+
+        Scene updateCustomerScene = new Scene(updateCustomer);
+        UpdateCustomerController controller = loader.getController();
+        try {
+            controller.initData(customerRecords.getSelectionModel().getSelectedItem());
+            Stage window = (Stage) updateCustomerButton.getScene().getWindow();
+            window.setScene(updateCustomerScene);
+            window.show();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void exitApplication() {
         Stage window = (Stage) exitAppButton.getScene().getWindow();
         window.close();

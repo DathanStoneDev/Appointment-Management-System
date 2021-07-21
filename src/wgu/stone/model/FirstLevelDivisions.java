@@ -1,9 +1,14 @@
 package wgu.stone.model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class FirstLevelDivisions {
 
     private int divisionId;
     private String divisionName;
+    private static ObservableList<FirstLevelDivisions> divisions = FXCollections.observableArrayList();
+
 
 
     public FirstLevelDivisions(int divisionId, String divisionName) {
@@ -34,5 +39,18 @@ public class FirstLevelDivisions {
     @Override
     public String toString() {
         return divisionName;
+    }
+
+    public static ObservableList<FirstLevelDivisions> getDivisions() {
+        return divisions;
+    }
+
+    public static void addDivisions(FirstLevelDivisions division){
+        divisions.add(division);
+    }
+
+    public static ObservableList<FirstLevelDivisions> clearDivisions() {
+        divisions.removeAll(divisions);
+        return divisions;
     }
 }

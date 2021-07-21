@@ -28,7 +28,7 @@
     <ButtonBar layoutX="14.0" layoutY="329.0" prefHeight="40.0" prefWidth="249.0">
       <buttons>
           <Button fx:id="addCustomerButton" mnemonicParsing="false" onAction="#goToAddCustomerForm" text="Add" />
-          <Button fx:id="updateCustomerButton" mnemonicParsing="false" text="Update" />
+          <Button fx:id="updateCustomerButton" mnemonicParsing="false" onAction="#goToUpdateCustomerForm" text="Update" />
           <Button fx:id="deleteCustomerButton" mnemonicParsing="false" text="Delete" />
       </buttons>
     </ButtonBar>

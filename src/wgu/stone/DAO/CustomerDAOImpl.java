@@ -13,7 +13,7 @@ import java.sql.*;
  * Contains the method implementations for customers.
  */
 public class CustomerDAOImpl {
-
+                                        //CUSTOMER MAIN FORM PAGE
     /**
      * Gets all the customers in the database and adds them to an observable list.
      * @return Observable list of customers that is then passed into the Customer controller and initialized there.
@@ -49,6 +49,22 @@ public class CustomerDAOImpl {
     }
 
     /**
+     * Deletes a customer from the database
+     * @param id passed from CustomerMainController to determine customer to delete.
+     */
+    public static void deleteCustomer(int id) {
+
+        String sql = "DELETE FROM customers WHERE Customer_Id = ?";
+
+        try(PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ps.executeQuery();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+                                        //ADD CUSTOMER PAGE
+    /**
      * Inserts a new customer into the database from a customer object passed by the AddCustomerController
      * @param customer object passed in.
      */
@@ -70,33 +86,44 @@ public class CustomerDAOImpl {
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
-    /**
-     * Deletes a customer from the database
-     * @param id passed from CustomerMainController to determine customer to delete.
-     */
-    public static void deleteCustomer(int id) {
+    public static void updateCustomer(Customer customer) {
 
-        String sql = "DELETE FROM customers WHERE Customer_Id = ? AND ";
+        String sql = "UPDATE customers SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, " +
+                "Last_Updated_By = ?, Division_ID = ? " +
+                "WHERE Customer_ID = ?";
 
-        try(PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(sql)) {
-            ps.setInt(1, id);
-            ps.executeQuery();
+        try(PreparedStatement preparedStatement = DatabaseConnection.getConnection().prepareStatement(sql)) {
+
+            preparedStatement.setInt(7, customer.getCustomerId());
+            preparedStatement.setString(1, customer.getCustomerName());
+            preparedStatement.setString(2, customer.getCustomerAddress());
+            preparedStatement.setString(3, customer.getCustomerPostalCode());
+            preparedStatement.setString(4, customer.getCustomerPhoneNumber());
+            preparedStatement.setString(5, customer.getLastUpdatedBy());
+            preparedStatement.setInt(6, customer.getDivisionId());
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
+
+
+                                        //COMBOBOXES AND LISTS
     /**
      * Filters what goes into that division list that will be passed into the division combobox.
      * @param countryName passed from setDivisionCombo method as a string.
      * @return list of divisions corresponding to a country.
      */
-    public static ObservableList<FirstLevelDivisions> filterDivisionList(String countryName) {
+    public static void filterDivisionList(String countryName) {
 
-        ObservableList<FirstLevelDivisions> divisions = FXCollections.observableArrayList();
+        FirstLevelDivisions.clearDivisions();
+        System.out.println("Clearing the list" + FirstLevelDivisions.getDivisions());
         String sql = "SELECT d.Division, d.Division_ID FROM first_level_divisions d JOIN countries c ON c.Country_ID = d.COUNTRY_ID WHERE c.Country = ?";
 
         try(PreparedStatement preparedStatement = DatabaseConnection.getConnection().prepareStatement(sql)) {
@@ -106,21 +133,21 @@ public class CustomerDAOImpl {
                 FirstLevelDivisions division = new FirstLevelDivisions();
                 division.setDivisionId(rs.getInt("Division_ID"));
                 division.setDivisionName(rs.getString("Division"));
-                divisions.add(division);
+                FirstLevelDivisions.addDivisions(division);
             }
+            System.out.println("New list:" + FirstLevelDivisions.getDivisions());
         } catch (SQLException e) {
            e.printStackTrace();
         }
-        return divisions;
     }
 
     /**
      * retrieves all the countries in the database.
      * @return list of countries.
      */
-    public static ObservableList<Country> getCountries() {
 
-        ObservableList<Country> countries = FXCollections.observableArrayList();
+    public static void getAllCountries() {
+
         String sql = "SELECT Country FROM countries";
 
         try(Statement statement = DatabaseConnection.getConnection().createStatement()) {
@@ -128,11 +155,10 @@ public class CustomerDAOImpl {
             while(rs.next()) {
                 Country country = new Country();
                 country.setCountry(rs.getString("Country"));
-                countries.add(country);
+                Country.addCountries(country);
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } return countries;
+        }
     }
-
 }
