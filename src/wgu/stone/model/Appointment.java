@@ -1,7 +1,10 @@
 package wgu.stone.model;
 
-import java.sql.Timestamp;
-import java.util.Date;
+import javafx.beans.property.SimpleStringProperty;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 
 public class Appointment {
 
@@ -10,36 +13,15 @@ public class Appointment {
     private String appDescription;
     private String appLocation;
     private String appType;
-    private Date startDatetime;
-    private Date endDatetime;
-    private Date createdDatetime;
+    private LocalDateTime startDatetime;
+    private LocalDateTime  endDatetime;
+    private LocalDateTime createdDatetime;
     private String createdBy;
-    private Timestamp lastUpdate;
+    private LocalDateTime lastUpdate;
     private String lastUpdateBy;
+    private int customerId;
+    private String appContact;
 
-    //these are connected via foreign keys. need the ID's.
-    private Customer customer;
-    private User user;
-    private Contact contact;
-
-    public Appointment(int appId, String appTitle, String appDescription, String appLocation, String appType,
-                       Date startDatetime, Date endDatetime, Date createdDatetime, String createdBy,
-                       Timestamp lastUpdate, String lastUpdateBy, Customer customer, User user, Contact contact) {
-        this.appId = appId;
-        this.appTitle = appTitle;
-        this.appDescription = appDescription;
-        this.appLocation = appLocation;
-        this.appType = appType;
-        this.startDatetime = startDatetime;
-        this.endDatetime = endDatetime;
-        this.createdDatetime = createdDatetime;
-        this.createdBy = createdBy;
-        this.lastUpdate = lastUpdate;
-        this.lastUpdateBy = lastUpdateBy;
-        this.customer = customer;
-        this.user = user;
-        this.contact = contact;
-    }
 
     public Appointment() {
 
@@ -85,27 +67,31 @@ public class Appointment {
         this.appType = appType;
     }
 
-    public Date getStartDatetime() {
-        return startDatetime;
+    public String getStartDatetime() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formatted = startDatetime.format(formatter);
+        return formatted;
     }
 
-    public void setStartDatetime(Date startDatetime) {
+    public void setStartDatetime(LocalDateTime startDatetime) {
         this.startDatetime = startDatetime;
     }
 
-    public Date getEndDatetime() {
-        return endDatetime;
+    public String getEndDatetime() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formatted = endDatetime.format(formatter);
+        return formatted;
     }
 
-    public void setEndDatetime(Date endDatetime) {
+    public void setEndDatetime(LocalDateTime endDatetime) {
         this.endDatetime = endDatetime;
     }
 
-    public Date getCreatedDatetime() {
+    public LocalDateTime getCreatedDatetime() {
         return createdDatetime;
     }
 
-    public void setCreatedDatetime(Date createdDatetime) {
+    public void setCreatedDatetime(LocalDateTime createdDatetime) {
         this.createdDatetime = createdDatetime;
     }
 
@@ -117,11 +103,11 @@ public class Appointment {
         this.createdBy = createdBy;
     }
 
-    public Timestamp getLastUpdate() {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(Timestamp lastUpdate) {
+    public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 
@@ -133,27 +119,19 @@ public class Appointment {
         this.lastUpdateBy = lastUpdateBy;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public int getCustomerId() {
+        return customerId;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
     }
 
-    public User getUser() {
-        return user;
+    public String getAppContact() {
+        return appContact;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Contact getContact() {
-        return contact;
-    }
-
-    public void setContact(Contact contact) {
-        this.contact = contact;
+    public void setAppContact(String appContact) {
+        this.appContact = appContact;
     }
 }

@@ -1,14 +1,21 @@
 package wgu.stone.controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import wgu.stone.DAO.CustomerDAOImpl;
 import wgu.stone.DAO.UserDAOImpl;
 import wgu.stone.model.Country;
 import wgu.stone.model.Customer;
 import wgu.stone.model.FirstLevelDivisions;
+
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -24,7 +31,10 @@ public class UpdateCustomerController implements Initializable {
     @FXML private ComboBox<FirstLevelDivisions> divisionCombo;
     @FXML private ComboBox<Country> countryCombo;
 
-    public void updateCustomer() {
+    @FXML private Button saveUpdatedCustomerButton;
+    @FXML private Button cancelUpdateButton;
+
+    public void updateCustomer() throws IOException {
         int customerId = Integer.parseInt(customerIdField.getText());
         String customerName = customerNameField.getText();
         String customerAddress = customerAddressField.getText();
@@ -39,6 +49,14 @@ public class UpdateCustomerController implements Initializable {
                 lastUpdatedBy, divisionId, countryName, divisionName);
 
         CustomerDAOImpl.updateCustomer(customer);
+        //make this a Util method.
+        Parent addCustomer = FXMLLoader.load(getClass().getResource("/wgu/stone/view/CustomerMainForm.fxml"));
+        Scene addCustomerScene = new Scene(addCustomer);
+        Stage window = (Stage) saveUpdatedCustomerButton.getScene().getWindow();
+        window.setScene(addCustomerScene);
+        window.show();
+
+        //note: The create date is automatically updated to the same updated date. Need to figure out how to fix that.
 
     }
 
@@ -69,6 +87,15 @@ public class UpdateCustomerController implements Initializable {
     public void setDivisionCombo() {
         CustomerDAOImpl.filterDivisionList(countryCombo.getSelectionModel().getSelectedItem().toString());
         divisionCombo.setItems(FirstLevelDivisions.getDivisions());
+    }
+
+    public void cancelUpdate() throws IOException {
+        //make this a Util method.
+        Parent addCustomer = FXMLLoader.load(getClass().getResource("/wgu/stone/view/CustomerMainForm.fxml"));
+        Scene addCustomerScene = new Scene(addCustomer);
+        Stage window = (Stage) cancelUpdateButton.getScene().getWindow();
+        window.setScene(addCustomerScene);
+        window.show();
     }
 
 

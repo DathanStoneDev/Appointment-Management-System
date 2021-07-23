@@ -79,6 +79,14 @@ public class CustomerMainController implements Initializable {
         window.close();
     }
 
+    public void goToAppointmentMainForm() throws IOException {
+        Parent addCustomer = FXMLLoader.load(getClass().getResource("/wgu/stone/view/AppointmentMainForm.fxml"));
+        Scene addCustomerScene = new Scene(addCustomer);
+        Stage window = (Stage) viewAppointmentsButton.getScene().getWindow();
+        window.setScene(addCustomerScene);
+        window.show();
+    }
+
     /**
      * Initialize starting data for Customer Record Form.
      * @param url

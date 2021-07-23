@@ -36,7 +36,7 @@ public class LoginController implements Initializable {
     @FXML private Label titleLabel;
 
     //Resource bundle that gets the locale of a user.
-    ResourceBundle rb = ResourceBundle.getBundle("Nat", Locale.getDefault());
+    private ResourceBundle rb = ResourceBundle.getBundle("Nat", Locale.getDefault());
 
     /**
      * Logging into the application. Linked to the loginButton.

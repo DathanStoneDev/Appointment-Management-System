@@ -14,7 +14,6 @@ import wgu.stone.DAO.UserDAOImpl;
 import wgu.stone.model.Country;
 import wgu.stone.model.Customer;
 import wgu.stone.model.FirstLevelDivisions;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
