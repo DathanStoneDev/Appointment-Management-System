@@ -31,11 +31,10 @@ public class DatabaseConnection {
 
     /**
      * gets the connection without restarting the process through the DriverManager.
-     * @return conn/
+     * @return conn
      */
-    public static Connection getConnection() {
-        return conn;
-    }
+    public static Connection getConnection() { return conn; }
+
 
     /**
      * closes the connection

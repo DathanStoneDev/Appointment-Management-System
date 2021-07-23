@@ -1,6 +1,8 @@
 package wgu.stone.DAO;
 
 import wgu.stone.database.DatabaseConnection;
+import wgu.stone.model.User;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,7 +21,7 @@ public class UserDAOImpl {
      */
     public static boolean checkUserInfo(String un, String up) {
 
-        String sql = "SELECT User_Name, Password FROM users";
+        String sql = "SELECT User_Name, Password, User_ID FROM users";
 
         try(PreparedStatement p = DatabaseConnection.getConnection().prepareStatement(sql)) {
             ResultSet rs = p.executeQuery();

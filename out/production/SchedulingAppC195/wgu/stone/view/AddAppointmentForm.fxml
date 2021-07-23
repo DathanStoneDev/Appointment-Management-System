@@ -9,33 +9,33 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="521.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.stone.controller.AddAppointmentController">
-   <children>
-      <ComboBox layoutX="345.0" layoutY="220.0" prefWidth="150.0" />
-      <Label layoutX="265.0" layoutY="268.0" text="contact name" />
-      <RadioButton layoutX="337.0" layoutY="183.0" mnemonicParsing="false" text="Project" />
-      <RadioButton layoutX="337.0" layoutY="87.0" mnemonicParsing="false" text="Consult" />
-      <RadioButton layoutX="337.0" layoutY="137.0" mnemonicParsing="false" text="Business" />
-      <TextField layoutX="85.0" layoutY="133.0" prefHeight="25.0" prefWidth="154.0" />
-      <TextField layoutX="87.0" layoutY="83.0" />
-      <Label layoutX="50.0" layoutY="87.0" text="Title" />
-      <Label layoutX="20.0" layoutY="137.0" text="Description" />
-      <Label />
-      <ComboBox layoutX="87.0" layoutY="264.0" prefWidth="150.0" />
-      <Label layoutX="291.0" layoutY="224.0" text="location" />
-      <ComboBox layoutX="345.0" layoutY="264.0" prefWidth="150.0" />
-      <ComboBox layoutX="87.0" layoutY="220.0" prefWidth="150.0" />
-      <Label layoutX="25.0" layoutY="224.0" text="Start time" />
-      <Label layoutX="37.0" layoutY="268.0" text="End time" />
-      <DatePicker layoutX="86.0" layoutY="179.0" />
-      <Label layoutX="188.0" layoutY="29.0" text="Add Appointment">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Label>
-      <Button layoutX="181.0" layoutY="349.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="168.0" text="Add Appointment" />
-      <Label layoutX="48.0" layoutY="183.0" text="Date" />
-      <Button layoutX="443.0" layoutY="349.0" mnemonicParsing="false" text="Cancel" />
-      <Button layoutX="483.0" layoutY="13.0" mnemonicParsing="false" text="X" />
-   </children>
+<AnchorPane prefHeight="400.0" prefWidth="521.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="wgu.stone.controller.AddAppointmentController">
+   <ComboBox fx:id="locationComboBox" layoutX="345.0" layoutY="220.0" prefWidth="150.0"/>
+   <Label layoutX="265.0" layoutY="268.0" text="contact name"/>
+   <RadioButton fx:id="projectType" layoutX="337.0" layoutY="183.0" mnemonicParsing="false" text="Project"/>
+   <RadioButton fx:id="consultType" layoutX="337.0" layoutY="87.0" mnemonicParsing="false" text="Consult"/>
+   <RadioButton fx:id="businessType" layoutX="337.0" layoutY="137.0" mnemonicParsing="false" text="Business"/>
+   <TextField fx:id="descriptionField" layoutX="85.0" layoutY="133.0" prefHeight="25.0" prefWidth="154.0"/>
+   <TextField fx:id="titleField" layoutX="87.0" layoutY="83.0"/>
+   <Label layoutX="50.0" layoutY="87.0" text="Title"/>
+   <Label layoutX="20.0" layoutY="137.0" text="Description"/>
+   <Label/>
+   <ComboBox fx:id="endTimeComboBox" layoutX="87.0" layoutY="264.0" prefWidth="150.0"/>
+   <Label layoutX="291.0" layoutY="224.0" text="location"/>
+   <ComboBox fx:id="contactNameComboBox" layoutX="345.0" layoutY="264.0" prefWidth="150.0"/>
+   <ComboBox fx:id="startTimeComboBox" layoutX="87.0" layoutY="220.0" prefWidth="150.0"/>
+   <Label layoutX="25.0" layoutY="224.0" text="Start time"/>
+   <Label layoutX="37.0" layoutY="268.0" text="End time"/>
+   <DatePicker fx:id="datePicker" layoutX="86.0" layoutY="179.0"/>
+   <Label layoutX="188.0" layoutY="29.0" text="Add Appointment">
+      <font>
+         <Font name="System Bold" size="18.0"/>
+      </font>
+   </Label>
+   <Button fx:id="addAppointmentButton" layoutX="181.0" layoutY="349.0" mnemonicParsing="false"
+           onAction="#addNewAppointment" prefHeight="25.0" prefWidth="168.0" text="Add Appointment"/>
+   <Label layoutX="48.0" layoutY="183.0" text="Date"/>
+   <Button fx:id="cancelButton" layoutX="443.0" layoutY="349.0" mnemonicParsing="false" text="Cancel"/>
+   <Button fx:id="exitAppButton" layoutX="483.0" layoutY="13.0" mnemonicParsing="false" text="X"/>
 </AnchorPane>

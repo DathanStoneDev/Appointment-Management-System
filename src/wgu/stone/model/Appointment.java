@@ -1,6 +1,5 @@
 package wgu.stone.model;
 
-import javafx.beans.property.SimpleStringProperty;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -21,12 +20,26 @@ public class Appointment {
     private String lastUpdateBy;
     private int customerId;
     private String appContact;
+    private int contactId;
+    private int userId;
 
 
     public Appointment() {
 
     }
 
+    public Appointment(String appTitle, String appDescription, String appLocation, String appType, LocalDateTime startDatetime, LocalDateTime endDatetime, String createdBy, String lastUpdateBy, String appContact, int contactId) {
+        this.appTitle = appTitle;
+        this.appDescription = appDescription;
+        this.appLocation = appLocation;
+        this.appType = appType;
+        this.startDatetime = startDatetime;
+        this.endDatetime = endDatetime;
+        this.createdBy = createdBy;
+        this.lastUpdateBy = lastUpdateBy;
+        this.appContact = appContact;
+        this.contactId = contactId;
+}
     public int getAppId() {
         return appId;
     }
@@ -133,5 +146,21 @@ public class Appointment {
 
     public void setAppContact(String appContact) {
         this.appContact = appContact;
+    }
+
+    public int getContactId() {
+        return contactId;
+    }
+
+    public void setContactId(int contactId) {
+        this.contactId = contactId;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }
