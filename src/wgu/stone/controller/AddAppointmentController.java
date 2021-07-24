@@ -1,5 +1,7 @@
 package wgu.stone.controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -28,6 +30,8 @@ public class AddAppointmentController implements Initializable {
     @FXML private ComboBox<LocalTime> endTimeComboBox;
     @FXML private ComboBox<String> locationComboBox;
     @FXML private ComboBox<Contact> contactNameComboBox;
+    private final String[] types = {"Consult", "Business", "Project"};
+    private final String[] locations = {"Phoenix Arizona", "White Plains New York", "Montreal Canada", "London England"};
 
     //Types buttons.
     @FXML private RadioButton consultType;
@@ -40,7 +44,7 @@ public class AddAppointmentController implements Initializable {
     @FXML private Button cancelButton;
     @FXML private Button exitAppButton;
 
-    private final String[] types = {"Consult", "Business", "Project"};
+    //DAO Interface Instance
     private AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
 
 
@@ -56,6 +60,12 @@ public class AddAppointmentController implements Initializable {
             return types[2];
         }
         return "si"; //need to fix this method. Works though.
+    }
+
+    private void setLocationComboBox() {
+        for(String s : locations) {
+            locationComboBox.getItems().add(s);
+        }
     }
 
     private void setTimesForComboBoxes() {
@@ -94,15 +104,16 @@ public class AddAppointmentController implements Initializable {
             String appDesc = descriptionField.getText();
             LocalDateTime startTime= createStartLocaleDateTime();
             LocalDateTime endTime = createEndLocaleDateTime();
-            String location = "Anywhere"; //locationComboBox.getValue();
+            String location = locationComboBox.getValue();
             String type = selectAppType();
             String contactName = contactNameComboBox.getValue().getContactName();
             int contactId = contactNameComboBox.getValue().getContactId();
             String lastUpdatedBy = UserDAOImpl.loggedInUser;
             String createdBy = UserDAOImpl.loggedInUser;
+            int userId = UserDAOImpl.getUserInfo(createdBy);
 
 
-            Appointment appointment = new Appointment(appTitle, appDesc, location, type, startTime, endTime, lastUpdatedBy, createdBy, contactName, contactId);
+            Appointment appointment = new Appointment(appTitle, appDesc, location, type, startTime, endTime, lastUpdatedBy, createdBy, contactName, contactId, userId);
 
             try {
                 appointmentDAO.insertNewAppointment(appointment);
@@ -114,7 +125,7 @@ public class AddAppointmentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        setLocationComboBox();
         setTimesForComboBoxes();
         contactNameComboBox.setItems(appointmentDAO.getAllContacts());
         typeGroup = new ToggleGroup();

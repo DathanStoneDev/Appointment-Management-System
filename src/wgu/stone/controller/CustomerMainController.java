@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import wgu.stone.DAO.CustomerDAO;
 import wgu.stone.DAO.CustomerDAOImpl;
 import wgu.stone.model.Customer;
 import java.io.IOException;
@@ -34,6 +35,8 @@ public class CustomerMainController implements Initializable {
     @FXML private Button exitAppButton;
     @FXML private Button viewAppointmentsButton;
 
+    private CustomerDAO customerDAO = new CustomerDAOImpl();
+
     /**
      * Sends the user to the addCustomerForm when the addCustomerButton is clicked.
      * @throws IOException
@@ -53,7 +56,7 @@ public class CustomerMainController implements Initializable {
         alert.setContentText("Are you sure you want to delete this customer?");
         Optional<ButtonType> result = alert.showAndWait();
             if(result.isPresent() && result.get() == ButtonType.OK) {
-                CustomerDAOImpl.deleteCustomer(customer.getCustomerId());
+                customerDAO.deleteCustomer(customer.getCustomerId());
             }
     }
 
@@ -96,7 +99,7 @@ public class CustomerMainController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         //Initialize tableview and columns
-        customerRecords.setItems(CustomerDAOImpl.getAllCustomers());
+        customerRecords.setItems(customerDAO.getAllCustomers());
         customerIdColumn.setCellValueFactory(new PropertyValueFactory<Customer, Integer>("customerId"));
         customerNameColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerName"));
         customerPostalCodeColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerPostalCode"));

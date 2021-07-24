@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import wgu.stone.DAO.CustomerDAO;
 import wgu.stone.DAO.CustomerDAOImpl;
 import wgu.stone.DAO.UserDAOImpl;
 import wgu.stone.model.Country;
@@ -35,6 +36,8 @@ public class AddCustomerController implements Initializable {
     @FXML private ComboBox<FirstLevelDivisions> divisionCombo;
     @FXML private ComboBox<Country> countryCombo;
 
+    private CustomerDAO customerDAO = new CustomerDAOImpl();
+
     /**
      * Adds a new customer to the database when hitting the save button.
      */
@@ -53,7 +56,7 @@ public class AddCustomerController implements Initializable {
         Customer customer = new Customer(customerName, customerAddress, postalCode, customerPhoneNumber,
                 loggedInUser, lastUpdatedBy, divisionId, countryName, divisionName);
 
-        CustomerDAOImpl.insertNewCustomer(customer);
+        customerDAO.insertNewCustomer(customer);
 
 
         //make this a Util method.
@@ -69,13 +72,13 @@ public class AddCustomerController implements Initializable {
      * The selection is based on the country that is selected in the country combobox.
      */
     public void setDivisionCombo() {
-        CustomerDAOImpl.filterDivisionList(countryCombo.getSelectionModel().getSelectedItem().toString());
+        customerDAO.filterDivisionList(countryCombo.getSelectionModel().getSelectedItem().toString());
         divisionCombo.setItems(FirstLevelDivisions.getDivisions());
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        CustomerDAOImpl.getAllCountries();
+        customerDAO.getAllCountries();
         countryCombo.setItems(Country.getCountries());
     }
 }

@@ -62,7 +62,7 @@ public class AppointmentDAOImpl implements AppointmentDAO{
     public void insertNewAppointment(Appointment appointment) {
 
         String sql = "INSERT INTO appointments(Title, Description, Location, `Type`, `Start`, `End`, Created_By, " +
-                "Last_Updated_By, Contact_ID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "Last_Updated_By, Contact_ID, User_ID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try(PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(sql)) {
 
@@ -75,6 +75,7 @@ public class AppointmentDAOImpl implements AppointmentDAO{
             ps.setString(7, appointment.getCreatedBy());
             ps.setString(8, appointment.getLastUpdateBy());
             ps.setInt(9, appointment.getContactId());
+            ps.setInt(10, appointment.getUserId());
             ps.executeUpdate();
 
         } catch (SQLException e) {
