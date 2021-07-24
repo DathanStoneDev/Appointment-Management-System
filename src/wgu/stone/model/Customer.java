@@ -52,18 +52,7 @@ public class Customer {
         this.divisionName = divisionName;
     }
 
-    /**
-     * Default constructor
-     * @param customerId
-     * @param customerName
-     * @param customerAddress
-     * @param postalCode
-     * @param customerPhoneNumber
-     * @param lastUpdatedBy
-     * @param divisionId
-     * @param countryName
-     * @param divisionName
-     */
+
     public Customer() {
     }
 

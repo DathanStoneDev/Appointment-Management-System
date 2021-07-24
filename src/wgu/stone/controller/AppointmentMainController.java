@@ -10,6 +10,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import wgu.stone.DAO.AppointmentDAO;
 import wgu.stone.DAO.AppointmentDAOImpl;
 import wgu.stone.model.Appointment;
 import java.io.IOException;
@@ -36,6 +37,8 @@ public class AppointmentMainController implements Initializable {
     @FXML private Button deleteAppointmentButton;
     @FXML private Button cancelButton;
     @FXML private Button exitAppButton;
+
+    private AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
 
     @FXML
     private void goToAddAppForm() throws IOException {
@@ -80,7 +83,7 @@ public class AppointmentMainController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         new AddAppointmentController();
-        appointmentTableView.setItems(AppointmentDAOImpl.getAllAppointments());
+        appointmentTableView.setItems(appointmentDAO.getAllAppointments());
         appointmentIdColumn.setCellValueFactory(new PropertyValueFactory<>("appId"));
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("appTitle"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("appDescription"));

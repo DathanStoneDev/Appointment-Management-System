@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import wgu.stone.database.DatabaseConnection;
 import wgu.stone.model.Appointment;
 import wgu.stone.model.Contact;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,14 +12,14 @@ import java.sql.Statement;
 
 public class AppointmentDAOImpl implements AppointmentDAO{
 
-
-    public static ObservableList<Appointment> getAllAppointments() {
+    @Override
+    public ObservableList<Appointment> getAllAppointments() {
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
         String sql = "SELECT a.Appointment_ID, a.Title, a.Description, a.Location, a.Type, a.Start, a.End, a.Customer_ID, " +
                 " c.Contact_Name FROM appointments a JOIN contacts c ON c.Contact_ID = a.Contact_ID";
 
-        try(Statement statement = DatabaseConnection.getConnection().createStatement()) {
-            ResultSet rs = statement.executeQuery(sql);
+        try(Statement statement = DatabaseConnection.getConnection().createStatement();
+            ResultSet rs = statement.executeQuery(sql)) {
             while(rs.next()) {
                 Appointment appointment = new Appointment();
                 appointment.setAppId(rs.getInt("Appointment_ID"));
@@ -40,12 +39,13 @@ public class AppointmentDAOImpl implements AppointmentDAO{
         return appointments;
     }
 
-    public static ObservableList<Contact> getAllContacts() {
+    @Override
+    public ObservableList<Contact> getAllContacts() {
         ObservableList<Contact> contacts = FXCollections.observableArrayList();
         String sql = "SELECT Contact_Name, Contact_ID FROM contacts";
 
-        try(Statement statement = DatabaseConnection.getConnection().createStatement()) {
-            ResultSet rs = statement.executeQuery(sql);
+        try(Statement statement = DatabaseConnection.getConnection().createStatement();
+            ResultSet rs = statement.executeQuery(sql)) {
             while(rs.next()) {
                 Contact contact = new Contact();
                     contact.setContactId(rs.getInt("Contact_ID"));
@@ -60,7 +60,7 @@ public class AppointmentDAOImpl implements AppointmentDAO{
 
     @Override
     public void insertNewAppointment(Appointment appointment) {
-        System.out.println("Doing this insertNew Method:"  + appointment);
+
         String sql = "INSERT INTO appointments(Title, Description, Location, `Type`, `Start`, `End`, Created_By, " +
                 "Last_Updated_By, Contact_ID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 

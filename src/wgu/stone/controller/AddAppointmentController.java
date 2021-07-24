@@ -116,7 +116,7 @@ public class AddAppointmentController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         setTimesForComboBoxes();
-        contactNameComboBox.setItems(AppointmentDAOImpl.getAllContacts());
+        contactNameComboBox.setItems(appointmentDAO.getAllContacts());
         typeGroup = new ToggleGroup();
         businessType.setToggleGroup(typeGroup);
         projectType.setToggleGroup(typeGroup);

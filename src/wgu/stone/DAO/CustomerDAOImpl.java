@@ -13,7 +13,7 @@ import java.sql.*;
 /**
  * Contains the method implementations for customers.
  */
-public class CustomerDAOImpl {
+public class CustomerDAOImpl implements CustomerDAO{
                                         //CUSTOMER MAIN FORM PAGE
     /**
      * Gets all the customers in the database and adds them to an observable list.
@@ -119,7 +119,7 @@ public class CustomerDAOImpl {
     /**
      * Filters what goes into that division list that will be passed into the division combobox.
      * @param countryName passed from setDivisionCombo method as a string.
-     * @return list of divisions corresponding to a country.
+     *
      */
     public static void filterDivisionList(String countryName) {
 
@@ -127,9 +127,9 @@ public class CustomerDAOImpl {
         System.out.println("Clearing the list" + FirstLevelDivisions.getDivisions());
         String sql = "SELECT d.Division, d.Division_ID FROM first_level_divisions d JOIN countries c ON c.Country_ID = d.COUNTRY_ID WHERE c.Country = ?";
 
-        try(PreparedStatement preparedStatement = DatabaseConnection.getConnection().prepareStatement(sql)) {
+        try(PreparedStatement preparedStatement = DatabaseConnection.getConnection().prepareStatement(sql);
+            ResultSet rs = preparedStatement.executeQuery()) {
             preparedStatement.setString(1, countryName);
-            ResultSet rs = preparedStatement.executeQuery();
             while(rs.next()) {
                 FirstLevelDivisions division = new FirstLevelDivisions();
                 division.setDivisionId(rs.getInt("Division_ID"));
@@ -144,14 +144,14 @@ public class CustomerDAOImpl {
 
     /**
      * retrieves all the countries in the database.
-     * @return list of countries.
+     *
      */
     public static void getAllCountries() {
 
         String sql = "SELECT Country FROM countries";
 
-        try(Statement statement = DatabaseConnection.getConnection().createStatement()) {
-            ResultSet rs = statement.executeQuery(sql);
+        try(Statement statement = DatabaseConnection.getConnection().createStatement();
+            ResultSet rs = statement.executeQuery(sql)) {
             while(rs.next()) {
                 Country country = new Country();
                 country.setCountry(rs.getString("Country"));
