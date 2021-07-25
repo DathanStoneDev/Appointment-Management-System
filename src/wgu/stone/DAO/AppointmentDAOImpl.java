@@ -4,7 +4,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import wgu.stone.database.DatabaseConnection;
 import wgu.stone.model.Appointment;
-import wgu.stone.model.Contact;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,8 +11,32 @@ import java.sql.Statement;
 
 public class AppointmentDAOImpl implements AppointmentDAO{
 
+
+    //needs to be moved to contact DAO
+    /*@Override
+    public ObservableList<Contact> getAllContacts() {
+        ObservableList<Contact> contacts = FXCollections.observableArrayList();
+        String sql = "SELECT Contact_Name, Contact_ID FROM contacts";
+
+        try(Statement statement = DatabaseConnection.getConnection().createStatement();
+            ResultSet rs = statement.executeQuery(sql)) {
+            while(rs.next()) {
+                Contact contact = new Contact();
+                    contact.setContactId(rs.getInt("Contact_ID"));
+                    contact.setContactName(rs.getString("Contact_Name"));
+                    contacts.add(contact);
+                }
+            } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return contacts;
+    } */
+
+
+
+
     @Override
-    public ObservableList<Appointment> getAllAppointments() {
+    public ObservableList<Appointment> getAll() {
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
         String sql = "SELECT a.Appointment_ID, a.Title, a.Description, a.Location, a.Type, a.Start, a.End, a.Customer_ID, " +
                 " c.Contact_Name FROM appointments a JOIN contacts c ON c.Contact_ID = a.Contact_ID";
@@ -40,26 +63,17 @@ public class AppointmentDAOImpl implements AppointmentDAO{
     }
 
     @Override
-    public ObservableList<Contact> getAllContacts() {
-        ObservableList<Contact> contacts = FXCollections.observableArrayList();
-        String sql = "SELECT Contact_Name, Contact_ID FROM contacts";
+    public void delete(Appointment appointment) {
 
-        try(Statement statement = DatabaseConnection.getConnection().createStatement();
-            ResultSet rs = statement.executeQuery(sql)) {
-            while(rs.next()) {
-                Contact contact = new Contact();
-                    contact.setContactId(rs.getInt("Contact_ID"));
-                    contact.setContactName(rs.getString("Contact_Name"));
-                    contacts.add(contact);
-                }
-            } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return contacts;
     }
 
     @Override
-    public void insertNewAppointment(Appointment appointment) {
+    public void update(Appointment appointment) {
+
+    }
+
+    @Override
+    public void save(Appointment appointment) {
 
         String sql = "INSERT INTO appointments(Title, Description, Location, `Type`, `Start`, `End`, Created_By, " +
                 "Last_Updated_By, Contact_ID, User_ID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -82,5 +96,6 @@ public class AppointmentDAOImpl implements AppointmentDAO{
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
+
     }
 }

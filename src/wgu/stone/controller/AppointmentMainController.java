@@ -12,6 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import wgu.stone.DAO.AppointmentDAO;
 import wgu.stone.DAO.AppointmentDAOImpl;
+import wgu.stone.DAO.GenericDAO;
 import wgu.stone.model.Appointment;
 import java.io.IOException;
 import java.net.URL;
@@ -83,7 +84,7 @@ public class AppointmentMainController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         new AddAppointmentController();
-        appointmentTableView.setItems(appointmentDAO.getAllAppointments());
+        appointmentTableView.setItems(appointmentDAO.getAll());
         appointmentIdColumn.setCellValueFactory(new PropertyValueFactory<>("appId"));
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("appTitle"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("appDescription"));

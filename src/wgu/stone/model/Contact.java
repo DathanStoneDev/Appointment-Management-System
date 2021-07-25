@@ -4,12 +4,10 @@ public class Contact {
 
     private int contactId;
     private String contactName;
-    private String contactEmail;
 
-    public Contact(int contactId, String contactName, String contactEmail) {
+    public Contact(int contactId, String contactName) {
         this.contactId = contactId;
         this.contactName = contactName;
-        this.contactEmail = contactEmail;
     }
 
     public Contact() {
@@ -32,13 +30,6 @@ public class Contact {
         this.contactName = contactName;
     }
 
-    public String getContactEmail() {
-        return contactEmail;
-    }
-
-    public void setContactEmail(String contactEmail) {
-        this.contactEmail = contactEmail;
-    }
 
     @Override
     public String toString() {

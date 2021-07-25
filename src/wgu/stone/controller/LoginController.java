@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import wgu.stone.DAO.UserDAO;
 import wgu.stone.DAO.UserDAOImpl;
 import java.io.IOException;
 import java.net.URL;
@@ -36,15 +37,21 @@ public class LoginController implements Initializable {
     @FXML private Label titleLabel;
 
     //Resource bundle that gets the locale of a user.
+    private UserDAO userDAO = new UserDAOImpl();
     private ResourceBundle rb = ResourceBundle.getBundle("Nat", Locale.getDefault());
+    private String userName;
+    private String userPassword;
+    protected static String loggedIn;
+
 
     /**
      * Logging into the application. Linked to the loginButton.
      */
-    public void loginToApp() throws IOException {
-        String userName = userNameField.getText();
-        String userPassword = passwordField.getText();
-        if(UserDAOImpl.checkUserInfo(userName, userPassword)) {
+    public String loginToApp() throws IOException {
+        userName = userNameField.getText();
+        userPassword = passwordField.getText();
+        if(userDAO.checkUserInfo(userName, userPassword)) {
+            loggedIn = userName;
             Parent addProduct = FXMLLoader.load(getClass().getResource("/wgu/stone/view/CustomerMainForm.fxml"));
             Scene addProductScene = new Scene(addProduct);
             Stage window = (Stage) loginButton.getScene().getWindow();
@@ -53,7 +60,9 @@ public class LoginController implements Initializable {
         } else {
             loginErrorLabel.setText(rb.getString("loginErrorLabel"));
         }
+        return loggedIn;
     }
+
 
     /**
      * Determines the location of the user and displays it on the locationLabel.

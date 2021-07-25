@@ -1,13 +1,12 @@
 package wgu.stone.controller;
 
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import wgu.stone.DAO.AppointmentDAO;
-import wgu.stone.DAO.AppointmentDAOImpl;
-import wgu.stone.DAO.UserDAOImpl;
+import wgu.stone.DAO.*;
 import wgu.stone.model.Appointment;
 import wgu.stone.model.Contact;
 import java.net.URL;
@@ -31,7 +30,8 @@ public class AddAppointmentController implements Initializable {
     @FXML private ComboBox<String> locationComboBox;
     @FXML private ComboBox<Contact> contactNameComboBox;
     private final String[] types = {"Consult", "Business", "Project"};
-    private final String[] locations = {"Phoenix Arizona", "White Plains New York", "Montreal Canada", "London England"};
+    private final ObservableList<String> locations = FXCollections.observableArrayList("Phoenix Arizona",
+            "White Plains New York", "Montreal Canada", "London England");
 
     //Types buttons.
     @FXML private RadioButton consultType;
@@ -44,22 +44,26 @@ public class AddAppointmentController implements Initializable {
     @FXML private Button cancelButton;
     @FXML private Button exitAppButton;
 
-    //DAO Interface Instance
+    //DAO Interface Instances
     private AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
+    private UserDAO userDAO = new UserDAOImpl();
+    private ContactDAO contactDAO = new ContactDAOImpl();
 
-
+    //possibly edit this. Works for now.
     private String selectAppType() {
-
-        if(consultType.isSelected()) {
-            return types[0];
-        }
-        if(businessType.isSelected()) {
-            return types[1];
-        }
-        if (projectType.isSelected()){
-            return types[2];
-        }
-        return "si"; //need to fix this method. Works though.
+        try {
+            if(consultType.isSelected()) {
+                return types[0];
+            }
+            if(businessType.isSelected()) {
+                return types[1];
+            }
+            if(projectType.isSelected()) {
+                return types[2];
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        } return null;
     }
 
     private void setLocationComboBox() {
@@ -108,15 +112,15 @@ public class AddAppointmentController implements Initializable {
             String type = selectAppType();
             String contactName = contactNameComboBox.getValue().getContactName();
             int contactId = contactNameComboBox.getValue().getContactId();
-            String lastUpdatedBy = UserDAOImpl.loggedInUser;
-            String createdBy = UserDAOImpl.loggedInUser;
-            int userId = UserDAOImpl.getUserInfo(createdBy);
+            String lastUpdatedBy = LoginController.loggedIn;
+            String createdBy = LoginController.loggedIn;
+            int userId = userDAO.getUserInfo(LoginController.loggedIn);
 
-
-            Appointment appointment = new Appointment(appTitle, appDesc, location, type, startTime, endTime, lastUpdatedBy, createdBy, contactName, contactId, userId);
+            Appointment appointment = new Appointment(appTitle, appDesc, location, type, startTime,
+                    endTime, lastUpdatedBy, createdBy, contactName, contactId, userId);
 
             try {
-                appointmentDAO.insertNewAppointment(appointment);
+                appointmentDAO.save(appointment);
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println(e.getLocalizedMessage());
@@ -127,11 +131,10 @@ public class AddAppointmentController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setLocationComboBox();
         setTimesForComboBoxes();
-        contactNameComboBox.setItems(appointmentDAO.getAllContacts());
+        contactNameComboBox.setItems(contactDAO.getAllContacts());
         typeGroup = new ToggleGroup();
         businessType.setToggleGroup(typeGroup);
         projectType.setToggleGroup(typeGroup);
         consultType.setToggleGroup(typeGroup);
-
     }
 }

@@ -124,6 +124,7 @@ public class CustomerDAOImpl implements CustomerDAO{
      * @param countryName passed from setDivisionCombo method as a string.
      *
      */
+    //this needs to go to divisions DAO
     @Override
     public void filterDivisionList(String countryName) {
 
@@ -151,6 +152,7 @@ public class CustomerDAOImpl implements CustomerDAO{
      * retrieves all the countries in the database.
      *
      */
+    //This needs to go to countries DAO
     @Override
     public void getAllCountries() {
 

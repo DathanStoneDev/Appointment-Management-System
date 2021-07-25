@@ -47,8 +47,8 @@ public class AddCustomerController implements Initializable {
         String customerAddress = customerAddressField.getText();
         String postalCode = customerPostalField.getText();
         String customerPhoneNumber = customerPhoneNumberField.getText();
-        String loggedInUser = UserDAOImpl.loggedInUser;
-        String lastUpdatedBy = UserDAOImpl.loggedInUser;
+        String loggedInUser = LoginController.loggedIn;
+        String lastUpdatedBy = LoginController.loggedIn;
         int divisionId = divisionCombo.getSelectionModel().getSelectedItem().getDivisionId();
         String divisionName = divisionCombo.getSelectionModel().getSelectedItem().getDivisionName();
         String countryName = countryCombo.getSelectionModel().getSelectedItem().getCountry();
