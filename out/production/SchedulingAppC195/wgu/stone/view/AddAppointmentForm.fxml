@@ -5,35 +5,43 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="521.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.stone.controller.AddAppointmentController">
-   <ComboBox fx:id="locationComboBox" layoutX="345.0" layoutY="220.0" prefWidth="150.0" />
-   <Label layoutX="265.0" layoutY="268.0" text="contact name" />
-   <RadioButton fx:id="projectType" layoutX="337.0" layoutY="183.0" mnemonicParsing="false" text="Project" />
-   <RadioButton fx:id="consultType" layoutX="337.0" layoutY="87.0" mnemonicParsing="false" text="Consult" />
-   <RadioButton fx:id="businessType" layoutX="337.0" layoutY="137.0" mnemonicParsing="false" text="Business" />
-   <TextField fx:id="descriptionField" layoutX="85.0" layoutY="133.0" prefHeight="25.0" prefWidth="154.0" />
-   <TextField fx:id="titleField" layoutX="87.0" layoutY="83.0" />
-   <Label layoutX="50.0" layoutY="87.0" text="Title" />
-   <Label layoutX="20.0" layoutY="137.0" text="Description" />
+<AnchorPane prefHeight="601.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.stone.controller.AddAppointmentController">
+   <ComboBox fx:id="locationComboBox" layoutX="342.0" layoutY="503.0" prefWidth="150.0" />
+   <Label layoutX="255.0" layoutY="463.0" text="contact name" />
+   <RadioButton fx:id="projectType" layoutX="342.0" layoutY="415.0" mnemonicParsing="false" text="Project" />
+   <RadioButton fx:id="consultType" layoutX="508.0" layoutY="415.0" mnemonicParsing="false" text="Consult" />
+   <RadioButton fx:id="businessType" layoutX="422.0" layoutY="415.0" mnemonicParsing="false" text="Business" />
+   <TextField fx:id="descriptionField" layoutX="347.0" layoutY="368.0" prefHeight="25.0" prefWidth="241.0" />
+   <TextField fx:id="titleField" layoutX="89.0" layoutY="368.0" />
+   <Label layoutX="50.0" layoutY="372.0" text="Title" />
+   <Label layoutX="275.0" layoutY="372.0" text="Description" />
    <Label />
-   <ComboBox fx:id="endTimeComboBox" layoutX="87.0" layoutY="264.0" prefWidth="150.0" />
-   <Label layoutX="291.0" layoutY="224.0" text="location" />
-   <ComboBox fx:id="contactNameComboBox" layoutX="345.0" layoutY="264.0" prefWidth="150.0" />
-   <ComboBox fx:id="startTimeComboBox" layoutX="87.0" layoutY="220.0" prefWidth="150.0" />
-   <Label layoutX="25.0" layoutY="224.0" text="Start time" />
-   <Label layoutX="37.0" layoutY="268.0" text="End time" />
-   <DatePicker fx:id="datePicker" layoutX="86.0" layoutY="179.0" />
-   <Label layoutX="188.0" layoutY="29.0" text="Add Appointment">
+   <ComboBox fx:id="endTimeComboBox" layoutX="88.0" layoutY="503.0" prefWidth="150.0" />
+   <Label layoutX="284.0" layoutY="507.0" text="location" />
+   <ComboBox fx:id="contactNameComboBox" layoutX="342.0" layoutY="459.0" prefWidth="150.0" />
+   <ComboBox fx:id="startTimeComboBox" layoutX="88.0" layoutY="459.0" prefWidth="150.0" />
+   <Label layoutX="23.0" layoutY="463.0" text="Start time" />
+   <Label layoutX="26.0" layoutY="503.0" text="End time" />
+   <DatePicker fx:id="datePicker" layoutX="88.0" layoutY="411.0" />
+   <Label layoutX="229.0" layoutY="17.0" text="Add Appointment">
       <font>
          <Font name="System Bold" size="18.0" />
       </font>
    </Label>
-   <Button fx:id="addAppointmentButton" layoutX="181.0" layoutY="349.0" mnemonicParsing="false" onAction="#addNewAppointment" prefHeight="25.0" prefWidth="168.0" text="Add Appointment" />
-   <Label layoutX="48.0" layoutY="183.0" text="Date" />
-   <Button fx:id="cancelButton" layoutX="443.0" layoutY="349.0" mnemonicParsing="false" text="Cancel" />
-   <Button fx:id="exitAppButton" layoutX="483.0" layoutY="13.0" mnemonicParsing="false" text="X" />
+   <Button fx:id="addAppointmentButton" layoutX="222.0" layoutY="557.0" mnemonicParsing="false" onAction="#addNewAppointment" prefHeight="25.0" prefWidth="168.0" text="Add Appointment" />
+   <Label layoutX="49.0" layoutY="415.0" text="Date" />
+   <Button fx:id="cancelButton" layoutX="525.0" layoutY="557.0" mnemonicParsing="false" text="Cancel" />
+   <Button fx:id="exitAppButton" layoutX="558.0" layoutY="18.0" mnemonicParsing="false" text="X" />
+   <TableView fx:id="customerTable" layoutX="192.0" layoutY="57.0" prefHeight="261.0" prefWidth="228.0">
+      <columns>
+         <TableColumn fx:id="customerIdColumn" prefWidth="88.0" text="Customer ID" />
+         <TableColumn fx:id="customerNameColumn" prefWidth="137.0" text="Customer Name" />
+      </columns>
+   </TableView>
 </AnchorPane>

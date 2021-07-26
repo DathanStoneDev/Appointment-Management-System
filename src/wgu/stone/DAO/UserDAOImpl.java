@@ -52,6 +52,7 @@ public class UserDAOImpl implements UserDAO{
                 int userId = rs.getInt("User_ID");
                 return userId;
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

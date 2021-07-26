@@ -65,6 +65,15 @@ public class AppointmentDAOImpl implements AppointmentDAO{
     @Override
     public void delete(Appointment appointment) {
 
+        String sql = "DELETE FROM appointments WHERE Appointment_ID = ?";
+
+        try(PreparedStatement preparedStatement = DatabaseConnection.getConnection().prepareStatement(sql)) {
+            preparedStatement.setInt(1, appointment.getAppId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -76,7 +85,7 @@ public class AppointmentDAOImpl implements AppointmentDAO{
     public void save(Appointment appointment) {
 
         String sql = "INSERT INTO appointments(Title, Description, Location, `Type`, `Start`, `End`, Created_By, " +
-                "Last_Updated_By, Contact_ID, User_ID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "Last_Updated_By, Customer_ID, Contact_ID, User_ID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try(PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(sql)) {
 
@@ -88,8 +97,9 @@ public class AppointmentDAOImpl implements AppointmentDAO{
             ps.setString(6, appointment.getEndDatetime());
             ps.setString(7, appointment.getCreatedBy());
             ps.setString(8, appointment.getLastUpdateBy());
-            ps.setInt(9, appointment.getContactId());
-            ps.setInt(10, appointment.getUserId());
+            ps.setInt(9, appointment.getCustomerId());
+            ps.setInt(10, appointment.getContactId());
+            ps.setInt(11, appointment.getUserId());
             ps.executeUpdate();
 
         } catch (SQLException e) {

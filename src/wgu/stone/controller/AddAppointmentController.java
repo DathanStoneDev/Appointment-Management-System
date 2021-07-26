@@ -6,9 +6,11 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import wgu.stone.DAO.*;
 import wgu.stone.model.Appointment;
 import wgu.stone.model.Contact;
+import wgu.stone.model.Customer;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -16,6 +18,11 @@ import java.time.LocalTime;
 import java.util.ResourceBundle;
 
 public class AddAppointmentController implements Initializable {
+
+    //Customer tableview
+    @FXML private TableView customerTable;
+    @FXML private TableColumn<Customer, Integer> customerIdColumn;
+    @FXML private TableColumn<Customer, String> customerNameColumn;
 
     //TextFields.
     @FXML private TextField titleField;
@@ -48,6 +55,7 @@ public class AddAppointmentController implements Initializable {
     private AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
     private UserDAO userDAO = new UserDAOImpl();
     private ContactDAO contactDAO = new ContactDAOImpl();
+    private CustomerDAO customerDAO = new CustomerDAOImpl();
 
     //possibly edit this. Works for now.
     private String selectAppType() {
@@ -115,9 +123,11 @@ public class AddAppointmentController implements Initializable {
             String lastUpdatedBy = LoginController.loggedIn;
             String createdBy = LoginController.loggedIn;
             int userId = userDAO.getUserInfo(LoginController.loggedIn);
+            Customer customer = (Customer) customerTable.getSelectionModel().getSelectedItem();
+            int customerId = customer.getCustomerId();
 
             Appointment appointment = new Appointment(appTitle, appDesc, location, type, startTime,
-                    endTime, lastUpdatedBy, createdBy, contactName, contactId, userId);
+                    endTime, lastUpdatedBy, createdBy, contactName, contactId, userId, customerId);
 
             try {
                 appointmentDAO.save(appointment);
@@ -129,6 +139,9 @@ public class AddAppointmentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        customerTable.setItems(customerDAO.getCustomerIdAndName());
+        customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         setLocationComboBox();
         setTimesForComboBoxes();
         contactNameComboBox.setItems(contactDAO.getAllContacts());

@@ -10,5 +10,6 @@ public interface CustomerDAO {
     void updateCustomer(Customer customer);
     void filterDivisionList(String countryName);
     void getAllCountries();
+    ObservableList<Customer> getCustomerIdAndName();
 
 }

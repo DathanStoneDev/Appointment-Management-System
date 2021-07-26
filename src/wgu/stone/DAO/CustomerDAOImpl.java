@@ -6,6 +6,8 @@ import wgu.stone.database.DatabaseConnection;
 import wgu.stone.model.Country;
 import wgu.stone.model.Customer;
 import wgu.stone.model.FirstLevelDivisions;
+
+import javax.xml.transform.Result;
 import java.sql.*;
 
 
@@ -13,7 +15,7 @@ import java.sql.*;
 /**
  * Contains the method implementations for customers.
  */
-public class CustomerDAOImpl implements CustomerDAO{
+public class CustomerDAOImpl implements CustomerDAO {
                                         //CUSTOMER MAIN FORM PAGE
     /**
      * Gets all the customers in the database and adds them to an observable list.
@@ -168,5 +170,26 @@ public class CustomerDAOImpl implements CustomerDAO{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public ObservableList<Customer> getCustomerIdAndName() {
+        ObservableList<Customer> customerIdName = FXCollections.observableArrayList();
+
+        String sql = "SELECT Customer_ID, Customer_Name FROM customers";
+
+        try(Statement statement = DatabaseConnection.getConnection().createStatement();
+            ResultSet rs = statement.executeQuery(sql)) {
+            while (rs.next()) {
+                Customer customer = new Customer();
+                customer.setCustomerId(rs.getInt("Customer_ID"));
+                customer.setCustomerName(rs.getString("Customer_Name"));
+                customerIdName.add(customer);
+            }
+            return customerIdName;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

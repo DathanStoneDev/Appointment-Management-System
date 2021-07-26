@@ -4,7 +4,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import wgu.stone.database.DatabaseConnection;
 import wgu.stone.model.Contact;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
