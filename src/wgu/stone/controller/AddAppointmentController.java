@@ -1,13 +1,16 @@
 package wgu.stone.controller;
 
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import wgu.stone.DAO.AppointmentDAO;
-import wgu.stone.DAO.AppointmentDAOImpl;
-import wgu.stone.DAO.UserDAOImpl;
+import javafx.scene.control.cell.PropertyValueFactory;
+import wgu.stone.DAO.*;
 import wgu.stone.model.Appointment;
 import wgu.stone.model.Contact;
+import wgu.stone.model.Customer;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,6 +18,11 @@ import java.time.LocalTime;
 import java.util.ResourceBundle;
 
 public class AddAppointmentController implements Initializable {
+
+    //Customer tableview
+    @FXML private TableView customerTable;
+    @FXML private TableColumn<Customer, Integer> customerIdColumn;
+    @FXML private TableColumn<Customer, String> customerNameColumn;
 
     //TextFields.
     @FXML private TextField titleField;
@@ -28,6 +36,10 @@ public class AddAppointmentController implements Initializable {
     @FXML private ComboBox<LocalTime> endTimeComboBox;
     @FXML private ComboBox<String> locationComboBox;
     @FXML private ComboBox<Contact> contactNameComboBox;
+    //these may go into the model. - if so, they will need to be public.
+    protected static final String[] types = {"Consult", "Business", "Project"};
+    protected static final ObservableList<String> locations = FXCollections.observableArrayList("Phoenix Arizona",
+            "White Plains New York", "Montreal Canada", "London England");
 
     //Types buttons.
     @FXML private RadioButton consultType;
@@ -40,22 +52,33 @@ public class AddAppointmentController implements Initializable {
     @FXML private Button cancelButton;
     @FXML private Button exitAppButton;
 
-    private final String[] types = {"Consult", "Business", "Project"};
+    //DAO Interface Instances
     private AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
+    private UserDAO userDAO = new UserDAOImpl();
+    private ContactDAO contactDAO = new ContactDAOImpl();
+    private CustomerDAO customerDAO = new CustomerDAOImpl();
 
-
+    //possibly edit this. Works for now.
     private String selectAppType() {
+        try {
+            if(consultType.isSelected()) {
+                return types[0];
+            }
+            if(businessType.isSelected()) {
+                return types[1];
+            }
+            if(projectType.isSelected()) {
+                return types[2];
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        } return null;
+    }
 
-        if(consultType.isSelected()) {
-            return types[0];
+    private void setLocationComboBox() {
+        for(String s : locations) {
+            locationComboBox.getItems().add(s);
         }
-        if(businessType.isSelected()) {
-            return types[1];
-        }
-        if (projectType.isSelected()){
-            return types[2];
-        }
-        return "si"; //need to fix this method. Works though.
     }
 
     private void setTimesForComboBoxes() {
@@ -94,18 +117,21 @@ public class AddAppointmentController implements Initializable {
             String appDesc = descriptionField.getText();
             LocalDateTime startTime= createStartLocaleDateTime();
             LocalDateTime endTime = createEndLocaleDateTime();
-            String location = "Anywhere"; //locationComboBox.getValue();
+            String location = locationComboBox.getValue();
             String type = selectAppType();
             String contactName = contactNameComboBox.getValue().getContactName();
             int contactId = contactNameComboBox.getValue().getContactId();
-            String lastUpdatedBy = UserDAOImpl.loggedInUser;
-            String createdBy = UserDAOImpl.loggedInUser;
+            String lastUpdatedBy = LoginController.loggedIn;
+            String createdBy = LoginController.loggedIn;
+            int userId = userDAO.getUserInfo(LoginController.loggedIn);
+            Customer customer = (Customer) customerTable.getSelectionModel().getSelectedItem();
+            int customerId = customer.getCustomerId();
 
-
-            Appointment appointment = new Appointment(appTitle, appDesc, location, type, startTime, endTime, lastUpdatedBy, createdBy, contactName, contactId);
+            Appointment appointment = new Appointment(appTitle, appDesc, location, type, startTime,
+                    endTime, lastUpdatedBy, createdBy, contactName, contactId, userId, customerId);
 
             try {
-                appointmentDAO.insertNewAppointment(appointment);
+                appointmentDAO.save(appointment);
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println(e.getLocalizedMessage());
@@ -114,13 +140,15 @@ public class AddAppointmentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        customerTable.setItems(customerDAO.getCustomerIdAndName());
+        customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        setLocationComboBox();
         setTimesForComboBoxes();
-        contactNameComboBox.setItems(appointmentDAO.getAllContacts());
+        contactNameComboBox.setItems(contactDAO.getAllContacts());
         typeGroup = new ToggleGroup();
         businessType.setToggleGroup(typeGroup);
         projectType.setToggleGroup(typeGroup);
         consultType.setToggleGroup(typeGroup);
-
     }
 }

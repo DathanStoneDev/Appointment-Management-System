@@ -4,16 +4,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import wgu.stone.database.DatabaseConnection;
 import wgu.stone.model.Appointment;
-import wgu.stone.model.Contact;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class AppointmentDAOImpl implements AppointmentDAO{
+public class AppointmentDAOImpl implements AppointmentDAO {
 
+    //
     @Override
-    public ObservableList<Appointment> getAllAppointments() {
+    public ObservableList<Appointment> getAll() {
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
         String sql = "SELECT a.Appointment_ID, a.Title, a.Description, a.Location, a.Type, a.Start, a.End, a.Customer_ID, " +
                 " c.Contact_Name FROM appointments a JOIN contacts c ON c.Contact_ID = a.Contact_ID";
@@ -40,29 +40,29 @@ public class AppointmentDAOImpl implements AppointmentDAO{
     }
 
     @Override
-    public ObservableList<Contact> getAllContacts() {
-        ObservableList<Contact> contacts = FXCollections.observableArrayList();
-        String sql = "SELECT Contact_Name, Contact_ID FROM contacts";
+    public void delete(Appointment appointment) {
 
-        try(Statement statement = DatabaseConnection.getConnection().createStatement();
-            ResultSet rs = statement.executeQuery(sql)) {
-            while(rs.next()) {
-                Contact contact = new Contact();
-                    contact.setContactId(rs.getInt("Contact_ID"));
-                    contact.setContactName(rs.getString("Contact_Name"));
-                    contacts.add(contact);
-                }
-            } catch (SQLException e) {
+        String sql = "DELETE FROM appointments WHERE Appointment_ID = ?";
+
+        try(PreparedStatement preparedStatement = DatabaseConnection.getConnection().prepareStatement(sql)) {
+            preparedStatement.setInt(1, appointment.getAppId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        return contacts;
+
     }
 
     @Override
-    public void insertNewAppointment(Appointment appointment) {
+    public void update(Appointment appointment) {
+
+    }
+
+    @Override
+    public void save(Appointment appointment) {
 
         String sql = "INSERT INTO appointments(Title, Description, Location, `Type`, `Start`, `End`, Created_By, " +
-                "Last_Updated_By, Contact_ID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "Last_Updated_By, Customer_ID, Contact_ID, User_ID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try(PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(sql)) {
 
@@ -74,12 +74,15 @@ public class AppointmentDAOImpl implements AppointmentDAO{
             ps.setString(6, appointment.getEndDatetime());
             ps.setString(7, appointment.getCreatedBy());
             ps.setString(8, appointment.getLastUpdateBy());
-            ps.setInt(9, appointment.getContactId());
+            ps.setInt(9, appointment.getCustomerId());
+            ps.setInt(10, appointment.getContactId());
+            ps.setInt(11, appointment.getUserId());
             ps.executeUpdate();
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
+
     }
 }

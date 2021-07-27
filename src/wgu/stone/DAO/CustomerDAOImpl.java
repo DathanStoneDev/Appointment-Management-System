@@ -6,6 +6,8 @@ import wgu.stone.database.DatabaseConnection;
 import wgu.stone.model.Country;
 import wgu.stone.model.Customer;
 import wgu.stone.model.FirstLevelDivisions;
+
+import javax.xml.transform.Result;
 import java.sql.*;
 
 
@@ -13,13 +15,14 @@ import java.sql.*;
 /**
  * Contains the method implementations for customers.
  */
-public class CustomerDAOImpl implements CustomerDAO{
+public class CustomerDAOImpl implements CustomerDAO {
                                         //CUSTOMER MAIN FORM PAGE
     /**
      * Gets all the customers in the database and adds them to an observable list.
      * @return Observable list of customers that is then passed into the Customer controller and initialized there.
      */
-    public static ObservableList<Customer> getAllCustomers() {
+    @Override
+    public ObservableList<Customer> getAllCustomers() {
 
         ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
         String sql = "SELECT customers.Customer_ID, customers.Customer_Name, customers.Address, customers.Postal_Code, "
@@ -53,7 +56,8 @@ public class CustomerDAOImpl implements CustomerDAO{
      * Deletes a customer from the database
      * @param id passed from CustomerMainController to determine customer to delete.
      */
-    public static void deleteCustomer(int id) {
+    @Override
+    public void deleteCustomer(int id) {
 
         String sql = "DELETE FROM customers WHERE Customer_Id = ?";
 
@@ -69,7 +73,8 @@ public class CustomerDAOImpl implements CustomerDAO{
      * Inserts a new customer into the database from a customer object passed by the AddCustomerController
      * @param customer object passed in.
      */
-    public static void insertNewCustomer(Customer customer) {
+    @Override
+    public void insertNewCustomer(Customer customer) {
 
         String sql = "INSERT INTO customers(Customer_Name, Address, Postal_Code, Phone, Created_By, " +
                 "Last_Updated_By, Division_ID) VALUES(?, ?, ?, ?, ?, ?, ?)";
@@ -90,8 +95,8 @@ public class CustomerDAOImpl implements CustomerDAO{
             e.printStackTrace();
         }
     }
-
-    public static void updateCustomer(Customer customer) {
+    @Override
+    public void updateCustomer(Customer customer) {
 
         String sql = "UPDATE customers SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, " +
                 "Last_Updated_By = ?, Division_ID = ? " +
@@ -121,21 +126,24 @@ public class CustomerDAOImpl implements CustomerDAO{
      * @param countryName passed from setDivisionCombo method as a string.
      *
      */
-    public static void filterDivisionList(String countryName) {
+    //this needs to go to divisions DAO
+    @Override
+    public void filterDivisionList(String countryName) {
 
         FirstLevelDivisions.clearDivisions();
         System.out.println("Clearing the list" + FirstLevelDivisions.getDivisions());
         String sql = "SELECT d.Division, d.Division_ID FROM first_level_divisions d JOIN countries c ON c.Country_ID = d.COUNTRY_ID WHERE c.Country = ?";
 
-        try(PreparedStatement preparedStatement = DatabaseConnection.getConnection().prepareStatement(sql);
-            ResultSet rs = preparedStatement.executeQuery()) {
+        try(PreparedStatement preparedStatement = DatabaseConnection.getConnection().prepareStatement(sql)) {
             preparedStatement.setString(1, countryName);
+            ResultSet rs = preparedStatement.executeQuery();
             while(rs.next()) {
                 FirstLevelDivisions division = new FirstLevelDivisions();
                 division.setDivisionId(rs.getInt("Division_ID"));
                 division.setDivisionName(rs.getString("Division"));
                 FirstLevelDivisions.addDivisions(division);
             }
+            rs.close();
             System.out.println("New list:" + FirstLevelDivisions.getDivisions());
         } catch (SQLException e) {
            e.printStackTrace();
@@ -146,7 +154,9 @@ public class CustomerDAOImpl implements CustomerDAO{
      * retrieves all the countries in the database.
      *
      */
-    public static void getAllCountries() {
+    //This needs to go to countries DAO
+    @Override
+    public void getAllCountries() {
 
         String sql = "SELECT Country FROM countries";
 
@@ -160,5 +170,26 @@ public class CustomerDAOImpl implements CustomerDAO{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public ObservableList<Customer> getCustomerIdAndName() {
+        ObservableList<Customer> customerIdName = FXCollections.observableArrayList();
+
+        String sql = "SELECT Customer_ID, Customer_Name FROM customers";
+
+        try(Statement statement = DatabaseConnection.getConnection().createStatement();
+            ResultSet rs = statement.executeQuery(sql)) {
+            while (rs.next()) {
+                Customer customer = new Customer();
+                customer.setCustomerId(rs.getInt("Customer_ID"));
+                customer.setCustomerName(rs.getString("Customer_Name"));
+                customerIdName.add(customer);
+            }
+            return customerIdName;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

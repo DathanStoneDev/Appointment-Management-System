@@ -13,7 +13,7 @@ public class Appointment {
     private String appLocation;
     private String appType;
     private LocalDateTime startDatetime;
-    private LocalDateTime  endDatetime;
+    private LocalDateTime endDatetime;
     private LocalDateTime createdDatetime;
     private String createdBy;
     private LocalDateTime lastUpdate;
@@ -28,7 +28,7 @@ public class Appointment {
 
     }
 
-    public Appointment(String appTitle, String appDescription, String appLocation, String appType, LocalDateTime startDatetime, LocalDateTime endDatetime, String createdBy, String lastUpdateBy, String appContact, int contactId) {
+    public Appointment(String appTitle, String appDescription, String appLocation, String appType, LocalDateTime startDatetime, LocalDateTime endDatetime, String createdBy, String lastUpdateBy, String appContact, int contactId, int userId, int customerId) {
         this.appTitle = appTitle;
         this.appDescription = appDescription;
         this.appLocation = appLocation;
@@ -39,6 +39,8 @@ public class Appointment {
         this.lastUpdateBy = lastUpdateBy;
         this.appContact = appContact;
         this.contactId = contactId;
+        this.userId = userId;
+        this.customerId = customerId;
 }
     public int getAppId() {
         return appId;

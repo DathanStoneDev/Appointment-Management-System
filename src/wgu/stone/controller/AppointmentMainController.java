@@ -12,7 +12,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import wgu.stone.DAO.AppointmentDAO;
 import wgu.stone.DAO.AppointmentDAOImpl;
+import wgu.stone.DAO.GenericDAO;
 import wgu.stone.model.Appointment;
+
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -42,10 +45,10 @@ public class AppointmentMainController implements Initializable {
 
     @FXML
     private void goToAddAppForm() throws IOException {
-        Parent addCustomer = FXMLLoader.load(getClass().getResource("/wgu/stone/view/AddAppointmentForm.fxml"));
-        Scene addCustomerScene = new Scene(addCustomer);
+        Parent addApp = FXMLLoader.load(getClass().getResource("/wgu/stone/view/AddAppointmentForm.fxml"));
+        Scene addAppScene = new Scene(addApp);
         Stage window = (Stage) addAppointmentButton.getScene().getWindow();
-        window.setScene(addCustomerScene);
+        window.setScene(addAppScene);
         window.show();
     }
 
@@ -67,7 +70,10 @@ public class AppointmentMainController implements Initializable {
         }
     }
 
-
+    @FXML
+    private void deleteAppointment() {
+        appointmentDAO.delete(appointmentTableView.getSelectionModel().getSelectedItem());
+    }
 
 
 
@@ -82,8 +88,7 @@ public class AppointmentMainController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        new AddAppointmentController();
-        appointmentTableView.setItems(appointmentDAO.getAllAppointments());
+        appointmentTableView.setItems(appointmentDAO.getAll());
         appointmentIdColumn.setCellValueFactory(new PropertyValueFactory<>("appId"));
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("appTitle"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("appDescription"));
