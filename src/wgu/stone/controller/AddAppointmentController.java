@@ -36,8 +36,9 @@ public class AddAppointmentController implements Initializable {
     @FXML private ComboBox<LocalTime> endTimeComboBox;
     @FXML private ComboBox<String> locationComboBox;
     @FXML private ComboBox<Contact> contactNameComboBox;
-    private final String[] types = {"Consult", "Business", "Project"};
-    private final ObservableList<String> locations = FXCollections.observableArrayList("Phoenix Arizona",
+    //these may go into the model. - if so, they will need to be public.
+    protected static final String[] types = {"Consult", "Business", "Project"};
+    protected static final ObservableList<String> locations = FXCollections.observableArrayList("Phoenix Arizona",
             "White Plains New York", "Montreal Canada", "London England");
 
     //Types buttons.

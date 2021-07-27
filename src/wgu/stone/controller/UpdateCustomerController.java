@@ -42,7 +42,7 @@ public class UpdateCustomerController implements Initializable {
         String customerAddress = customerAddressField.getText();
         String postalCode = customerPostalField.getText();
         String customerPhoneNumber = customerPhoneNumberField.getText();
-        String lastUpdatedBy = UserDAOImpl.loggedInUser;
+        String lastUpdatedBy = LoginController.loggedIn;
         int divisionId = divisionCombo.getSelectionModel().getSelectedItem().getDivisionId();
         String divisionName = divisionCombo.getSelectionModel().getSelectedItem().getDivisionName();
         String countryName = countryCombo.getSelectionModel().getSelectedItem().getCountry();

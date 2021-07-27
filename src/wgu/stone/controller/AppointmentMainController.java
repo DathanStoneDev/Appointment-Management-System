@@ -88,7 +88,6 @@ public class AppointmentMainController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        new AddAppointmentController();
         appointmentTableView.setItems(appointmentDAO.getAll());
         appointmentIdColumn.setCellValueFactory(new PropertyValueFactory<>("appId"));
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("appTitle"));

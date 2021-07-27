@@ -9,32 +9,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class AppointmentDAOImpl implements AppointmentDAO{
+public class AppointmentDAOImpl implements AppointmentDAO {
 
-
-    //needs to be moved to contact DAO
-    /*@Override
-    public ObservableList<Contact> getAllContacts() {
-        ObservableList<Contact> contacts = FXCollections.observableArrayList();
-        String sql = "SELECT Contact_Name, Contact_ID FROM contacts";
-
-        try(Statement statement = DatabaseConnection.getConnection().createStatement();
-            ResultSet rs = statement.executeQuery(sql)) {
-            while(rs.next()) {
-                Contact contact = new Contact();
-                    contact.setContactId(rs.getInt("Contact_ID"));
-                    contact.setContactName(rs.getString("Contact_Name"));
-                    contacts.add(contact);
-                }
-            } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return contacts;
-    } */
-
-
-
-
+    //
     @Override
     public ObservableList<Appointment> getAll() {
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
