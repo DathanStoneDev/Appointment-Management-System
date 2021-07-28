@@ -10,12 +10,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import wgu.stone.DAO.AppointmentDAO;
-import wgu.stone.DAO.AppointmentDAOImpl;
-import wgu.stone.DAO.GenericDAO;
+import wgu.stone.DAO.interfaces.AppointmentDAO;
+import wgu.stone.DAO.implementations.AppointmentDAOImpl;
 import wgu.stone.model.Appointment;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;

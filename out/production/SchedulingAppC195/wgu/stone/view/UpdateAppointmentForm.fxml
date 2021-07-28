@@ -11,23 +11,23 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="521.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.stone.controller.UpdateAppointmentController">
    <children>
-      <ComboBox fx:id="locationComboBox" layoutX="345.0" layoutY="220.0" prefWidth="150.0" />
+      <ComboBox layoutX="345.0" layoutY="220.0" prefWidth="150.0" />
       <Label layoutX="265.0" layoutY="268.0" text="contact name" />
       <RadioButton layoutX="337.0" layoutY="183.0" mnemonicParsing="false" text="Project" />
       <RadioButton layoutX="337.0" layoutY="87.0" mnemonicParsing="false" text="Consult" />
       <RadioButton layoutX="337.0" layoutY="137.0" mnemonicParsing="false" text="Business" />
-      <TextField fx:id="descriptionField" layoutX="85.0" layoutY="133.0" prefHeight="25.0" prefWidth="154.0" />
-      <TextField fx:id="titleField" layoutX="87.0" layoutY="83.0" />
+      <TextField layoutX="85.0" layoutY="133.0" prefHeight="25.0" prefWidth="154.0" />
+      <TextField layoutX="87.0" layoutY="83.0" />
       <Label layoutX="50.0" layoutY="87.0" text="Title" />
       <Label layoutX="20.0" layoutY="137.0" text="Description" />
       <Label />
-      <ComboBox fx:id="endTimeComboBox" layoutX="87.0" layoutY="264.0" prefWidth="150.0" />
+      <ComboBox layoutX="87.0" layoutY="264.0" prefWidth="150.0" />
       <Label layoutX="291.0" layoutY="224.0" text="location" />
-      <ComboBox fx:id="contactNameComboBox" layoutX="345.0" layoutY="264.0" prefWidth="150.0" />
-      <ComboBox fx:id="startTimeComboBox" layoutX="87.0" layoutY="220.0" prefWidth="150.0" />
+      <ComboBox layoutX="345.0" layoutY="264.0" prefWidth="150.0" />
+      <ComboBox layoutX="87.0" layoutY="220.0" prefWidth="150.0" />
       <Label layoutX="25.0" layoutY="224.0" text="Start time" />
       <Label layoutX="37.0" layoutY="268.0" text="End time" />
-      <DatePicker fx:id="datePicker" layoutX="86.0" layoutY="179.0" />
+      <DatePicker layoutX="86.0" layoutY="179.0" />
       <Label layoutX="173.0" layoutY="4.0" text="UpdateAppointment">
          <font>
             <Font name="System Bold" size="18.0" />
@@ -37,9 +37,7 @@
       <Label layoutX="48.0" layoutY="183.0" text="Date" />
       <Button layoutX="443.0" layoutY="349.0" mnemonicParsing="false" text="Cancel" />
       <Button layoutX="483.0" layoutY="13.0" mnemonicParsing="false" text="X" />
-      <TextField fx:id="appIdField" layoutX="88.0" layoutY="39.0" />
+      <TextField layoutX="88.0" layoutY="39.0" />
       <Label layoutX="42.0" layoutY="43.0" text="App ID" />
-      <TextField fx:id="customerIdField" layoutX="88.0" layoutY="307.0" />
-      <Label layoutX="18.0" layoutY="311.0" text="Customer ID" />
    </children>
 </AnchorPane>

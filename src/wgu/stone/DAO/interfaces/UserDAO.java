@@ -1,4 +1,4 @@
-package wgu.stone.DAO;
+package wgu.stone.DAO.interfaces;
 
 public interface UserDAO {
 

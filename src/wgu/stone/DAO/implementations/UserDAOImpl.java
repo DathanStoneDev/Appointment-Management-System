@@ -1,8 +1,7 @@
-package wgu.stone.DAO;
+package wgu.stone.DAO.implementations;
 
+import wgu.stone.DAO.interfaces.UserDAO;
 import wgu.stone.database.DatabaseConnection;
-import wgu.stone.model.User;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,7 +12,7 @@ import java.sql.SQLException;
 /**
  * Contains the method implementations for users.
  */
-public class UserDAOImpl implements UserDAO{
+public class UserDAOImpl implements UserDAO {
 
     public static String loggedInUser;
 
@@ -41,7 +40,7 @@ public class UserDAOImpl implements UserDAO{
         } return false;
     }
 
-    //not a good method for this. Rewrite.
+
     public int getUserInfo(String userName) {
         String sql = "SELECT User_ID FROM users WHERE User_Name = ?";
 

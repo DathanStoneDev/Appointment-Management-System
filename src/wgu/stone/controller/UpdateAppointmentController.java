@@ -3,6 +3,14 @@ package wgu.stone.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import wgu.stone.DAO.implementations.AppointmentDAOImpl;
+import wgu.stone.DAO.implementations.ContactDAOImpl;
+import wgu.stone.DAO.implementations.CustomerDAOImpl;
+import wgu.stone.DAO.implementations.UserDAOImpl;
+import wgu.stone.DAO.interfaces.AppointmentDAO;
+import wgu.stone.DAO.interfaces.ContactDAO;
+import wgu.stone.DAO.interfaces.CustomerDAO;
+import wgu.stone.DAO.interfaces.UserDAO;
 import wgu.stone.model.Appointment;
 import wgu.stone.model.Contact;
 
@@ -35,9 +43,25 @@ public class UpdateAppointmentController implements Initializable {
     @FXML private Button cancelButton;
     @FXML private Button exitAppButton;
 
+    //DAO Interface Instances
+    private AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
+    private UserDAO userDAO = new UserDAOImpl();
+    private ContactDAO contactDAO = new ContactDAOImpl();
+    private CustomerDAO customerDAO = new CustomerDAOImpl();
 
 
 
+    private void setTimesForComboBoxes() {
+
+        LocalTime start = LocalTime.of(8, 0);
+        LocalTime end = LocalTime.of(22, 0);
+
+        while(start.isBefore(end.plusSeconds(1))) {
+            startTimeComboBox.getItems().add(start);
+            endTimeComboBox.getItems().add(start);
+            start = start.plusMinutes(30);
+        }
+    }
 
 
 
@@ -47,10 +71,11 @@ public class UpdateAppointmentController implements Initializable {
         customerIdField.setText(Integer.toString(appointment.getCustomerId()));
         appIdField.setText(Integer.toString(appointment.getAppId()));
         descriptionField.setText(appointment.getAppDescription());
-        //will need to use formatter.
-        //datePicker.setValue(LocalDate.parse(appointment.getStartDatetime()));
+
+        datePicker.setValue(LocalDate.parse(appointment.getStartDatetime()));
         locationComboBox.setValue(appointment.getAppLocation());
         titleField.setText(appointment.getAppTitle());
+
     }
 
 
@@ -60,5 +85,6 @@ public class UpdateAppointmentController implements Initializable {
         locationComboBox.setItems(AddAppointmentController.locations);
         customerIdField.setDisable(true);
         appIdField.setDisable(true);
+        setTimesForComboBoxes();
     }
 }

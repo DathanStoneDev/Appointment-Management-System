@@ -9,7 +9,6 @@ public class Country {
     private int countryId;
     private String country;
 
-    private static ObservableList<Country> countries = FXCollections.observableArrayList();
 
     public Country(int countryId, String country) {
         this.countryId = countryId;
@@ -37,17 +36,6 @@ public class Country {
         this.country = country;
     }
 
-    public static ObservableList<Country> getCountries() {
-        return countries;
-    }
-
-    public static void setCountries(ObservableList<Country> countries) {
-        Country.countries = countries;
-    }
-
-    public static void addCountries(Country country) {
-        countries.add(country);
-    }
 
     @Override
     public String toString() {

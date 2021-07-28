@@ -1,7 +1,8 @@
-package wgu.stone.DAO;
+package wgu.stone.DAO.implementations;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import wgu.stone.DAO.interfaces.AppointmentDAO;
 import wgu.stone.database.DatabaseConnection;
 import wgu.stone.model.Appointment;
 import java.sql.PreparedStatement;
@@ -11,12 +12,12 @@ import java.sql.Statement;
 
 public class AppointmentDAOImpl implements AppointmentDAO {
 
-    //
+    private ObservableList<Appointment> appointments = FXCollections.observableArrayList();
+
     @Override
     public ObservableList<Appointment> getAll() {
-        ObservableList<Appointment> appointments = FXCollections.observableArrayList();
-        String sql = "SELECT a.Appointment_ID, a.Title, a.Description, a.Location, a.Type, a.Start, a.End, a.Customer_ID, " +
-                " c.Contact_Name FROM appointments a JOIN contacts c ON c.Contact_ID = a.Contact_ID";
+
+        String sql = "SELECT * FROM appointments";
 
         try(Statement statement = DatabaseConnection.getConnection().createStatement();
             ResultSet rs = statement.executeQuery(sql)) {
@@ -30,7 +31,11 @@ public class AppointmentDAOImpl implements AppointmentDAO {
                 appointment.setAppType(rs.getString("Type"));
                 appointment.setStartDatetime(rs.getTimestamp("Start").toLocalDateTime());
                 appointment.setEndDatetime(rs.getTimestamp("End").toLocalDateTime());
+                appointment.setCreatedDatetime(rs.getTimestamp("Create_Date").toLocalDateTime());
+                appointment.setLastUpdate(rs.getTimestamp("Last_Update").toLocalDateTime());
                 appointment.setCustomerId(rs.getInt("Customer_ID"));
+                appointment.setUserId(rs.getInt("User_ID"));
+                appointment.setContactId(rs.getInt("Contact_ID"));
                 appointments.add(appointment);
             }
         } catch (SQLException e) {
@@ -56,6 +61,26 @@ public class AppointmentDAOImpl implements AppointmentDAO {
     @Override
     public void update(Appointment appointment) {
 
+        String sql = "UPDATE appointments SET Title = ?, Description = ?, Location = ?, `Type` = ?, `Start` = ?, " +
+                "`End` = ?, Last_Updated_By = ?, Last_Update = ?, Contact_ID = ?, User_ID = ? WHERE Appointment_ID = ?";
+
+        try(PreparedStatement preparedStatement = DatabaseConnection.getConnection().prepareStatement(sql)) {
+
+            preparedStatement.setInt(11, appointment.getAppId());
+            preparedStatement.setString(1, appointment.getAppTitle());
+            preparedStatement.setString(2, appointment.getAppDescription());
+            preparedStatement.setString(3, appointment.getAppLocation());
+            preparedStatement.setString(4, appointment.getAppType());
+            preparedStatement.setObject(5, appointment.getStartDatetime());
+            preparedStatement.setObject(6, appointment.getEndDatetime());
+            preparedStatement.setString(7, appointment.getLastUpdateBy());
+            preparedStatement.setObject(8, appointment.getLastUpdate());
+            preparedStatement.setInt(9, appointment.getContactId());
+            preparedStatement.setInt(10, appointment.getUserId());
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     @Override

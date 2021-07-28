@@ -1,14 +1,15 @@
-package wgu.stone.DAO;
+package wgu.stone.DAO.implementations;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import wgu.stone.DAO.interfaces.ContactDAO;
 import wgu.stone.database.DatabaseConnection;
 import wgu.stone.model.Contact;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class ContactDAOImpl implements ContactDAO{
+public class ContactDAOImpl implements ContactDAO {
 
     @Override
     public ObservableList<Contact> getAllContacts() {

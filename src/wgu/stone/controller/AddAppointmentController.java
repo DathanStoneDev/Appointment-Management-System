@@ -7,7 +7,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import wgu.stone.DAO.*;
+import wgu.stone.DAO.implementations.AppointmentDAOImpl;
+import wgu.stone.DAO.implementations.ContactDAOImpl;
+import wgu.stone.DAO.implementations.CustomerDAOImpl;
+import wgu.stone.DAO.implementations.UserDAOImpl;
+import wgu.stone.DAO.interfaces.AppointmentDAO;
+import wgu.stone.DAO.interfaces.ContactDAO;
+import wgu.stone.DAO.interfaces.CustomerDAO;
+import wgu.stone.DAO.interfaces.UserDAO;
 import wgu.stone.model.Appointment;
 import wgu.stone.model.Contact;
 import wgu.stone.model.Customer;
@@ -75,6 +82,7 @@ public class AddAppointmentController implements Initializable {
         } return null;
     }
 
+    //may not need this method and just do locationComboBox.setItems to locations.
     private void setLocationComboBox() {
         for(String s : locations) {
             locationComboBox.getItems().add(s);
@@ -99,6 +107,7 @@ public class AddAppointmentController implements Initializable {
         LocalDate startDate = datePicker.getValue();
         LocalTime startTime = startTimeComboBox.getValue();
         LocalDateTime start = LocalDateTime.of(startDate, startTime);
+        System.out.println(start);
         return start;
     }
 

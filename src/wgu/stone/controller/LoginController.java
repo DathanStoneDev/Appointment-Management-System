@@ -10,8 +10,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import wgu.stone.DAO.UserDAO;
-import wgu.stone.DAO.UserDAOImpl;
+import wgu.stone.DAO.interfaces.UserDAO;
+import wgu.stone.DAO.implementations.UserDAOImpl;
 import java.io.IOException;
 import java.net.URL;
 import java.time.ZoneId;
@@ -36,8 +36,10 @@ public class LoginController implements Initializable {
     @FXML private Label passwordLabel;
     @FXML private Label titleLabel;
 
-    //Resource bundle that gets the locale of a user.
+
     private UserDAO userDAO = new UserDAOImpl();
+
+    //Resource bundle that gets the locale of a user.
     private ResourceBundle rb = ResourceBundle.getBundle("Nat", Locale.getDefault());
     private String userName;
     private String userPassword;

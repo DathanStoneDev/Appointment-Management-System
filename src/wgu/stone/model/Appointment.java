@@ -20,15 +20,18 @@ public class Appointment {
     private String lastUpdateBy;
     private int customerId;
     private String appContact;
-    private int contactId;
     private int userId;
+    private int contactId;
+
 
 
     public Appointment() {
 
     }
 
-    public Appointment(String appTitle, String appDescription, String appLocation, String appType, LocalDateTime startDatetime, LocalDateTime endDatetime, String createdBy, String lastUpdateBy, String appContact, int contactId, int userId, int customerId) {
+    public Appointment(String appTitle, String appDescription, String appLocation, String appType,
+                       LocalDateTime startDatetime, LocalDateTime endDatetime, String createdBy,
+                       String lastUpdateBy, String appContact, int contactId, int userId, int customerId) {
         this.appTitle = appTitle;
         this.appDescription = appDescription;
         this.appLocation = appLocation;
