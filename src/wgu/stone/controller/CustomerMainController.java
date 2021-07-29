@@ -13,6 +13,7 @@ import wgu.stone.DAO.implementations.CustomerDAOImpl;
 import wgu.stone.model.Customer;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -33,73 +34,52 @@ public class CustomerMainController implements Initializable {
     @FXML private Button updateCustomerButton;
     @FXML private Button deleteCustomerButton;
     @FXML private Button exitAppButton;
-    @FXML private Button viewAppointmentsButton;
+    @FXML private Button addAppointmentsButton;
 
     private CustomerDAO customerDAO = new CustomerDAOImpl();
 
-    /**
-     * Sends the user to the addCustomerForm when the addCustomerButton is clicked.
-     * @throws IOException
-     */
-    public void goToAddCustomerForm() throws IOException {
-        Parent addCustomer = FXMLLoader.load(getClass().getResource("/wgu/stone/view/AddCustomerForm.fxml"));
-        Scene addCustomerScene = new Scene(addCustomer);
-        Stage window = (Stage) addCustomerButton.getScene().getWindow();
-        window.setScene(addCustomerScene);
-        window.show();
-    }
-
-    public void deleteCustomer() {
+    @FXML
+    private void deleteCustomer() throws SQLException {
         Customer customer = customerRecords.getSelectionModel().getSelectedItem();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Alert");
         alert.setContentText("Are you sure you want to delete this customer?");
         Optional<ButtonType> result = alert.showAndWait();
             if(result.isPresent() && result.get() == ButtonType.OK) {
-                customerDAO.deleteCustomer(customer.getCustomerId());
+                customerDAO.delete(customer);
             }
     }
 
-    public void goToUpdateCustomerForm() throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/wgu/stone/view/UpdateCustomerForm.fxml"));
-        Parent updateCustomer = loader.load();
-
-        Scene updateCustomerScene = new Scene(updateCustomer);
-        UpdateCustomerController controller = loader.getController();
-        try {
-            controller.initData(customerRecords.getSelectionModel().getSelectedItem());
-            Stage window = (Stage) updateCustomerButton.getScene().getWindow();
-            window.setScene(updateCustomerScene);
-            window.show();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void exitApplication() {
+    @FXML
+    private void exitApplication() {
         Stage window = (Stage) exitAppButton.getScene().getWindow();
         window.close();
     }
 
-    public void goToAppointmentMainForm() throws IOException {
-        Parent addCustomer = FXMLLoader.load(getClass().getResource("/wgu/stone/view/AppointmentMainForm.fxml"));
-        Scene addCustomerScene = new Scene(addCustomer);
-        Stage window = (Stage) viewAppointmentsButton.getScene().getWindow();
-        window.setScene(addCustomerScene);
+    @FXML
+    private void goToAppointmentAddForm() throws IOException {
+        Parent addAppointment = FXMLLoader.load(getClass().getResource("/wgu/stone/view/AddAppointmentForm.fxml"));
+        Scene addAppointmentScene = new Scene(addAppointment);
+        Stage window = (Stage) addAppointmentsButton.getScene().getWindow();
+        window.setScene(addAppointmentScene);
         window.show();
     }
 
-    /**
-     * Initialize starting data for Customer Record Form.
-     * @param url
-     * @param resourceBundle
-     */
-    @Override
+    @FXML
+    private void goToCustAdd() throws IOException {
+            Parent addAppointment = FXMLLoader.load(getClass().getResource("/wgu/stone/view/AddCustomerForm.fxml"));
+            Scene addAppointmentScene = new Scene(addAppointment);
+            Stage window = (Stage) addCustomerButton.getScene().getWindow();
+            window.setScene(addAppointmentScene);
+            window.show();
+    }
+
+
+
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         //Initialize tableview and columns
-        customerRecords.setItems(customerDAO.getAllCustomers());
+        customerRecords.setItems(customerDAO.getAll());
         customerIdColumn.setCellValueFactory(new PropertyValueFactory<Customer, Integer>("customerId"));
         customerNameColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerName"));
         customerPostalCodeColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerPostalCode"));
@@ -107,7 +87,5 @@ public class CustomerMainController implements Initializable {
         customerAddressColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerAddress"));
         customerFLDColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("divisionName"));
         customerCountryColumn.setCellValueFactory((new PropertyValueFactory<Customer, String>("customerCountry")));
-
-        //need to figure out how I want to populate the country, and First division data.
     }
 }

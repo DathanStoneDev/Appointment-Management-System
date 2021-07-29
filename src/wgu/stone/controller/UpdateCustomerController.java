@@ -1,5 +1,6 @@
 package wgu.stone.controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,7 +14,7 @@ import wgu.stone.DAO.interfaces.CustomerDAO;
 import wgu.stone.DAO.implementations.CustomerDAOImpl;
 import wgu.stone.model.Country;
 import wgu.stone.model.Customer;
-import wgu.stone.model.FirstLevelDivisions;
+import wgu.stone.model.Division;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -27,7 +28,7 @@ public class UpdateCustomerController implements Initializable {
     @FXML private TextField customerPhoneNumberField;
     @FXML private TextField customerIdField;
 
-    @FXML private ComboBox<FirstLevelDivisions> divisionCombo;
+    @FXML private ComboBox<Division> divisionCombo;
     @FXML private ComboBox<Country> countryCombo;
 
     @FXML private Button saveUpdatedCustomerButton;
@@ -46,10 +47,9 @@ public class UpdateCustomerController implements Initializable {
         String divisionName = divisionCombo.getSelectionModel().getSelectedItem().getDivisionName();
         String countryName = countryCombo.getSelectionModel().getSelectedItem().getCountry();
 
-        Customer customer = new Customer(customerId, customerName, customerAddress, postalCode, customerPhoneNumber,
-                lastUpdatedBy, divisionId, countryName, divisionName);
 
-        customerDAO.updateCustomer(customer);
+
+        //customerDAO.updateCustomer(customer);
         //make this a Util method.
         Parent addCustomer = FXMLLoader.load(getClass().getResource("/wgu/stone/view/CustomerMainForm.fxml"));
         Scene addCustomerScene = new Scene(addCustomer);
@@ -70,25 +70,8 @@ public class UpdateCustomerController implements Initializable {
         customerPostalField.setText(customer.getCustomerPostalCode());
         customerPhoneNumberField.setText(customer.getCustomerPhoneNumber());
         customerNameField.setText(customer.getCustomerName());
-        String custContry = customerToUpdate.getCustomerCountry();
-        String divisionName = customerToUpdate.getDivisionName();
-        for(Country c : Country.getCountries()) {
-            if(custContry.equals(c.getCountry())) {
-                countryCombo.setValue(c);
-            }
-        }
-        customerDAO.filterDivisionList(countryCombo.getSelectionModel().getSelectedItem().toString());
-        for(FirstLevelDivisions d : FirstLevelDivisions.getDivisions()) {
-            if(divisionName.equals(d.getDivisionName())) {
-                divisionCombo.setValue(d);
-            }
-        }
     }
 
-    public void setDivisionCombo() {
-        customerDAO.filterDivisionList(countryCombo.getSelectionModel().getSelectedItem().toString());
-        divisionCombo.setItems(FirstLevelDivisions.getDivisions());
-    }
 
     public void cancelUpdate() throws IOException {
         //make this a Util method.
@@ -99,12 +82,11 @@ public class UpdateCustomerController implements Initializable {
         window.show();
     }
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        customerDAO.getAllCountries();
-        countryCombo.setItems(Country.getCountries());
-        customerIdField.setDisable(true);
 
+    }
+
+    public void setDivisionCombo(ActionEvent event) {
     }
 }

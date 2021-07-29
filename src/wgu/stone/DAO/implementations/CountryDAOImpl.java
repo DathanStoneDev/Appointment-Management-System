@@ -11,10 +11,15 @@ import java.sql.Statement;
 
 public class CountryDAOImpl implements CountryDAO {
 
-    private ObservableList<Country> countries = FXCollections.observableArrayList();
-
-
+    /**
+     * Retrieves data from the countries table in the database.
+     * Creates country objects and puts them into an ObservableList.
+     * returns the ObservableList to be used for ComboBoxes.
+     * @return ObservableList of country objects.
+     */
     public ObservableList<Country> getCountries() {
+
+        ObservableList<Country> countries = FXCollections.observableArrayList();
 
         String sql = "SELECT Country, Country_ID FROM countries";
 

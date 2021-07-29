@@ -1,5 +1,7 @@
 package wgu.stone.controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -9,11 +11,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import wgu.stone.DAO.implementations.CountryDAOImpl;
+import wgu.stone.DAO.implementations.FirstLevelDivisionsDAOImpl;
+import wgu.stone.DAO.interfaces.CountryDAO;
 import wgu.stone.DAO.interfaces.CustomerDAO;
 import wgu.stone.DAO.implementations.CustomerDAOImpl;
+import wgu.stone.DAO.interfaces.FirstLevelDivisionsDAO;
 import wgu.stone.model.Country;
 import wgu.stone.model.Customer;
-import wgu.stone.model.FirstLevelDivisions;
+import wgu.stone.model.Division;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -32,14 +38,17 @@ public class AddCustomerController implements Initializable {
     @FXML private Button cancelButton;
 
     //ComboBoxes in the AddCustomerForm.
-    @FXML private ComboBox<FirstLevelDivisions> divisionCombo;
+    @FXML private ComboBox<Division> divisionCombo;
     @FXML private ComboBox<Country> countryCombo;
 
     private CustomerDAO customerDAO = new CustomerDAOImpl();
+    private CountryDAO countryDAO = new CountryDAOImpl();
+    private FirstLevelDivisionsDAO firstLevelDivisionsDAO = new FirstLevelDivisionsDAOImpl();
+    private ObservableList<Division> divList = FXCollections.observableArrayList();
 
-    /**
-     * Adds a new customer to the database when hitting the save button.
-     */
+
+
+
     public void addNewCustomer() throws IOException {
 
         String customerName = customerNameField.getText();
@@ -49,13 +58,11 @@ public class AddCustomerController implements Initializable {
         String loggedInUser = LoginController.loggedIn;
         String lastUpdatedBy = LoginController.loggedIn;
         int divisionId = divisionCombo.getSelectionModel().getSelectedItem().getDivisionId();
-        String divisionName = divisionCombo.getSelectionModel().getSelectedItem().getDivisionName();
-        String countryName = countryCombo.getSelectionModel().getSelectedItem().getCountry();
 
         Customer customer = new Customer(customerName, customerAddress, postalCode, customerPhoneNumber,
-                loggedInUser, lastUpdatedBy, divisionId, countryName, divisionName);
+                loggedInUser, lastUpdatedBy, divisionId);
 
-        customerDAO.insertNewCustomer(customer);
+        customerDAO.save(customer);
 
 
         //make this a Util method.
@@ -66,18 +73,16 @@ public class AddCustomerController implements Initializable {
         window.show();
     }
 
-    /**
-     * Sets the divisionComboBox selection to the generated list from the filterDivisionList method.
-     * The selection is based on the country that is selected in the country combobox.
-     */
     public void setDivisionCombo() {
-        customerDAO.filterDivisionList(countryCombo.getSelectionModel().getSelectedItem().toString());
-        divisionCombo.setItems(FirstLevelDivisions.getDivisions());
+
+        int selection = countryCombo.getSelectionModel().getSelectedItem().getCountryId();
+        ObservableList<Division> filtered = divList.filtered(d -> d.getCountryId() == selection);
+        divisionCombo.setItems(filtered);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        customerDAO.getAllCountries();
-        countryCombo.setItems(Country.getCountries());
+        countryCombo.setItems(countryDAO.getCountries());
+        divList = firstLevelDivisionsDAO.getDivisions();
     }
 }

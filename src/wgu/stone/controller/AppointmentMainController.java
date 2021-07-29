@@ -1,4 +1,4 @@
-package wgu.stone.controller;
+/*package wgu.stone.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -97,4 +97,4 @@ public class AppointmentMainController implements Initializable {
         endDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDatetime"));
         customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
     }
-}
+} */

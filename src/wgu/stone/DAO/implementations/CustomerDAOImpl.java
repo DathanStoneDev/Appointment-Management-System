@@ -5,8 +5,6 @@ import javafx.collections.ObservableList;
 import wgu.stone.DAO.interfaces.CustomerDAO;
 import wgu.stone.database.DatabaseConnection;
 import wgu.stone.model.Customer;
-
-import javax.xml.crypto.Data;
 import java.sql.*;
 
 
@@ -15,10 +13,13 @@ import java.sql.*;
  * Contains the method implementations for customers.
  */
 public class CustomerDAOImpl implements CustomerDAO {
+
                                         //CUSTOMER MAIN FORM PAGE
     /**
-     * Gets all the customers in the database and adds them to an observable list.
-     * @return Observable list of customers that is then passed into the Customer controller and initialized there.
+     * Retrieves data from the customers table in the database.
+     * Creates customer objects and puts them into an ObservableList.
+     * returns the ObservableList to be used for ComboBoxes.
+     * @return ObservableList of customer objects.
      */
     @Override
     public ObservableList<Customer> getAll() {
@@ -46,7 +47,11 @@ public class CustomerDAOImpl implements CustomerDAO {
         return null;
     }
 
-
+    /**
+     *
+     * @param customer
+     * @throws SQLException
+     */
     @Override
     public void delete(Customer customer) throws SQLException {
 
@@ -114,24 +119,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             e.printStackTrace();
         }
     }
-    //This needs to go to countries DAO
-    /*@Override
-    public void getAllCountries() {
 
-        String sql = "SELECT Country FROM countries";
-
-        try(Statement statement = DatabaseConnection.getConnection().createStatement();
-            ResultSet rs = statement.executeQuery(sql)) {
-            while(rs.next()) {
-                Country country = new Country();
-                country.setCountry(rs.getString("Country"));
-                Country.addCountries(country);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    } */
-    //this should go into a map. This also is for the appointment selection table for updating and creating appointments
     @Override
     public ObservableList<Customer> getCustomerIdAndName() {
         ObservableList<Customer> customerIdName = FXCollections.observableArrayList();

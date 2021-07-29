@@ -12,11 +12,10 @@ import java.sql.Statement;
 
 public class AppointmentDAOImpl implements AppointmentDAO {
 
-    private ObservableList<Appointment> appointments = FXCollections.observableArrayList();
-
     @Override
     public ObservableList<Appointment> getAll() {
 
+        ObservableList<Appointment> appointments = FXCollections.observableArrayList();
         String sql = "SELECT * FROM appointments";
 
         try(Statement statement = DatabaseConnection.getConnection().createStatement();
@@ -108,6 +107,5 @@ public class AppointmentDAOImpl implements AppointmentDAO {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
-
     }
 }

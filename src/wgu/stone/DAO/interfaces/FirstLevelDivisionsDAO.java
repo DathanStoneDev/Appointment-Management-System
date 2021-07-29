@@ -1,9 +1,12 @@
 package wgu.stone.DAO.interfaces;
 
 import javafx.collections.ObservableList;
-import wgu.stone.model.FirstLevelDivisions;
+import wgu.stone.model.Division;
 
-public interface FirstLevelDivisionsDAO {
+public interface
 
-    ObservableList<FirstLevelDivisions> getDivisions();
+FirstLevelDivisionsDAO {
+
+    ObservableList<Division> getDivisions();
+
 }

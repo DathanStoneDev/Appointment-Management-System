@@ -43,6 +43,7 @@ public class Customer {
     }
 
                                                     //GETTERS
+
     public int getCustomerId() {
         return customerId;
     }

@@ -1,22 +1,18 @@
 package wgu.stone.model;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
-public class FirstLevelDivisions {
+public class Division {
 
     private int divisionId;
     private String divisionName;
+    private int countryId;
 
-
-
-
-    public FirstLevelDivisions(int divisionId, String divisionName) {
+    public Division(int divisionId, String divisionName, int countryId) {
         this.divisionId = divisionId;
         this.divisionName = divisionName;
+        this.countryId = countryId;
     }
 
-    public FirstLevelDivisions() {
+    public Division() {
 
     }
 
@@ -34,6 +30,14 @@ public class FirstLevelDivisions {
 
     public void setDivisionName(String divisionName) {
         this.divisionName = divisionName;
+    }
+
+    public int getCountryId() {
+        return countryId;
+    }
+
+    public void setCountryId(int countryId) {
+        this.countryId = countryId;
     }
 
     @Override
