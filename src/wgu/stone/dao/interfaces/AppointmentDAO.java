@@ -1,4 +1,4 @@
-package wgu.stone.DAO.interfaces;
+package wgu.stone.dao.interfaces;
 
 import wgu.stone.model.Appointment;
 

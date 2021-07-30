@@ -1,6 +1,7 @@
 package wgu.stone.controller;
 
-import javafx.event.ActionEvent;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -10,8 +11,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import wgu.stone.DAO.interfaces.CustomerDAO;
-import wgu.stone.DAO.implementations.CustomerDAOImpl;
+import wgu.stone.dao.implementations.CountryDAOImpl;
+import wgu.stone.dao.implementations.FirstLevelDivisionsDAOImpl;
+import wgu.stone.dao.interfaces.CountryDAO;
+import wgu.stone.dao.interfaces.CustomerDAO;
+import wgu.stone.dao.implementations.CustomerDAOImpl;
+import wgu.stone.dao.interfaces.FirstLevelDivisionsDAO;
 import wgu.stone.model.Country;
 import wgu.stone.model.Customer;
 import wgu.stone.model.Division;
@@ -35,6 +40,11 @@ public class UpdateCustomerController implements Initializable {
     @FXML private Button cancelUpdateButton;
 
     private CustomerDAO customerDAO = new CustomerDAOImpl();
+    private CountryDAO countryDAO = new CountryDAOImpl();
+    private FirstLevelDivisionsDAO firstLevelDivisionsDAO = new FirstLevelDivisionsDAOImpl();
+    private ObservableList<Division> divList = FXCollections.observableArrayList();
+    private ObservableList<Country> countryList = FXCollections.observableArrayList();
+
 
     public void updateCustomer() throws IOException {
         int customerId = Integer.parseInt(customerIdField.getText());
@@ -47,10 +57,10 @@ public class UpdateCustomerController implements Initializable {
         String divisionName = divisionCombo.getSelectionModel().getSelectedItem().getDivisionName();
         String countryName = countryCombo.getSelectionModel().getSelectedItem().getCountry();
 
+        Customer customer = new Customer(customerId, customerName, customerAddress, postalCode, customerPhoneNumber,
+                lastUpdatedBy, divisionId, divisionName, countryName);
 
-
-        //customerDAO.updateCustomer(customer);
-        //make this a Util method.
+        customerDAO.update(customer);
         Parent addCustomer = FXMLLoader.load(getClass().getResource("/wgu/stone/view/CustomerMainForm.fxml"));
         Scene addCustomerScene = new Scene(addCustomer);
         Stage window = (Stage) saveUpdatedCustomerButton.getScene().getWindow();
@@ -70,6 +80,18 @@ public class UpdateCustomerController implements Initializable {
         customerPostalField.setText(customer.getCustomerPostalCode());
         customerPhoneNumberField.setText(customer.getCustomerPhoneNumber());
         customerNameField.setText(customer.getCustomerName());
+        String divisionName = customer.getDivisionName();
+        String countryName = customer.getCountryName();
+        for(Country c : countryList) {
+            if(c.getCountry().equals(countryName)) {
+                countryCombo.setValue(c);
+            }
+        }
+        for(Division d : divList) {
+            if(d.getDivisionName().equals(divisionName)) {
+                divisionCombo.setValue(d);
+            }
+        }
     }
 
 
@@ -84,9 +106,17 @@ public class UpdateCustomerController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        countryList = countryDAO.getCountries();
+        countryCombo.setItems(countryList);
+        divList = firstLevelDivisionsDAO.getDivisions();
+        customerIdField.setDisable(true);
 
     }
 
-    public void setDivisionCombo(ActionEvent event) {
+    public void setDivisionCombo() {
+
+        int selection = countryCombo.getSelectionModel().getSelectedItem().getCountryId();
+        ObservableList<Division> filtered = divList.filtered(d -> d.getCountryId() == selection);
+        divisionCombo.setItems(filtered);
     }
 }

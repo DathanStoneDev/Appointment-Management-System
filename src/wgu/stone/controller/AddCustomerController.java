@@ -11,17 +11,19 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import wgu.stone.DAO.implementations.CountryDAOImpl;
-import wgu.stone.DAO.implementations.FirstLevelDivisionsDAOImpl;
-import wgu.stone.DAO.interfaces.CountryDAO;
-import wgu.stone.DAO.interfaces.CustomerDAO;
-import wgu.stone.DAO.implementations.CustomerDAOImpl;
-import wgu.stone.DAO.interfaces.FirstLevelDivisionsDAO;
+import wgu.stone.dao.implementations.CountryDAOImpl;
+import wgu.stone.dao.implementations.FirstLevelDivisionsDAOImpl;
+import wgu.stone.dao.interfaces.CountryDAO;
+import wgu.stone.dao.interfaces.CustomerDAO;
+import wgu.stone.dao.implementations.CustomerDAOImpl;
+import wgu.stone.dao.interfaces.FirstLevelDivisionsDAO;
 import wgu.stone.model.Country;
 import wgu.stone.model.Customer;
 import wgu.stone.model.Division;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class AddCustomerController implements Initializable {
@@ -58,9 +60,11 @@ public class AddCustomerController implements Initializable {
         String loggedInUser = LoginController.loggedIn;
         String lastUpdatedBy = LoginController.loggedIn;
         int divisionId = divisionCombo.getSelectionModel().getSelectedItem().getDivisionId();
+        String divisionName = divisionCombo.getSelectionModel().getSelectedItem().getDivisionName();
+        String countryName = countryCombo.getSelectionModel().getSelectedItem().getCountry();
 
         Customer customer = new Customer(customerName, customerAddress, postalCode, customerPhoneNumber,
-                loggedInUser, lastUpdatedBy, divisionId);
+                loggedInUser, lastUpdatedBy, divisionId, divisionName, countryName);
 
         customerDAO.save(customer);
 

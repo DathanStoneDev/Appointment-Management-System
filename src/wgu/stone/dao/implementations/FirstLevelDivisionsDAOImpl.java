@@ -1,13 +1,15 @@
-package wgu.stone.DAO.implementations;
+package wgu.stone.dao.implementations;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import wgu.stone.DAO.interfaces.FirstLevelDivisionsDAO;
+import wgu.stone.dao.interfaces.FirstLevelDivisionsDAO;
 import wgu.stone.database.DatabaseConnection;
 import wgu.stone.model.Division;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class FirstLevelDivisionsDAOImpl implements FirstLevelDivisionsDAO {

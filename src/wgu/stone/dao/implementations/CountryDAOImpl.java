@@ -1,8 +1,8 @@
-package wgu.stone.DAO.implementations;
+package wgu.stone.dao.implementations;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import wgu.stone.DAO.interfaces.CountryDAO;
+import wgu.stone.dao.interfaces.CountryDAO;
 import wgu.stone.database.DatabaseConnection;
 import wgu.stone.model.Country;
 import java.sql.ResultSet;

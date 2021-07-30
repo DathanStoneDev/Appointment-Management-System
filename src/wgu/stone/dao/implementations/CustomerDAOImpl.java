@@ -1,10 +1,11 @@
-package wgu.stone.DAO.implementations;
+package wgu.stone.dao.implementations;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import wgu.stone.DAO.interfaces.CustomerDAO;
+import wgu.stone.dao.interfaces.CustomerDAO;
 import wgu.stone.database.DatabaseConnection;
 import wgu.stone.model.Customer;
+
 import java.sql.*;
 
 
@@ -25,7 +26,11 @@ public class CustomerDAOImpl implements CustomerDAO {
     public ObservableList<Customer> getAll() {
 
         ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM customers";
+        String sql = "SELECT c.Customer_ID, c.Customer_Name, c.Address, c.Postal_Code, c.Phone, d.Division, co.Country " +
+                "FROM customers c " +
+                "JOIN first_level_divisions d " +
+                "ON c.Division_ID = d.Division_ID " +
+                "JOIN countries co ON co.Country_ID = d.COUNTRY_ID";
 
         try(Statement statement = DatabaseConnection.getConnection().createStatement();
             ResultSet rs = statement.executeQuery(sql)) {
@@ -36,7 +41,8 @@ public class CustomerDAOImpl implements CustomerDAO {
                 customer.setCustomerAddress(rs.getString("Address"));
                 customer.setCustomerPostalCode(rs.getString("Postal_Code"));
                 customer.setCustomerPhoneNumber(rs.getString("Phone"));
-                customer.setDivisionId(rs.getInt("Division_ID"));
+                customer.setDivisionName(rs.getString("Division"));
+                customer.setCountryName(rs.getString("Country"));
                 allCustomers.add(customer);
             }
             return allCustomers;
@@ -47,28 +53,17 @@ public class CustomerDAOImpl implements CustomerDAO {
         return null;
     }
 
-    /**
-     *
-     * @param customer
-     * @throws SQLException
-     */
+
     @Override
-    public void delete(Customer customer) throws SQLException {
+    public void delete(int id) {
 
-        String sql1 = "DELETE FROM appointments WHERE Customer_ID = ?";
-        String sql2 = "DELETE FROM customers WHERE Customer_Id = ?";
-        Connection conn = DatabaseConnection.getConnection();
-        conn.setAutoCommit(false);
-        try(PreparedStatement preparedStatement1 = conn.prepareStatement(sql1)){
-            preparedStatement1.setInt(1, customer.getCustomerId());
-            try (PreparedStatement preparedStatement2= conn.prepareStatement(sql2)) {
-                preparedStatement2.setInt(1, customer.getCustomerId());
+        String sql = "DELETE FROM customers WHERE Customer_ID = ?";
 
-                conn.commit();
-            }
+        try (PreparedStatement p = DatabaseConnection.getConnection().prepareStatement(sql)) {
+            p.setInt(1, id);
+            p.executeUpdate();
         } catch (SQLException e) {
-            conn.rollback();
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
                                         //ADD CUSTOMER PAGE

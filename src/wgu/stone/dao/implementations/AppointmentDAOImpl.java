@@ -1,8 +1,8 @@
-package wgu.stone.DAO.implementations;
+package wgu.stone.dao.implementations;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import wgu.stone.DAO.interfaces.AppointmentDAO;
+import wgu.stone.dao.interfaces.AppointmentDAO;
 import wgu.stone.database.DatabaseConnection;
 import wgu.stone.model.Appointment;
 import java.sql.PreparedStatement;
@@ -44,12 +44,12 @@ public class AppointmentDAOImpl implements AppointmentDAO {
     }
 
     @Override
-    public void delete(Appointment appointment) {
+    public void delete(int id) {
 
         String sql = "DELETE FROM appointments WHERE Appointment_ID = ?";
 
         try(PreparedStatement preparedStatement = DatabaseConnection.getConnection().prepareStatement(sql)) {
-            preparedStatement.setInt(1, appointment.getAppId());
+            preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

@@ -14,6 +14,8 @@ public class Customer {
     private LocalDateTime lastUpdate;
     private String lastUpdatedBy;
     private int divisionId;
+    private String divisionName;
+    private String countryName;
 
     /**
      * Constructor without customerId.
@@ -26,7 +28,7 @@ public class Customer {
      * @param divisionId
      */
     public Customer(String customerName, String customerAddress, String customerPostalCode, String customerPhoneNumber,
-                    String createdBy, String lastUpdatedBy, int divisionId) {
+                    String createdBy, String lastUpdatedBy, int divisionId, String divisionName, String countryName) {
         this.customerName = customerName;
         this.customerAddress = customerAddress;
         this.customerPostalCode = customerPostalCode;
@@ -34,6 +36,21 @@ public class Customer {
         this.createdBy = createdBy;
         this.lastUpdatedBy = lastUpdatedBy;
         this.divisionId = divisionId;
+        this.divisionName = divisionName;
+        this.countryName = countryName;
+    }
+
+    public Customer(int customerId, String customerName, String customerAddress, String customerPostalCode,
+                    String customerPhoneNumber, String lastUpdatedBy, int divisionId, String divisionName, String countryName) {
+        this.customerId = customerId;
+        this.customerName = customerName;
+        this.customerAddress = customerAddress;
+        this.customerPostalCode = customerPostalCode;
+        this.customerPhoneNumber = customerPhoneNumber;
+        this.lastUpdatedBy = lastUpdatedBy;
+        this.divisionId = divisionId;
+        this.divisionName = divisionName;
+        this.countryName = countryName;
     }
 
     /**
@@ -84,8 +101,17 @@ public class Customer {
         return divisionId;
     }
 
+    public String getDivisionName() {
+        return divisionName;
+    }
+
+    public String getCountryName() {
+        return countryName;
+    }
+
 
                                                     //SETTERS
+
     public void setCustomerId(int customerId) {
         this.customerId = customerId;
     }
@@ -124,5 +150,13 @@ public class Customer {
 
     public void setDivisionId(int divisionId) {
         this.divisionId = divisionId;
+    }
+
+    public void setDivisionName(String divisionName) {
+        this.divisionName = divisionName;
+    }
+
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
     }
 }

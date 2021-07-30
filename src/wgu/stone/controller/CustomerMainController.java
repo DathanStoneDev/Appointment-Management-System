@@ -1,5 +1,7 @@
 package wgu.stone.controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -8,8 +10,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import wgu.stone.DAO.interfaces.CustomerDAO;
-import wgu.stone.DAO.implementations.CustomerDAOImpl;
+import wgu.stone.dao.interfaces.CustomerDAO;
+import wgu.stone.dao.implementations.CustomerDAOImpl;
 import wgu.stone.model.Customer;
 import java.io.IOException;
 import java.net.URL;
@@ -37,17 +39,21 @@ public class CustomerMainController implements Initializable {
     @FXML private Button addAppointmentsButton;
 
     private CustomerDAO customerDAO = new CustomerDAOImpl();
+    private ObservableList<Customer> customers = FXCollections.observableArrayList();
 
     @FXML
     private void deleteCustomer() throws SQLException {
-        Customer customer = customerRecords.getSelectionModel().getSelectedItem();
+        int customerId = customerRecords.getSelectionModel().getSelectedItem().getCustomerId();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Alert");
         alert.setContentText("Are you sure you want to delete this customer?");
         Optional<ButtonType> result = alert.showAndWait();
             if(result.isPresent() && result.get() == ButtonType.OK) {
-                customerDAO.delete(customer);
+                //may need a check here to make sure customer was deleted.
+                customers.removeIf(c -> c.getCustomerId() == customerId);
+                customerDAO.delete(customerId);
             }
+
     }
 
     @FXML
@@ -74,18 +80,37 @@ public class CustomerMainController implements Initializable {
             window.show();
     }
 
+    @FXML
+    private void goToCustomerUpdateForm() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/wgu/stone/view/UpdateCustomerForm.fxml"));
+        Parent updateCustomer = loader.load();
+
+        Scene updateCustomerScene = new Scene(updateCustomer);
+
+        UpdateCustomerController controller = loader.getController();
+        try {
+            controller.initData(customerRecords.getSelectionModel().getSelectedItem());
+            Stage window = (Stage) updateCustomerButton.getScene().getWindow();
+            window.setScene(updateCustomerScene);
+            window.show();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         //Initialize tableview and columns
-        customerRecords.setItems(customerDAO.getAll());
-        customerIdColumn.setCellValueFactory(new PropertyValueFactory<Customer, Integer>("customerId"));
-        customerNameColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerName"));
-        customerPostalCodeColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerPostalCode"));
-        customerPhoneColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerPhoneNumber"));
-        customerAddressColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerAddress"));
-        customerFLDColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("divisionName"));
-        customerCountryColumn.setCellValueFactory((new PropertyValueFactory<Customer, String>("customerCountry")));
+        customers = customerDAO.getAll();
+        customerRecords.setItems(customers);
+        customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        customerPostalCodeColumn.setCellValueFactory(new PropertyValueFactory<>("customerPostalCode"));
+        customerPhoneColumn.setCellValueFactory(new PropertyValueFactory<>("customerPhoneNumber"));
+        customerAddressColumn.setCellValueFactory(new PropertyValueFactory<>("customerAddress"));
+        customerFLDColumn.setCellValueFactory(new PropertyValueFactory<>("divisionName"));
+        customerCountryColumn.setCellValueFactory(new PropertyValueFactory<>("countryName"));
     }
 }

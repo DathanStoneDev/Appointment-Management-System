@@ -5,8 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import wgu.stone.DAO.implementations.FirstLevelDivisionsDAOImpl;
-import wgu.stone.DAO.interfaces.FirstLevelDivisionsDAO;
 import wgu.stone.database.DatabaseConnection;
 
 /**
@@ -35,9 +33,7 @@ public class Main extends Application {
 
         //starts the database connection.
         DatabaseConnection.startConnection();
-        FirstLevelDivisionsDAO firstLevelDivisionsDAO = new FirstLevelDivisionsDAOImpl();
-        firstLevelDivisionsDAO.getDivisions();
-        firstLevelDivisionsDAO.mapStudd();
+
 
         launch(args);
 

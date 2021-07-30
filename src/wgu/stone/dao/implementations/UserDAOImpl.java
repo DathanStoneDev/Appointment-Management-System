@@ -1,6 +1,6 @@
-package wgu.stone.DAO.implementations;
+package wgu.stone.dao.implementations;
 
-import wgu.stone.DAO.interfaces.UserDAO;
+import wgu.stone.dao.interfaces.UserDAO;
 import wgu.stone.database.DatabaseConnection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
