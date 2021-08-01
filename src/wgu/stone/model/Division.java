@@ -2,47 +2,55 @@ package wgu.stone.model;
 
 public class Division {
 
-    private int divisionId;
-    private String divisionName;
-    private int countryId;
+    private int divId;
+    private String divName;
+    private int countryID;
 
-    public Division(int divisionId, String divisionName, int countryId) {
-        this.divisionId = divisionId;
-        this.divisionName = divisionName;
-        this.countryId = countryId;
+    public Division(int divId, String divName) {
+        this.divId = divId;
+        this.divName = divName;
+    }
+
+    public Division(int divId, String divName, int countryID) {
+        this.divId = divId;
+        this.divName = divName;
+        this.countryID = countryID;
     }
 
     public Division() {
 
     }
 
-    public int getDivisionId() {
-        return divisionId;
+    public Division(String divName) {
+        this.divName = divName;
     }
 
-    public void setDivisionId(int divisionId) {
-        this.divisionId = divisionId;
+    public int getDivId() {
+        return divId;
     }
 
-    public String getDivisionName() {
-        return divisionName;
+    public void setDivId(int divId) {
+        this.divId = divId;
     }
 
-    public void setDivisionName(String divisionName) {
-        this.divisionName = divisionName;
+    public String getDivName() {
+        return divName;
     }
 
-    public int getCountryId() {
-        return countryId;
+    public void setDivName(String divName) {
+        this.divName = divName;
     }
 
-    public void setCountryId(int countryId) {
-        this.countryId = countryId;
+    public int getCountryID() {
+        return countryID;
+    }
+
+    public void setCountryID(int countryID) {
+        this.countryID = countryID;
     }
 
     @Override
     public String toString() {
-        return divisionName;
+        return divName;
     }
-
 }

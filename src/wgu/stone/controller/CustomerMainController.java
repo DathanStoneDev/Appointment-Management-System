@@ -80,7 +80,7 @@ public class CustomerMainController implements Initializable {
             window.show();
     }
 
-    @FXML
+   /* @FXML
     private void goToCustomerUpdateForm() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/wgu/stone/view/UpdateCustomerForm.fxml"));
@@ -97,7 +97,7 @@ public class CustomerMainController implements Initializable {
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-    }
+    } */
 
 
     public void initialize(URL url, ResourceBundle resourceBundle) {

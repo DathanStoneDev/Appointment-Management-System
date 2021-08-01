@@ -2,6 +2,7 @@ package wgu.stone.dao.implementations;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import wgu.stone.dao.interfaces.AppointmentDAO;
 import wgu.stone.database.DatabaseConnection;
 import wgu.stone.model.Appointment;
@@ -9,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 
 public class AppointmentDAOImpl implements AppointmentDAO {
 
@@ -107,5 +109,21 @@ public class AppointmentDAOImpl implements AppointmentDAO {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    public ObservableMap<Integer, String> getContactsMap() throws SQLException {
+
+        String sql = "SELECT Contact_ID, Contact_Name FROM contacts";
+        ObservableMap<Integer, String> contactsMap = FXCollections.observableHashMap();
+
+        try(Statement s = DatabaseConnection.getConnection().createStatement();
+        ResultSet rs = s.executeQuery(sql)) {
+            while(rs.next()) {
+                int contactId = rs.getInt("Contact_ID");
+                String contactName = rs.getString("Contact_Name");
+                contactsMap.put(contactId, contactName);
+            }
+            System.out.println(contactsMap);
+        } return contactsMap;
     }
 }

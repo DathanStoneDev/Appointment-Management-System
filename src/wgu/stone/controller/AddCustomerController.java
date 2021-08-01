@@ -1,7 +1,8 @@
-package wgu.stone.controller;
+/*package wgu.stone.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,10 +21,9 @@ import wgu.stone.dao.interfaces.FirstLevelDivisionsDAO;
 import wgu.stone.model.Country;
 import wgu.stone.model.Customer;
 import wgu.stone.model.Division;
+
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 public class AddCustomerController implements Initializable {
@@ -44,9 +44,8 @@ public class AddCustomerController implements Initializable {
     @FXML private ComboBox<Country> countryCombo;
 
     private CustomerDAO customerDAO = new CustomerDAOImpl();
-    private CountryDAO countryDAO = new CountryDAOImpl();
-    private FirstLevelDivisionsDAO firstLevelDivisionsDAO = new FirstLevelDivisionsDAOImpl();
     private ObservableList<Division> divList = FXCollections.observableArrayList();
+
 
 
 
@@ -80,13 +79,13 @@ public class AddCustomerController implements Initializable {
     public void setDivisionCombo() {
 
         int selection = countryCombo.getSelectionModel().getSelectedItem().getCountryId();
-        ObservableList<Division> filtered = divList.filtered(d -> d.getCountryId() == selection);
+        ObservableList<Division> filtered = divList.filtered(d -> d.getCountryID() == selection);
         divisionCombo.setItems(filtered);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        countryCombo.setItems(countryDAO.getCountries());
-        divList = firstLevelDivisionsDAO.getDivisions();
+
+        divList = customerDAO.getDivisionList();
     }
-}
+} */

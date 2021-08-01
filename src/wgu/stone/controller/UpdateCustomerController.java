@@ -1,4 +1,4 @@
-package wgu.stone.controller;
+/*package wgu.stone.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,9 +17,8 @@ import wgu.stone.dao.interfaces.CountryDAO;
 import wgu.stone.dao.interfaces.CustomerDAO;
 import wgu.stone.dao.implementations.CustomerDAOImpl;
 import wgu.stone.dao.interfaces.FirstLevelDivisionsDAO;
-import wgu.stone.model.Country;
 import wgu.stone.model.Customer;
-import wgu.stone.model.Division;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -119,4 +118,4 @@ public class UpdateCustomerController implements Initializable {
         ObservableList<Division> filtered = divList.filtered(d -> d.getCountryId() == selection);
         divisionCombo.setItems(filtered);
     }
-}
+} */

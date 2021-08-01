@@ -13,45 +13,42 @@ public class Customer {
     private String createdBy;
     private LocalDateTime lastUpdate;
     private String lastUpdatedBy;
-    private int divisionId;
-    private String divisionName;
-    private String countryName;
+    private Country country;
+    private Division division;
 
-    /**
-     * Constructor without customerId.
-     * @param customerName
-     * @param customerAddress
-     * @param customerPostalCode
-     * @param customerPhoneNumber
-     * @param createdBy
-     * @param lastUpdatedBy
-     * @param divisionId
-     */
+
     public Customer(String customerName, String customerAddress, String customerPostalCode, String customerPhoneNumber,
-                    String createdBy, String lastUpdatedBy, int divisionId, String divisionName, String countryName) {
+                    String createdBy, String lastUpdatedBy) {
         this.customerName = customerName;
         this.customerAddress = customerAddress;
         this.customerPostalCode = customerPostalCode;
         this.customerPhoneNumber = customerPhoneNumber;
         this.createdBy = createdBy;
         this.lastUpdatedBy = lastUpdatedBy;
-        this.divisionId = divisionId;
-        this.divisionName = divisionName;
-        this.countryName = countryName;
     }
 
     public Customer(int customerId, String customerName, String customerAddress, String customerPostalCode,
-                    String customerPhoneNumber, String lastUpdatedBy, int divisionId, String divisionName, String countryName) {
+                    String customerPhoneNumber, String lastUpdatedBy) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.customerAddress = customerAddress;
         this.customerPostalCode = customerPostalCode;
         this.customerPhoneNumber = customerPhoneNumber;
         this.lastUpdatedBy = lastUpdatedBy;
-        this.divisionId = divisionId;
-        this.divisionName = divisionName;
-        this.countryName = countryName;
     }
+
+    public Customer(int customerId, String customerName, String customerAddress, String customerPostalCode, String customerPhoneNumber, String divName, String countryName) {
+        this.division = new Division(divName);
+        division.setDivName(divName);
+        this.country = new Country(countryName);
+        country.setCountryName(countryName);
+        this.customerId = customerId;
+        this.customerName = customerName;
+        this.customerAddress = customerAddress;
+        this.customerPostalCode = customerPostalCode;
+        this.customerPhoneNumber = customerPhoneNumber;
+    }
+
 
     /**
      * Default constructor.
@@ -97,17 +94,6 @@ public class Customer {
         return lastUpdatedBy;
     }
 
-    public int getDivisionId() {
-        return divisionId;
-    }
-
-    public String getDivisionName() {
-        return divisionName;
-    }
-
-    public String getCountryName() {
-        return countryName;
-    }
 
 
                                                     //SETTERS
@@ -148,15 +134,19 @@ public class Customer {
         this.lastUpdatedBy = lastUpdatedBy;
     }
 
-    public void setDivisionId(int divisionId) {
-        this.divisionId = divisionId;
+    public Division getDivision() {
+        return division;
     }
 
-    public void setDivisionName(String divisionName) {
-        this.divisionName = divisionName;
+    public void setDivision(Division division) {
+        this.division = division;
     }
 
-    public void setCountryName(String countryName) {
-        this.countryName = countryName;
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
     }
 }

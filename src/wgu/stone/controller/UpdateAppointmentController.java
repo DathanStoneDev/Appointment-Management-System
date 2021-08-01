@@ -1,4 +1,4 @@
-package wgu.stone.controller;
+/*package wgu.stone.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,7 +12,6 @@ import wgu.stone.dao.interfaces.ContactDAO;
 import wgu.stone.dao.interfaces.CustomerDAO;
 import wgu.stone.dao.interfaces.UserDAO;
 import wgu.stone.model.Appointment;
-import wgu.stone.model.Contact;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -71,11 +70,11 @@ public class UpdateAppointmentController implements Initializable {
         customerIdField.setText(Integer.toString(appointment.getCustomerId()));
         appIdField.setText(Integer.toString(appointment.getAppId()));
         descriptionField.setText(appointment.getAppDescription());
-
         datePicker.setValue(LocalDate.parse(appointment.getStartDatetime()));
         locationComboBox.setValue(appointment.getAppLocation());
         titleField.setText(appointment.getAppTitle());
-
+        String contactName = appointment.getAppContact();
+        int contactId = appointment.getContactId();
     }
 
 
@@ -87,4 +86,4 @@ public class UpdateAppointmentController implements Initializable {
         appIdField.setDisable(true);
         setTimesForComboBoxes();
     }
-}
+} */

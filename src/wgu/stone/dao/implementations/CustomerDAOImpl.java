@@ -4,7 +4,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import wgu.stone.dao.interfaces.CustomerDAO;
 import wgu.stone.database.DatabaseConnection;
+import wgu.stone.model.Country;
 import wgu.stone.model.Customer;
+import wgu.stone.model.Division;
 
 import java.sql.*;
 
@@ -19,7 +21,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     /**
      * Retrieves data from the customers table in the database.
      * Creates customer objects and puts them into an ObservableList.
-     * returns the ObservableList to be used for ComboBoxes.
+     * returns the ObservableList to be used for the customer tableview
      * @return ObservableList of customer objects.
      */
     @Override
@@ -35,15 +37,17 @@ public class CustomerDAOImpl implements CustomerDAO {
         try(Statement statement = DatabaseConnection.getConnection().createStatement();
             ResultSet rs = statement.executeQuery(sql)) {
             while (rs.next()) {
-                Customer customer = new Customer();
-                customer.setCustomerId(rs.getInt("Customer_ID"));
-                customer.setCustomerName(rs.getString("Customer_Name"));
-                customer.setCustomerAddress(rs.getString("Address"));
-                customer.setCustomerPostalCode(rs.getString("Postal_Code"));
-                customer.setCustomerPhoneNumber(rs.getString("Phone"));
-                customer.setDivisionName(rs.getString("Division"));
-                customer.setCountryName(rs.getString("Country"));
+                int custId = rs.getInt("Customer_ID");
+                String custName = rs.getString("Customer_Name");
+                String address = rs.getString("Address");
+                String postalCode = rs.getString("Postal_Code");
+                String phone = rs.getString("Phone");
+                String divName = rs.getString("Division");
+                String countryName = rs.getString("Country");
+                Customer customer = new Customer(custId, custName, address, postalCode, phone, divName, countryName);
                 allCustomers.add(customer);
+                System.out.println(customer.getDivision().toString());
+                System.out.println(customer.getCountry().toString());
             }
             return allCustomers;
 
@@ -57,9 +61,10 @@ public class CustomerDAOImpl implements CustomerDAO {
     @Override
     public void delete(int id) {
 
-        String sql = "DELETE FROM customers WHERE Customer_ID = ?";
+        String sql1 = "DELETE FROM appointments WHERE Customer_ID = ?";
+        String sql2 = "DELETE FROM customers WHERE Customer_ID = ?";
 
-        try (PreparedStatement p = DatabaseConnection.getConnection().prepareStatement(sql)) {
+        try (PreparedStatement p = DatabaseConnection.getConnection().prepareStatement(sql2)) {
             p.setInt(1, id);
             p.executeUpdate();
         } catch (SQLException e) {
@@ -82,7 +87,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             ps.setString(4, customer.getCustomerPhoneNumber());
             ps.setString(5, customer.getCreatedBy());
             ps.setString(6, customer.getLastUpdatedBy());
-            ps.setInt(7, customer.getDivisionId());
+            //ps.setInt(7, customer.getDivisionId());
             ps.executeUpdate();
 
         } catch (SQLException e) {
@@ -107,7 +112,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             preparedStatement.setString(3, customer.getCustomerPostalCode());
             preparedStatement.setString(4, customer.getCustomerPhoneNumber());
             preparedStatement.setString(5, customer.getLastUpdatedBy());
-            preparedStatement.setInt(6, customer.getDivisionId());
+            //preparedStatement.setInt(6, customer.getDivisionId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -134,5 +139,26 @@ public class CustomerDAOImpl implements CustomerDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public ObservableList<Division> getDivisionList() {
+
+        ObservableList<Division> divisionList = FXCollections.observableArrayList();
+        String sql = "SELECT Division, Division_ID, COUNTRY_ID FROM first_level_divisions";
+
+        try(Statement statement = DatabaseConnection.getConnection().createStatement();
+        ResultSet rs = statement.executeQuery(sql)) {
+            while(rs.next()) {
+                Division division = new Division();
+                division.setDivName(rs.getString("Division"));
+                division.setDivId(rs.getInt("Division_ID"));
+                division.setCountryID(rs.getInt("COUNTRY_ID"));
+                divisionList.add(division);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return divisionList;
     }
 }

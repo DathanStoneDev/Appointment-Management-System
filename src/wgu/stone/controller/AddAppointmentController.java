@@ -1,4 +1,4 @@
-package wgu.stone.controller;
+/*package wgu.stone.controller;
 
 
 import javafx.collections.FXCollections;
@@ -16,7 +16,6 @@ import wgu.stone.dao.interfaces.ContactDAO;
 import wgu.stone.dao.interfaces.CustomerDAO;
 import wgu.stone.dao.interfaces.UserDAO;
 import wgu.stone.model.Appointment;
-import wgu.stone.model.Contact;
 import wgu.stone.model.Customer;
 import java.net.URL;
 import java.time.LocalDate;
@@ -43,7 +42,7 @@ public class AddAppointmentController implements Initializable {
     @FXML private ComboBox<LocalTime> endTimeComboBox;
     @FXML private ComboBox<String> locationComboBox;
     @FXML private ComboBox<Contact> contactNameComboBox;
-    //these may go into the model. - if so, they will need to be public.
+    //may put these in the model.
     protected static final String[] types = {"Consult", "Business", "Project"};
     protected static final ObservableList<String> locations = FXCollections.observableArrayList("Phoenix Arizona",
             "White Plains New York", "Montreal Canada", "London England");
@@ -65,7 +64,7 @@ public class AddAppointmentController implements Initializable {
     private ContactDAO contactDAO = new ContactDAOImpl();
     private CustomerDAO customerDAO = new CustomerDAOImpl();
 
-    //possibly edit this. Works for now.
+    //possibly edit this. Works for now. Maybe a switch
     private String selectAppType() {
         try {
             if(consultType.isSelected()) {
@@ -80,13 +79,6 @@ public class AddAppointmentController implements Initializable {
         } catch (NullPointerException e) {
             e.printStackTrace();
         } return null;
-    }
-
-    //may not need this method and just do locationComboBox.setItems to locations.
-    private void setLocationComboBox() {
-        for(String s : locations) {
-            locationComboBox.getItems().add(s);
-        }
     }
 
     private void setTimesForComboBoxes() {
@@ -152,12 +144,12 @@ public class AddAppointmentController implements Initializable {
         customerTable.setItems(customerDAO.getCustomerIdAndName());
         customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
-        setLocationComboBox();
         setTimesForComboBoxes();
         contactNameComboBox.setItems(contactDAO.getAllContacts());
         typeGroup = new ToggleGroup();
         businessType.setToggleGroup(typeGroup);
         projectType.setToggleGroup(typeGroup);
         consultType.setToggleGroup(typeGroup);
+        locationComboBox.setItems(locations);
     }
-}
+} */
