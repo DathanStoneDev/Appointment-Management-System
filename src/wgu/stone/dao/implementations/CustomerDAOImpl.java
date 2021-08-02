@@ -7,7 +7,6 @@ import wgu.stone.database.DatabaseConnection;
 import wgu.stone.model.Country;
 import wgu.stone.model.Customer;
 import wgu.stone.model.Division;
-
 import java.sql.*;
 
 
@@ -25,7 +24,7 @@ public class CustomerDAOImpl implements CustomerDAO {
      * @return ObservableList of customer objects.
      */
     @Override
-    public ObservableList<Customer> getAll() {
+    public ObservableList<Customer> getCustomerList() {
 
         ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
         String sql = "SELECT c.Customer_ID, c.Customer_Name, c.Address, c.Postal_Code, c.Phone, d.Division, co.Country " +
@@ -37,29 +36,25 @@ public class CustomerDAOImpl implements CustomerDAO {
         try(Statement statement = DatabaseConnection.getConnection().createStatement();
             ResultSet rs = statement.executeQuery(sql)) {
             while (rs.next()) {
-                int custId = rs.getInt("Customer_ID");
-                String custName = rs.getString("Customer_Name");
-                String address = rs.getString("Address");
-                String postalCode = rs.getString("Postal_Code");
-                String phone = rs.getString("Phone");
-                String divName = rs.getString("Division");
-                String countryName = rs.getString("Country");
-                Customer customer = new Customer(custId, custName, address, postalCode, phone, divName, countryName);
+                Customer customer = new Customer();
+                customer.setCustomerId(rs.getInt("Customer_ID"));
+                customer.setCustomerName(rs.getString("Customer_Name"));
+                customer.setCustomerAddress(rs.getString("Address"));
+                customer.setCustomerPostalCode(rs.getString("Postal_Code"));
+                customer.setCustomerPhoneNumber(rs.getString("Phone"));
+                customer.setDivisionName(rs.getString("Division"));
+                customer.setCountryName(rs.getString("Country"));
                 allCustomers.add(customer);
-                System.out.println(customer.getDivision().toString());
-                System.out.println(customer.getCountry().toString());
             }
-            return allCustomers;
-
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return null;
+        return allCustomers;
     }
 
 
     @Override
-    public void delete(int id) {
+    public void deleteCustomer(int id) {
 
         String sql1 = "DELETE FROM appointments WHERE Customer_ID = ?";
         String sql2 = "DELETE FROM customers WHERE Customer_ID = ?";
@@ -71,13 +66,12 @@ public class CustomerDAOImpl implements CustomerDAO {
             e.printStackTrace();
         }
     }
-                                        //ADD CUSTOMER PAGE
 
     @Override
-    public void save(Customer customer) {
+    public void saveCustomer(Customer customer) {
 
-        String sql = "INSERT INTO customers(Customer_Name, Address, Postal_Code, Phone, Created_By, " +
-                "Last_Updated_By, Division_ID) VALUES(?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO customers(Customer_Name, Address, Postal_Code, Phone, " +
+                "Division_ID) VALUES(?, ?, ?, ?, ?)";
 
         try(PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(sql)) {
 
@@ -85,9 +79,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             ps.setString(2, customer.getCustomerAddress());
             ps.setString(3, customer.getCustomerPostalCode());
             ps.setString(4, customer.getCustomerPhoneNumber());
-            ps.setString(5, customer.getCreatedBy());
-            ps.setString(6, customer.getLastUpdatedBy());
-            //ps.setInt(7, customer.getDivisionId());
+            ps.setInt(5, customer.getDivisionId());
             ps.executeUpdate();
 
         } catch (SQLException e) {
@@ -96,49 +88,27 @@ public class CustomerDAOImpl implements CustomerDAO {
         }
     }
 
-                                        //UPDATE CUSTOMER PAGE
     @Override
-    public void update(Customer customer) {
+    public void updateCustomer(Customer customer) {
 
         String sql = "UPDATE customers SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, " +
-                "Last_Updated_By = ?, Division_ID = ? " +
+                "Division_ID = ? "+
                 "WHERE Customer_ID = ?";
 
         try(PreparedStatement preparedStatement = DatabaseConnection.getConnection().prepareStatement(sql)) {
 
-            preparedStatement.setInt(7, customer.getCustomerId());
+            preparedStatement.setInt(6, customer.getCustomerId());
             preparedStatement.setString(1, customer.getCustomerName());
             preparedStatement.setString(2, customer.getCustomerAddress());
             preparedStatement.setString(3, customer.getCustomerPostalCode());
             preparedStatement.setString(4, customer.getCustomerPhoneNumber());
-            preparedStatement.setString(5, customer.getLastUpdatedBy());
-            //preparedStatement.setInt(6, customer.getDivisionId());
+            preparedStatement.setInt(5, customer.getDivisionId());
+
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public ObservableList<Customer> getCustomerIdAndName() {
-        ObservableList<Customer> customerIdName = FXCollections.observableArrayList();
-
-        String sql = "SELECT Customer_ID, Customer_Name FROM customers";
-
-        try(Statement statement = DatabaseConnection.getConnection().createStatement();
-            ResultSet rs = statement.executeQuery(sql)) {
-            while (rs.next()) {
-                Customer customer = new Customer();
-                customer.setCustomerId(rs.getInt("Customer_ID"));
-                customer.setCustomerName(rs.getString("Customer_Name"));
-                customerIdName.add(customer);
-            }
-            return customerIdName;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     @Override
@@ -156,9 +126,51 @@ public class CustomerDAOImpl implements CustomerDAO {
                 division.setCountryID(rs.getInt("COUNTRY_ID"));
                 divisionList.add(division);
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return divisionList;
+    }
+
+    @Override
+    public ObservableList<Country> getCountryList() {
+        ObservableList<Country> countryList = FXCollections.observableArrayList();
+        String sql = "SELECT Country, Country_ID FROM countries";
+
+        try(Statement statement = DatabaseConnection.getConnection().createStatement();
+            ResultSet rs = statement.executeQuery(sql)) {
+            while(rs.next()) {
+                Country country = new Country();
+                country.setCountryName(rs.getString("Country"));
+                country.setCountryId(rs.getInt("Country_ID"));
+                countryList.add(country);
+                System.out.println(country.getCountryId());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println(countryList);
+        return countryList;
+    }
+
+    @Override
+    public ObservableList<Customer> getCustomerIdAndNamesList() {
+
+        ObservableList<Customer> customerIdAndNameList = FXCollections.observableArrayList();
+        String sql = "SELECT Customer_ID, Customer_Name FROM customers";
+
+
+        try(Statement statement = DatabaseConnection.getConnection().createStatement();
+            ResultSet rs = statement.executeQuery(sql)) {
+            while (rs.next()) {
+                Customer customer = new Customer();
+                customer.setCustomerId(rs.getInt("Customer_ID"));
+                customer.setCustomerName(rs.getString("Customer_Name"));
+                customerIdAndNameList.add(customer);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return customerIdAndNameList;
     }
 }

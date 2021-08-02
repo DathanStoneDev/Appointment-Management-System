@@ -1,8 +1,7 @@
-/*package wgu.stone.controller;
+package wgu.stone.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -12,63 +11,66 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import wgu.stone.dao.implementations.CountryDAOImpl;
-import wgu.stone.dao.implementations.FirstLevelDivisionsDAOImpl;
-import wgu.stone.dao.interfaces.CountryDAO;
 import wgu.stone.dao.interfaces.CustomerDAO;
 import wgu.stone.dao.implementations.CustomerDAOImpl;
-import wgu.stone.dao.interfaces.FirstLevelDivisionsDAO;
 import wgu.stone.model.Country;
 import wgu.stone.model.Customer;
 import wgu.stone.model.Division;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class AddCustomerController implements Initializable {
 
-    //TextFields on the Add customer form.
+    //TextFields.
     @FXML private TextField customerNameField;
     @FXML private TextField customerAddressField;
     @FXML private TextField customerPostalField;
     @FXML private TextField customerPhoneNumberField;
 
-    //Buttons on the Add customer form.
+    //Buttons.
     @FXML private Button saveNewCustomerButton;
     @FXML private Button exitAppButton;
     @FXML private Button cancelButton;
 
-    //ComboBoxes in the AddCustomerForm.
+    //ComboBoxes.
     @FXML private ComboBox<Division> divisionCombo;
     @FXML private ComboBox<Country> countryCombo;
 
+    //CustomerDAO Interface to call methods.
     private CustomerDAO customerDAO = new CustomerDAOImpl();
+
+    //List of division objects for the division ComboBox.
     private ObservableList<Division> divList = FXCollections.observableArrayList();
 
+    /**
+     * Initializes the ComboBox Lists.
+     * @param url
+     * @param resourceBundle
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        countryCombo.setItems(customerDAO.getCountryList());
+        divList = customerDAO.getDivisionList();
+    }
 
-
-
-
+    /**
+     * Adds a new customer.
+     * @throws IOException
+     */
     public void addNewCustomer() throws IOException {
 
-        String customerName = customerNameField.getText();
-        String customerAddress = customerAddressField.getText();
-        String postalCode = customerPostalField.getText();
-        String customerPhoneNumber = customerPhoneNumberField.getText();
-        String loggedInUser = LoginController.loggedIn;
-        String lastUpdatedBy = LoginController.loggedIn;
-        int divisionId = divisionCombo.getSelectionModel().getSelectedItem().getDivisionId();
-        String divisionName = divisionCombo.getSelectionModel().getSelectedItem().getDivisionName();
-        String countryName = countryCombo.getSelectionModel().getSelectedItem().getCountry();
+        Customer customer = new Customer();
+        customer.setCustomerName(customerNameField.getText());
+        customer.setCustomerAddress(customerAddressField.getText());
+        customer.setCustomerPostalCode(customerPostalField.getText());
+        customer.setCustomerPhoneNumber(customerPhoneNumberField.getText());
+        customer.setDivisionName(divisionCombo.getSelectionModel().getSelectedItem().getDivName());
+        customer.setCountryName(countryCombo.getSelectionModel().getSelectedItem().getCountryName());
+        customer.setDivisionId(divisionCombo.getSelectionModel().getSelectedItem().getDivId());
 
-        Customer customer = new Customer(customerName, customerAddress, postalCode, customerPhoneNumber,
-                loggedInUser, lastUpdatedBy, divisionId, divisionName, countryName);
+        customerDAO.saveCustomer(customer);
 
-        customerDAO.save(customer);
-
-
-        //make this a Util method.
         Parent addCustomer = FXMLLoader.load(getClass().getResource("/wgu/stone/view/CustomerMainForm.fxml"));
         Scene addCustomerScene = new Scene(addCustomer);
         Stage window = (Stage) saveNewCustomerButton.getScene().getWindow();
@@ -76,6 +78,9 @@ public class AddCustomerController implements Initializable {
         window.show();
     }
 
+    /**
+     * Filters the ComboBox for divisions based on the selection of the country from the country ComboBox.
+     */
     public void setDivisionCombo() {
 
         int selection = countryCombo.getSelectionModel().getSelectedItem().getCountryId();
@@ -83,9 +88,4 @@ public class AddCustomerController implements Initializable {
         divisionCombo.setItems(filtered);
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        divList = customerDAO.getDivisionList();
-    }
-} */
+}

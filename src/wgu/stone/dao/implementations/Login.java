@@ -1,18 +1,12 @@
 package wgu.stone.dao.implementations;
 
-import wgu.stone.dao.interfaces.UserDAO;
 import wgu.stone.database.DatabaseConnection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-//Place this in the database package
 
-
-/**
- * Contains the method implementations for users.
- */
-public class UserDAOImpl implements UserDAO {
+public class Login {
 
     public static String loggedInUser;
 

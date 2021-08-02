@@ -5,14 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import wgu.stone.dao.implementations.AppointmentDAOImpl;
-import wgu.stone.dao.implementations.CustomerDAOImpl;
-import wgu.stone.dao.interfaces.AppointmentDAO;
-import wgu.stone.dao.interfaces.CustomerDAO;
 import wgu.stone.database.DatabaseConnection;
-import wgu.stone.model.Appointment;
-import wgu.stone.model.Customer;
-import wgu.stone.model.Division;
+
 
 import java.sql.SQLException;
 
@@ -42,17 +36,6 @@ public class Main extends Application {
 
         //starts the database connection.
         DatabaseConnection.startConnection();
-        AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
-        appointmentDAO.getContactsMap();
-        CustomerDAO customerDAO = new CustomerDAOImpl();
-        customerDAO.getAll();
-        Division division = new Division();
-        division.setDivId(56);
-        division.setCountryID(34);
-        division.setDivName("yeet");
-        Customer customer = new Customer();
-        customer.setDivision(division);
-        System.out.println(customer.getDivision());
 
         launch(args);
 

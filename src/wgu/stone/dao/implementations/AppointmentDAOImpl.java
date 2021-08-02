@@ -2,23 +2,26 @@ package wgu.stone.dao.implementations;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
 import wgu.stone.dao.interfaces.AppointmentDAO;
 import wgu.stone.database.DatabaseConnection;
 import wgu.stone.model.Appointment;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashMap;
+
 
 public class AppointmentDAOImpl implements AppointmentDAO {
 
     @Override
-    public ObservableList<Appointment> getAll() {
+    public ObservableList<Appointment> getAppointmentsList() {
 
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM appointments";
+        String sql = "SELECT a.Appointment_ID, a.Title, a.Description, a.Location, c.Contact_Name, a.Type, a.Start, " +
+                "a.End, a.Customer_ID, a.User_ID " +
+                "FROM appointments a " +
+                "JOIN contacts c ON c.Contact_ID = a.Contact_ID";
 
         try(Statement statement = DatabaseConnection.getConnection().createStatement();
             ResultSet rs = statement.executeQuery(sql)) {
@@ -32,11 +35,8 @@ public class AppointmentDAOImpl implements AppointmentDAO {
                 appointment.setAppType(rs.getString("Type"));
                 appointment.setStartDatetime(rs.getTimestamp("Start").toLocalDateTime());
                 appointment.setEndDatetime(rs.getTimestamp("End").toLocalDateTime());
-                appointment.setCreatedDatetime(rs.getTimestamp("Create_Date").toLocalDateTime());
-                appointment.setLastUpdate(rs.getTimestamp("Last_Update").toLocalDateTime());
                 appointment.setCustomerId(rs.getInt("Customer_ID"));
                 appointment.setUserId(rs.getInt("User_ID"));
-                appointment.setContactId(rs.getInt("Contact_ID"));
                 appointments.add(appointment);
             }
         } catch (SQLException e) {
@@ -46,7 +46,7 @@ public class AppointmentDAOImpl implements AppointmentDAO {
     }
 
     @Override
-    public void delete(int id) {
+    public void deleteAppointment(int id) {
 
         String sql = "DELETE FROM appointments WHERE Appointment_ID = ?";
 
@@ -60,7 +60,7 @@ public class AppointmentDAOImpl implements AppointmentDAO {
     }
 
     @Override
-    public void update(Appointment appointment) {
+    public void updateAppointment(Appointment appointment) {
 
         String sql = "UPDATE appointments SET Title = ?, Description = ?, Location = ?, `Type` = ?, `Start` = ?, " +
                 "`End` = ?, Last_Updated_By = ?, Last_Update = ?, Contact_ID = ?, User_ID = ? WHERE Appointment_ID = ?";
@@ -85,7 +85,7 @@ public class AppointmentDAOImpl implements AppointmentDAO {
     }
 
     @Override
-    public void save(Appointment appointment) {
+    public void saveAppointment(Appointment appointment) {
 
         String sql = "INSERT INTO appointments(Title, Description, Location, `Type`, `Start`, `End`, Created_By, " +
                 "Last_Updated_By, Customer_ID, Contact_ID, User_ID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -111,19 +111,21 @@ public class AppointmentDAOImpl implements AppointmentDAO {
         }
     }
 
-    public ObservableMap<Integer, String> getContactsMap() throws SQLException {
+    @Override
+    public ObservableList<String> getContactsList() {
 
-        String sql = "SELECT Contact_ID, Contact_Name FROM contacts";
-        ObservableMap<Integer, String> contactsMap = FXCollections.observableHashMap();
+        String sql = "SELECT Contact_Name FROM contacts";
+        ObservableList<String> contactsList = FXCollections.observableArrayList();
 
-        try(Statement s = DatabaseConnection.getConnection().createStatement();
-        ResultSet rs = s.executeQuery(sql)) {
+        try(Statement statement = DatabaseConnection.getConnection().createStatement();
+        ResultSet rs = statement.executeQuery(sql)) {
             while(rs.next()) {
-                int contactId = rs.getInt("Contact_ID");
-                String contactName = rs.getString("Contact_Name");
-                contactsMap.put(contactId, contactName);
+                String name = rs.getString("Contact_Name");
+                contactsList.add(name);
             }
-            System.out.println(contactsMap);
-        } return contactsMap;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return contactsList;
     }
 }

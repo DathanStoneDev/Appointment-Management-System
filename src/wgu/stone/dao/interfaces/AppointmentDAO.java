@@ -1,10 +1,12 @@
 package wgu.stone.dao.interfaces;
 
-import javafx.collections.ObservableMap;
+import javafx.collections.ObservableList;
 import wgu.stone.model.Appointment;
 
-import java.sql.SQLException;
-
-public interface AppointmentDAO extends GenericDAO<Appointment> {
-    ObservableMap<Integer, String> getContactsMap() throws SQLException;
+public interface AppointmentDAO {
+    ObservableList<Appointment> getAppointmentsList();
+    void deleteAppointment(int id);
+    void updateAppointment(Appointment appointment);
+    void saveAppointment(Appointment appointment);
+    ObservableList<String> getContactsList();
 }

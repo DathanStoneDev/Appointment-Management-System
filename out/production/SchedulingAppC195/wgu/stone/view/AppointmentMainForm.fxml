@@ -7,30 +7,33 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="618.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.stone.controller.AppointmentMainController">
-   <children>
-      <Label layoutX="273.0" layoutY="22.0" text="Appointment Records">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Label>
-      <TableView fx:id="appointmentTableView" layoutY="112.0" prefHeight="317.0" prefWidth="949.0">
-        <columns>
-          <TableColumn fx:id="appointmentIdColumn" prefWidth="54.0" text="App. ID" />
-          <TableColumn fx:id="titleColumn" prefWidth="74.0" text="Title" />
-            <TableColumn fx:id="descriptionColumn" prefWidth="181.0" text="Description" />
-            <TableColumn fx:id="locationColumn" prefWidth="78.0" text="Location" />
-            <TableColumn fx:id="contactColumn" text="Contact" />
-            <TableColumn fx:id="typeColumn" prefWidth="65.0" text="Type" />
-            <TableColumn fx:id="startDateColumn" prefWidth="173.0" text="Start Date" />
-            <TableColumn fx:id="endDateColumn" prefWidth="121.0" text="End Date" />
-            <TableColumn fx:id="customerIdColumn" prefWidth="122.0" text="Cust. ID" />
-        </columns>
-      </TableView>
-      <Button fx:id="addAppointmentButton" layoutX="14.0" layoutY="442.0" mnemonicParsing="false" onAction="#goToAddAppForm" prefHeight="25.0" prefWidth="75.0" text="Add" />
-      <Button fx:id="updateAppointmentButton" layoutX="98.0" layoutY="442.0" mnemonicParsing="false" onAction="#goToUpdateForm" prefHeight="25.0" prefWidth="75.0" text="Update" />
-      <Button fx:id="deleteAppointmentButton" layoutX="183.0" layoutY="442.0" mnemonicParsing="false" onAction="#deleteAppointment" prefHeight="25.0" prefWidth="75.0" text="Delete" />
-      <Button layoutX="564.0" layoutY="442.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="154.0" text="Back To Main Screen" />
-      <Button layoutX="694.0" layoutY="10.0" mnemonicParsing="false" text="X" />
-   </children>
+<AnchorPane prefHeight="618.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="wgu.stone.controller.AppointmentMainController">
+    <Label layoutX="273.0" layoutY="22.0" text="Appointment Records">
+        <font>
+          <Font name="System Bold" size="18.0"/>
+        </font>
+    </Label>
+    <TableView fx:id="appointmentTableView" layoutY="112.0" prefHeight="317.0" prefWidth="949.0">
+      <columns>
+          <TableColumn fx:id="appointmentIdColumn" prefWidth="54.0" text="App. ID"/>
+          <TableColumn fx:id="titleColumn" prefWidth="74.0" text="Title"/>
+          <TableColumn fx:id="descriptionColumn" prefWidth="181.0" text="Description"/>
+          <TableColumn fx:id="locationColumn" prefWidth="78.0" text="Location"/>
+          <TableColumn fx:id="contactColumn" text="Contact"/>
+          <TableColumn fx:id="typeColumn" prefWidth="65.0" text="Type"/>
+          <TableColumn fx:id="startDateColumn" prefWidth="173.0" text="Start Date"/>
+          <TableColumn fx:id="endDateColumn" prefWidth="121.0" text="End Date"/>
+          <TableColumn fx:id="customerIdColumn" prefWidth="122.0" text="Cust. ID"/>
+      </columns>
+    </TableView>
+    <Button fx:id="addAppointmentButton" layoutX="14.0" layoutY="442.0" mnemonicParsing="false"
+            onAction="#goToAddAppForm" prefHeight="25.0" prefWidth="75.0" text="Add"/>
+    <Button fx:id="updateAppointmentButton" layoutX="98.0" layoutY="442.0" mnemonicParsing="false"
+             prefHeight="25.0" prefWidth="75.0" text="Update"/>
+    <Button fx:id="deleteAppointmentButton" layoutX="183.0" layoutY="442.0" mnemonicParsing="false"
+            onAction="#deleteAppointment" prefHeight="25.0" prefWidth="75.0" text="Delete"/>
+    <Button layoutX="564.0" layoutY="442.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="154.0"
+            text="Back To Main Screen"/>
+    <Button layoutX="694.0" layoutY="10.0" mnemonicParsing="false" text="X"/>
 </AnchorPane>

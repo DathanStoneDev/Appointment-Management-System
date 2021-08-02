@@ -27,11 +27,11 @@
     </TableView>
     <ButtonBar layoutX="14.0" layoutY="330.0" prefHeight="40.0" prefWidth="425.0">
       <buttons>
-          <Button fx:id="addCustomerButton" mnemonicParsing="false" onAction="#goToCustAdd" text="Add Customer" />
+          <Button fx:id="addCustomerButton" mnemonicParsing="false" onAction="#goToCustomerAddForm" text="Add Customer" />
           <Button fx:id="updateCustomerButton" mnemonicParsing="false" onAction="#goToCustomerUpdateForm" text="Update Customer" />
           <Button fx:id="deleteCustomerButton" minWidth="33.0" mnemonicParsing="false" onAction="#deleteCustomer" prefHeight="25.0" prefWidth="218.0" text="Delete Customer" />
       </buttons>
     </ButtonBar>
     <Button fx:id="exitAppButton" layoutX="760.0" layoutY="14.0" mnemonicParsing="false" onAction="#exitApplication" text="X" />
-    <Button fx:id="addAppointmentButton" layoutX="606.0" layoutY="337.0" mnemonicParsing="false" onAction="#goToAppointmentAddForm" prefHeight="25.0" prefWidth="154.0" text="Add Appointment" />
+    <Button fx:id="addAppointmentButton" layoutX="606.0" layoutY="337.0" mnemonicParsing="false" onAction="#goToMainAppointmentForm" prefHeight="25.0" prefWidth="154.0" text="View Appointments" />
 </AnchorPane>

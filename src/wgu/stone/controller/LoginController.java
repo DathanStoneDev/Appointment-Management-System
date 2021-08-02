@@ -10,8 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import wgu.stone.dao.interfaces.UserDAO;
-import wgu.stone.dao.implementations.UserDAOImpl;
+import wgu.stone.dao.implementations.Login;
 import java.io.IOException;
 import java.net.URL;
 import java.time.ZoneId;
@@ -21,28 +20,28 @@ import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
 
-    //fields for username and password.
+    //TextFields.
     @FXML private TextField userNameField;
     @FXML private PasswordField passwordField;
 
-    //button for logging in.
+    //Buttons.
     @FXML private Button loginButton;
     @FXML private Button exitAppButton;
 
-    //labels for the login screen
+    //labels.
     @FXML private Label locationLabel;
     @FXML private Label loginErrorLabel;
     @FXML private Label usernameLabel;
     @FXML private Label passwordLabel;
     @FXML private Label titleLabel;
 
-
-    private UserDAO userDAO = new UserDAOImpl();
+    //Provides the login methods
+    private Login login = new Login();
 
     //Resource bundle that gets the locale of a user.
     private ResourceBundle rb = ResourceBundle.getBundle("Nat", Locale.getDefault());
-    private String userName;
-    private String userPassword;
+
+    //Logged in user.
     protected static String loggedIn;
 
 
@@ -50,9 +49,9 @@ public class LoginController implements Initializable {
      * Logging into the application. Linked to the loginButton.
      */
     public String loginToApp() throws IOException {
-        userName = userNameField.getText();
-        userPassword = passwordField.getText();
-        if(userDAO.checkUserInfo(userName, userPassword)) {
+        String userName = userNameField.getText();
+        String userPassword = passwordField.getText();
+        if(login.checkUserInfo(userName, userPassword)) {
             loggedIn = userName;
             Parent addProduct = FXMLLoader.load(getClass().getResource("/wgu/stone/view/CustomerMainForm.fxml"));
             Scene addProductScene = new Scene(addProduct);
@@ -83,6 +82,9 @@ public class LoginController implements Initializable {
         loginButton.setText(rb.getString("loginButton"));
     }
 
+    /**
+     * Exits the application.
+     */
     public void exitApplication() {
         Stage window = (Stage) exitAppButton.getScene().getWindow();
         window.close();

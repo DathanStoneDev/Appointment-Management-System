@@ -1,4 +1,4 @@
-/*package wgu.stone.controller;
+package wgu.stone.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,8 +10,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import wgu.stone.dao.implementations.AppointmentDAOImpl;
+import wgu.stone.dao.interfaces.AppointmentDAO;
 import wgu.stone.model.Appointment;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -48,7 +49,7 @@ public class AppointmentMainController implements Initializable {
         window.show();
     }
 
-    @FXML
+    /*@FXML
     private void goToUpdateForm() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/wgu/stone/view/UpdateAppointmentForm.fxml"));
@@ -64,27 +65,17 @@ public class AppointmentMainController implements Initializable {
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-    }
+    } */
 
     @FXML
     private void deleteAppointment() {
-        appointmentDAO.delete(appointmentTableView.getSelectionModel().getSelectedItem());
+        appointmentDAO.deleteAppointment(appointmentTableView.getSelectionModel().getSelectedItem().getAppId());
     }
-
-
-
-
-
-
-
-
-
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        appointmentTableView.setItems(appointmentDAO.getAll());
+        appointmentTableView.setItems(appointmentDAO.getAppointmentsList());
         appointmentIdColumn.setCellValueFactory(new PropertyValueFactory<>("appId"));
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("appTitle"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("appDescription"));
@@ -95,4 +86,4 @@ public class AppointmentMainController implements Initializable {
         endDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDatetime"));
         customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
     }
-} */
+}
