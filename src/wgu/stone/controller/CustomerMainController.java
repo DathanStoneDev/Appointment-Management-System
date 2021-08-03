@@ -94,18 +94,12 @@ public class CustomerMainController implements Initializable {
      * @throws IOException
      */
     @FXML
-    private void goToMainAppointmentForm() {
-        try {
-            Parent mainApp = FXMLLoader.load(getClass().getResource("/wgu/stone/view/AppointmentMainForm.fxml"));
-            Scene mainAppScene = new Scene(mainApp);
-            Stage window = (Stage) addAppointmentsButton.getScene().getWindow();
-            window.setScene(mainAppScene);
-            window.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
+    private void goToMainAppointmentForm() throws IOException {
+        Parent addAppointment = FXMLLoader.load(getClass().getResource("/wgu/stone/view/AppointmentMainForm.fxml"));
+        Scene addAppointmentScene = new Scene(addAppointment);
+        Stage window = (Stage) addCustomerButton.getScene().getWindow();
+        window.setScene(addAppointmentScene);
+        window.show();
 
     }
 

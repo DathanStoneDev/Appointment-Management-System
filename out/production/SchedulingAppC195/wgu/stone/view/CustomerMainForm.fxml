@@ -33,5 +33,5 @@
       </buttons>
     </ButtonBar>
     <Button fx:id="exitAppButton" layoutX="760.0" layoutY="14.0" mnemonicParsing="false" onAction="#exitApplication" text="X" />
-    <Button fx:id="addAppointmentButton" layoutX="606.0" layoutY="337.0" mnemonicParsing="false" onAction="#goToMainAppointmentForm" prefHeight="25.0" prefWidth="154.0" text="Add Appointment" />
+    <Button fx:id="addAppointmentButton" layoutX="606.0" layoutY="337.0" mnemonicParsing="false" onAction="#goToMainAppointmentForm" prefHeight="25.0" prefWidth="154.0" text="View Appointments" />
 </AnchorPane>

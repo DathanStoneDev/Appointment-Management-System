@@ -12,10 +12,6 @@ public class Appointment {
     private String appType;
     private LocalDateTime startDatetime;
     private LocalDateTime endDatetime;
-    private LocalDateTime createdDatetime;
-    private String createdBy;
-    private LocalDateTime lastUpdate;
-    private String lastUpdateBy;
     private int customerId;
     private String appContact;
     private int userId;
@@ -28,16 +24,14 @@ public class Appointment {
     }
 
     public Appointment(String appTitle, String appDescription, String appLocation, String appType,
-                       LocalDateTime startDatetime, LocalDateTime endDatetime, String createdBy,
-                       String lastUpdateBy, String appContact, int contactId, int userId, int customerId) {
+                     LocalDateTime startDatetime, LocalDateTime endDatetime,
+                       String appContact, int contactId, int userId, int customerId) {
         this.appTitle = appTitle;
         this.appDescription = appDescription;
         this.appLocation = appLocation;
         this.appType = appType;
         this.startDatetime = startDatetime;
         this.endDatetime = endDatetime;
-        this.createdBy = createdBy;
-        this.lastUpdateBy = lastUpdateBy;
         this.appContact = appContact;
         this.contactId = contactId;
         this.userId = userId;
@@ -84,9 +78,9 @@ public class Appointment {
     }
 
     public String getStartDatetime() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String formatted = startDatetime.format(formatter);
-        return formatted;
+        DateTimeFormatter d = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String format = startDatetime.format(d);
+        return format;
     }
 
     public void setStartDatetime(LocalDateTime startDatetime) {
@@ -94,45 +88,13 @@ public class Appointment {
     }
 
     public String getEndDatetime() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String formatted = endDatetime.format(formatter);
-        return formatted;
+        DateTimeFormatter d = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formatEnd = endDatetime.format(d);
+        return formatEnd;
     }
 
     public void setEndDatetime(LocalDateTime endDatetime) {
         this.endDatetime = endDatetime;
-    }
-
-    public LocalDateTime getCreatedDatetime() {
-        return createdDatetime;
-    }
-
-    public void setCreatedDatetime(LocalDateTime createdDatetime) {
-        this.createdDatetime = createdDatetime;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public LocalDateTime getLastUpdate() {
-        return lastUpdate;
-    }
-
-    public void setLastUpdate(LocalDateTime lastUpdate) {
-        this.lastUpdate = lastUpdate;
-    }
-
-    public String getLastUpdateBy() {
-        return lastUpdateBy;
-    }
-
-    public void setLastUpdateBy(String lastUpdateBy) {
-        this.lastUpdateBy = lastUpdateBy;
     }
 
     public int getCustomerId() {

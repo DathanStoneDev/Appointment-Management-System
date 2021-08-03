@@ -49,7 +49,7 @@ public class AppointmentMainController implements Initializable {
         window.show();
     }
 
-    /*@FXML
+    @FXML
     private void goToUpdateForm() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/wgu/stone/view/UpdateAppointmentForm.fxml"));
@@ -65,7 +65,7 @@ public class AppointmentMainController implements Initializable {
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-    } */
+    }
 
     @FXML
     private void deleteAppointment() {

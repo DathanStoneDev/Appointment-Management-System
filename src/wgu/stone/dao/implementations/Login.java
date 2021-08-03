@@ -1,6 +1,8 @@
 package wgu.stone.dao.implementations;
 
 import wgu.stone.database.DatabaseConnection;
+import wgu.stone.model.User;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -35,7 +37,8 @@ public class Login {
     }
 
 
-    public int getUserInfo(String userName) {
+    /*public User getUserId(String userName) {
+
         String sql = "SELECT User_ID FROM users WHERE User_Name = ?";
 
         try(PreparedStatement p = DatabaseConnection.getConnection().prepareStatement(sql)) {
@@ -43,12 +46,11 @@ public class Login {
             ResultSet rs = p.executeQuery();
             while (rs.next()) {
                 int userId = rs.getInt("User_ID");
-                return userId;
+                User user = new User(userId);
             }
             rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 0;
-    }
+    } */
 }
