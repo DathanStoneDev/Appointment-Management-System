@@ -25,13 +25,13 @@
          <TableColumn fx:id="customerCountryColumn" prefWidth="143.0" text="Country" />
       </columns>
     </TableView>
-    <ButtonBar layoutX="14.0" layoutY="329.0" prefHeight="40.0" prefWidth="249.0">
+    <ButtonBar layoutX="14.0" layoutY="330.0" prefHeight="40.0" prefWidth="425.0">
       <buttons>
-          <Button fx:id="addCustomerButton" mnemonicParsing="false" onAction="#goToAddCustomerForm" text="Add" />
-          <Button fx:id="updateCustomerButton" mnemonicParsing="false" onAction="#goToUpdateCustomerForm" text="Update" />
-          <Button fx:id="deleteCustomerButton" mnemonicParsing="false" text="Delete" />
+          <Button fx:id="addCustomerButton" mnemonicParsing="false" onAction="#goToCustomerAddForm" text="Add Customer" />
+          <Button fx:id="updateCustomerButton" mnemonicParsing="false" onAction="#goToCustomerUpdateForm" text="Update Customer" />
+          <Button fx:id="deleteCustomerButton" minWidth="33.0" mnemonicParsing="false" onAction="#deleteCustomer" prefHeight="25.0" prefWidth="218.0" text="Delete Customer" />
       </buttons>
     </ButtonBar>
     <Button fx:id="exitAppButton" layoutX="760.0" layoutY="14.0" mnemonicParsing="false" onAction="#exitApplication" text="X" />
-    <Button fx:id="viewAppointmentsButton" layoutX="606.0" layoutY="337.0" mnemonicParsing="false" onAction="#goToAppointmentMainForm" prefHeight="25.0" prefWidth="154.0" text="View Appointments" />
+    <Button fx:id="addAppointmentButton" layoutX="606.0" layoutY="337.0" mnemonicParsing="false" onAction="#goToMainAppointmentForm" prefHeight="25.0" prefWidth="154.0" text="View Appointments" />
 </AnchorPane>

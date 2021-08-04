@@ -31,14 +31,14 @@ public class DatabaseConnection {
 
     /**
      * gets the connection without restarting the process through the DriverManager.
-     * @return conn
+     * @return returns connection.
      */
     public static Connection getConnection() { return conn; }
 
 
     /**
-     * closes the connection
-     * @return null if the connection could not be closed.
+     * closes the connection.
+     * @return returns null if the connection could not be closed.
      */
     public static Connection closeConnection() {
         try {

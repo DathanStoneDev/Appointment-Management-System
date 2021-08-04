@@ -1,26 +1,29 @@
 package wgu.stone.controller;
 
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import wgu.stone.DAO.*;
+import wgu.stone.dao.implementations.AppointmentDAOImpl;
+import wgu.stone.dao.implementations.CustomerDAOImpl;
+import wgu.stone.dao.interfaces.AppointmentDAO;
+import wgu.stone.dao.interfaces.CustomerDAO;
 import wgu.stone.model.Appointment;
-import wgu.stone.model.Contact;
 import wgu.stone.model.Customer;
 import java.net.URL;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class AddAppointmentController implements Initializable {
 
     //Customer tableview
-    @FXML private TableView customerTable;
+    @FXML private TableView<Customer> customerTable;
     @FXML private TableColumn<Customer, Integer> customerIdColumn;
     @FXML private TableColumn<Customer, String> customerNameColumn;
 
@@ -35,8 +38,9 @@ public class AddAppointmentController implements Initializable {
     @FXML private ComboBox<LocalTime> startTimeComboBox;
     @FXML private ComboBox<LocalTime> endTimeComboBox;
     @FXML private ComboBox<String> locationComboBox;
-    @FXML private ComboBox<Contact> contactNameComboBox;
-    //these may go into the model. - if so, they will need to be public.
+    @FXML private ComboBox<String> contactNameComboBox;
+
+    //may put these in the model.
     protected static final String[] types = {"Consult", "Business", "Project"};
     protected static final ObservableList<String> locations = FXCollections.observableArrayList("Phoenix Arizona",
             "White Plains New York", "Montreal Canada", "London England");
@@ -54,11 +58,12 @@ public class AddAppointmentController implements Initializable {
 
     //DAO Interface Instances
     private AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
-    private UserDAO userDAO = new UserDAOImpl();
-    private ContactDAO contactDAO = new ContactDAOImpl();
     private CustomerDAO customerDAO = new CustomerDAOImpl();
 
-    //possibly edit this. Works for now.
+    //DateTimeFormatters
+    protected static DateTimeFormatter d1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    //possibly edit this. Works for now. Maybe a switch
     private String selectAppType() {
         try {
             if(consultType.isSelected()) {
@@ -75,12 +80,6 @@ public class AddAppointmentController implements Initializable {
         } return null;
     }
 
-    private void setLocationComboBox() {
-        for(String s : locations) {
-            locationComboBox.getItems().add(s);
-        }
-    }
-
     private void setTimesForComboBoxes() {
 
         LocalTime start = LocalTime.of(8, 0);
@@ -94,61 +93,52 @@ public class AddAppointmentController implements Initializable {
     }
 
 
-    private LocalDateTime createStartLocaleDateTime() {
+    private String createStartLocaleDateTime() {
 
         LocalDate startDate = datePicker.getValue();
         LocalTime startTime = startTimeComboBox.getValue();
         LocalDateTime start = LocalDateTime.of(startDate, startTime);
-        return start;
+        String startFinal = start.format(d1);
+        return startFinal;
     }
 
-    private LocalDateTime createEndLocaleDateTime() {
+    private String createEndLocaleDateTime() {
 
         LocalDate endDate = datePicker.getValue();
         LocalTime endTime = endTimeComboBox.getValue();
         LocalDateTime end = LocalDateTime.of(endDate, endTime);
-        return end;
+        String endFinal = end.format(d1);
+        return endFinal;
     }
 
     @FXML
     private void addNewAppointment() {
 
-            String appTitle = titleField.getText();
-            String appDesc = descriptionField.getText();
-            LocalDateTime startTime= createStartLocaleDateTime();
-            LocalDateTime endTime = createEndLocaleDateTime();
-            String location = locationComboBox.getValue();
-            String type = selectAppType();
-            String contactName = contactNameComboBox.getValue().getContactName();
-            int contactId = contactNameComboBox.getValue().getContactId();
-            String lastUpdatedBy = LoginController.loggedIn;
-            String createdBy = LoginController.loggedIn;
-            int userId = userDAO.getUserInfo(LoginController.loggedIn);
-            Customer customer = (Customer) customerTable.getSelectionModel().getSelectedItem();
-            int customerId = customer.getCustomerId();
+        Appointment appointment = new Appointment();
+        appointment.setAppTitle(titleField.getText());
+        appointment.setAppDescription(descriptionField.getText());
+        appointment.setAppLocation(locationComboBox.getValue());
+        appointment.setAppContact(contactNameComboBox.getValue());
+        appointment.setAppType(selectAppType());
+        appointment.setStartDatetime(createStartLocaleDateTime());
+        appointment.setEndDatetime(createEndLocaleDateTime());
+        appointment.setCustomerId(customerTable.getSelectionModel().getSelectedItem().getCustomerId());
+        appointment.setUserId(LoginController.loggedInUser);
 
-            Appointment appointment = new Appointment(appTitle, appDesc, location, type, startTime,
-                    endTime, lastUpdatedBy, createdBy, contactName, contactId, userId, customerId);
-
-            try {
-                appointmentDAO.save(appointment);
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println(e.getLocalizedMessage());
-            }
+        appointmentDAO.saveAppointment(appointment);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        customerTable.setItems(customerDAO.getCustomerIdAndName());
+        customerTable.setItems(customerDAO.getCustomerIdAndNamesList());
         customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
-        setLocationComboBox();
         setTimesForComboBoxes();
-        contactNameComboBox.setItems(contactDAO.getAllContacts());
+        contactNameComboBox.setItems(appointmentDAO.getContactsList());
         typeGroup = new ToggleGroup();
         businessType.setToggleGroup(typeGroup);
         projectType.setToggleGroup(typeGroup);
         consultType.setToggleGroup(typeGroup);
+        locationComboBox.setItems(locations);
     }
 }

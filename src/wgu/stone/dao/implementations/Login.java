@@ -1,21 +1,12 @@
-package wgu.stone.DAO;
+package wgu.stone.dao.implementations;
 
 import wgu.stone.database.DatabaseConnection;
-import wgu.stone.model.User;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-//Place this in the database package
 
-
-/**
- * Contains the method implementations for users.
- */
-public class UserDAOImpl implements UserDAO{
-
-    public static String loggedInUser;
+public class Login {
 
     /**
      * validates the username and password.
@@ -23,7 +14,7 @@ public class UserDAOImpl implements UserDAO{
      * @param up user password is passed.
      * @return true if username and password have a match in the database. Else, false.
      */
-    //May add this to Database Util, as Creating users is out of scope.
+
     public boolean checkUserInfo(String un, String up) {
 
         String sql = "SELECT User_Name, Password FROM users WHERE User_Name = ? AND Password = ?";
@@ -41,8 +32,9 @@ public class UserDAOImpl implements UserDAO{
         } return false;
     }
 
-    //not a good method for this. Rewrite.
-    public int getUserInfo(String userName) {
+    public int getUserId (String userName) {
+
+        int loggedInUserId = 0;
         String sql = "SELECT User_ID FROM users WHERE User_Name = ?";
 
         try(PreparedStatement p = DatabaseConnection.getConnection().prepareStatement(sql)) {
@@ -50,12 +42,12 @@ public class UserDAOImpl implements UserDAO{
             ResultSet rs = p.executeQuery();
             while (rs.next()) {
                 int userId = rs.getInt("User_ID");
-                return userId;
+                loggedInUserId = userId;
             }
             rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 0;
+        return loggedInUserId;
     }
 }

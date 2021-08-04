@@ -1,10 +1,5 @@
 package wgu.stone.model;
 
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
-
 public class Appointment {
 
     private int appId;
@@ -12,15 +7,10 @@ public class Appointment {
     private String appDescription;
     private String appLocation;
     private String appType;
-    private LocalDateTime startDatetime;
-    private LocalDateTime endDatetime;
-    private LocalDateTime createdDatetime;
-    private String createdBy;
-    private LocalDateTime lastUpdate;
-    private String lastUpdateBy;
+    private String startDatetime;
+    private String endDatetime;
     private int customerId;
     private String appContact;
-    private int contactId;
     private int userId;
 
 
@@ -28,17 +18,16 @@ public class Appointment {
 
     }
 
-    public Appointment(String appTitle, String appDescription, String appLocation, String appType, LocalDateTime startDatetime, LocalDateTime endDatetime, String createdBy, String lastUpdateBy, String appContact, int contactId, int userId, int customerId) {
+    public Appointment(String appTitle, String appDescription, String appLocation, String appType,
+                     String startDatetime,String endDatetime,
+                       String appContact, int userId, int customerId) {
         this.appTitle = appTitle;
         this.appDescription = appDescription;
         this.appLocation = appLocation;
         this.appType = appType;
         this.startDatetime = startDatetime;
         this.endDatetime = endDatetime;
-        this.createdBy = createdBy;
-        this.lastUpdateBy = lastUpdateBy;
         this.appContact = appContact;
-        this.contactId = contactId;
         this.userId = userId;
         this.customerId = customerId;
 }
@@ -83,55 +72,19 @@ public class Appointment {
     }
 
     public String getStartDatetime() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String formatted = startDatetime.format(formatter);
-        return formatted;
+        return startDatetime;
     }
 
-    public void setStartDatetime(LocalDateTime startDatetime) {
+    public void setStartDatetime(String startDatetime) {
         this.startDatetime = startDatetime;
     }
 
     public String getEndDatetime() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String formatted = endDatetime.format(formatter);
-        return formatted;
+        return endDatetime;
     }
 
-    public void setEndDatetime(LocalDateTime endDatetime) {
+    public void setEndDatetime(String endDatetime) {
         this.endDatetime = endDatetime;
-    }
-
-    public LocalDateTime getCreatedDatetime() {
-        return createdDatetime;
-    }
-
-    public void setCreatedDatetime(LocalDateTime createdDatetime) {
-        this.createdDatetime = createdDatetime;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public LocalDateTime getLastUpdate() {
-        return lastUpdate;
-    }
-
-    public void setLastUpdate(LocalDateTime lastUpdate) {
-        this.lastUpdate = lastUpdate;
-    }
-
-    public String getLastUpdateBy() {
-        return lastUpdateBy;
-    }
-
-    public void setLastUpdateBy(String lastUpdateBy) {
-        this.lastUpdateBy = lastUpdateBy;
     }
 
     public int getCustomerId() {
@@ -148,14 +101,6 @@ public class Appointment {
 
     public void setAppContact(String appContact) {
         this.appContact = appContact;
-    }
-
-    public int getContactId() {
-        return contactId;
-    }
-
-    public void setContactId(int contactId) {
-        this.contactId = contactId;
     }
 
     public int getUserId() {

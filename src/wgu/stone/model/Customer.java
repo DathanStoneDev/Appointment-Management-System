@@ -1,7 +1,5 @@
 package wgu.stone.model;
 
-import java.time.LocalDateTime;
-
 public class Customer {
 
     private int customerId;
@@ -9,63 +7,79 @@ public class Customer {
     private String customerAddress;
     private String customerPostalCode;
     private String customerPhoneNumber;
-    private LocalDateTime createDate;
-    private String createdBy;
-    private LocalDateTime lastUpdate;
-    private String lastUpdatedBy;
-    private int divisionId;
-    private String customerCountry;
+    private String countryName;
     private String divisionName;
+    private int divisionId;
 
     /**
-     * Constructor for values that will be put into the database.
-     * Customer ID, create data and lastUpdate are generated.
+     * Constructor for the tableview. Found in use
+     * @param customerId
      * @param customerName
      * @param customerAddress
      * @param customerPostalCode
      * @param customerPhoneNumber
-     * @param createdBy
-     * @param lastUpdatedBy
-     * @param divisionId
+     * @param countryName
+     * @param divisionName
      */
-    public Customer(String customerName, String customerAddress, String customerPostalCode, String customerPhoneNumber,
-                    String createdBy, String lastUpdatedBy, int divisionId) {
-        this.customerName = customerName;
-        this.customerAddress = customerAddress;
-        this.customerPostalCode = customerPostalCode;
-        this.customerPhoneNumber = customerPhoneNumber;
-        this.createdBy = createdBy;
-        this.lastUpdatedBy = lastUpdatedBy;
-        this.divisionId = divisionId;
-    }
-
-    public Customer(String customerName, String customerAddress, String customerPostalCode, String customerPhoneNumber,
-                    String createdBy, String lastUpdatedBy, int divisionId, String customerCountry, String divisionName) {
-        this.customerName = customerName;
-        this.customerAddress = customerAddress;
-        this.customerPostalCode = customerPostalCode;
-        this.customerPhoneNumber = customerPhoneNumber;
-        this.createdBy = createdBy;
-        this.lastUpdatedBy = lastUpdatedBy;
-        this.divisionId = divisionId;
-        this.customerCountry = customerCountry;
-        this.divisionName = divisionName;
-    }
-
-
-    public Customer() {
-    }
-
-    public Customer(int customerId, String customerName, String customerAddress, String postalCode, String customerPhoneNumber, String lastUpdatedBy, int divisionId, String countryName, String divisionName) {
+    public Customer(int customerId, String customerName, String customerAddress, String customerPostalCode,
+                    String customerPhoneNumber, String countryName, String divisionName) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.customerAddress = customerAddress;
-        this.customerPostalCode = postalCode;
+        this.customerPostalCode = customerPostalCode;
         this.customerPhoneNumber = customerPhoneNumber;
-        this.lastUpdatedBy = lastUpdatedBy;
-        this.divisionId = divisionId;
-        this.customerCountry = countryName;
+        this.countryName = countryName;
         this.divisionName = divisionName;
+    }
+
+    /**
+     * Constructor in AddCustomer form
+     * @param customerName
+     * @param customerAddress
+     * @param customerPostalCode
+     * @param customerPhoneNumber
+     * @param countryName
+     * @param divisionName
+     * @param divisionId
+     */
+    public Customer(String customerName, String customerAddress, String customerPostalCode, String customerPhoneNumber,
+                    String countryName, String divisionName, int divisionId) {
+        this.customerName = customerName;
+        this.customerAddress = customerAddress;
+        this.customerPostalCode = customerPostalCode;
+        this.customerPhoneNumber = customerPhoneNumber;
+        this.countryName = countryName;
+        this.divisionName = divisionName;
+        this.divisionId = divisionId;
+    }
+
+    /**
+     * Constructor in UpdateCustomer form
+     * @param customerId
+     * @param customerName
+     * @param customerAddress
+     * @param customerPostalCode
+     * @param customerPhoneNumber
+     * @param countryName
+     * @param divisionName
+     * @param divisionId
+     */
+    public Customer(int customerId, String customerName, String customerAddress, String customerPostalCode,
+                    String customerPhoneNumber, String countryName, String divisionName, int divisionId) {
+        this.customerId = customerId;
+        this.customerName = customerName;
+        this.customerAddress = customerAddress;
+        this.customerPostalCode = customerPostalCode;
+        this.customerPhoneNumber = customerPhoneNumber;
+        this.countryName = countryName;
+        this.divisionName = divisionName;
+        this.divisionId = divisionId;
+    }
+
+    /**
+     * Default constructor.
+     */
+    public Customer() {
     }
 
     public int getCustomerId() {
@@ -108,52 +122,12 @@ public class Customer {
         this.customerPhoneNumber = customerPhoneNumber;
     }
 
-    public LocalDateTime getCreateDate() {
-        return createDate;
+    public String getCountryName() {
+        return countryName;
     }
 
-    public void setCreateDate(LocalDateTime createDate) {
-        this.createDate = createDate;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public LocalDateTime getLastUpdate() {
-        return lastUpdate;
-    }
-
-    public void setLastUpdate(LocalDateTime lastUpdate) {
-        this.lastUpdate = lastUpdate;
-    }
-
-    public String getLastUpdatedBy() {
-        return lastUpdatedBy;
-    }
-
-    public void setLastUpdatedBy(String lastUpdatedBy) {
-        this.lastUpdatedBy = lastUpdatedBy;
-    }
-
-    public int getDivisionId() {
-        return divisionId;
-    }
-
-    public void setDivisionId(int divisionId) {
-        this.divisionId = divisionId;
-    }
-
-    public String getCustomerCountry() {
-        return customerCountry;
-    }
-
-    public void setCustomerCountry(String customerCountry) {
-        this.customerCountry = customerCountry;
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
     }
 
     public String getDivisionName() {
@@ -164,4 +138,11 @@ public class Customer {
         this.divisionName = divisionName;
     }
 
+    public int getDivisionId() {
+        return divisionId;
+    }
+
+    public void setDivisionId(int divisionId) {
+        this.divisionId = divisionId;
+    }
 }
