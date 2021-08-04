@@ -5,8 +5,8 @@ import javafx.collections.ObservableList;
 import wgu.stone.dao.interfaces.AppointmentDAO;
 import wgu.stone.database.DatabaseConnection;
 import wgu.stone.model.Appointment;
-
 import java.sql.*;
+
 
 
 public class AppointmentDAOImpl implements AppointmentDAO {
@@ -30,8 +30,8 @@ public class AppointmentDAOImpl implements AppointmentDAO {
                 appointment.setAppLocation(rs.getString("Location"));
                 appointment.setAppContact(rs.getString("Contact_Name"));
                 appointment.setAppType(rs.getString("Type"));
-                appointment.setStartDatetime(rs.getTimestamp("Start").toLocalDateTime());
-                appointment.setEndDatetime(rs.getTimestamp("End").toLocalDateTime());
+                appointment.setStartDatetime(rs.getTimestamp("Start").toString());
+                appointment.setEndDatetime(rs.getTimestamp("End").toString());
                 appointment.setCustomerId(rs.getInt("Customer_ID"));
                 appointment.setUserId(rs.getInt("User_ID"));
                 appointments.add(appointment);
@@ -60,19 +60,18 @@ public class AppointmentDAOImpl implements AppointmentDAO {
     public void updateAppointment(Appointment appointment) {
 
         String sql = "UPDATE appointments SET Title = ?, Description = ?, Location = ?, `Type` = ?, `Start` = ?, " +
-                "`End` = ?, Contact_ID = ?, User_ID = ? WHERE Appointment_ID = ?";
+                "`End` = ?, User_ID = ? WHERE Appointment_ID = ?";
 
         try(PreparedStatement preparedStatement = DatabaseConnection.getConnection().prepareStatement(sql)) {
 
-            preparedStatement.setInt(9, appointment.getAppId());
+            preparedStatement.setInt(8, appointment.getAppId());
             preparedStatement.setString(1, appointment.getAppTitle());
             preparedStatement.setString(2, appointment.getAppDescription());
             preparedStatement.setString(3, appointment.getAppLocation());
             preparedStatement.setString(4, appointment.getAppType());
-            preparedStatement.setString(5, appointment.getStartDatetime());
-            preparedStatement.setString(6, appointment.getEndDatetime());
-            preparedStatement.setInt(7, appointment.getContactId());
-            preparedStatement.setInt(8, appointment.getUserId());
+            preparedStatement.setObject(5, appointment.getStartDatetime());
+            preparedStatement.setObject(6, appointment.getEndDatetime());
+            preparedStatement.setInt(7, appointment.getUserId());
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -83,7 +82,7 @@ public class AppointmentDAOImpl implements AppointmentDAO {
     public void saveAppointment(Appointment appointment) {
 
         String sql = "INSERT INTO appointments(Title, Description, Location, `Type`, `Start`, `End`, " +
-                "Customer_ID, Contact_ID, User_ID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "Customer_ID, User_ID) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
         try(PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(sql)) {
 
@@ -91,11 +90,10 @@ public class AppointmentDAOImpl implements AppointmentDAO {
             ps.setString(2, appointment.getAppDescription());
             ps.setString(3, appointment.getAppLocation());
             ps.setString(4, appointment.getAppType());
-            ps.setString(5, appointment.getStartDatetime().toString());
-            ps.setString(6, appointment.getEndDatetime().toString());
+            ps.setString(5, appointment.getStartDatetime());
+            ps.setString(6, appointment.getEndDatetime());
             ps.setInt(7, appointment.getCustomerId());
-            ps.setInt(8, appointment.getContactId());
-            ps.setInt(9, appointment.getUserId());
+            ps.setInt(8, appointment.getUserId());
             ps.executeUpdate();
 
         } catch (SQLException e) {
@@ -103,11 +101,12 @@ public class AppointmentDAOImpl implements AppointmentDAO {
             e.printStackTrace();
         }
     }
-
+    //Turn to contact
+    //make model for contact
     @Override
     public ObservableList<String> getContactsList() {
 
-        String sql = "SELECT Contact_Name FROM contacts";
+        String sql = "SELECT Contact_ID, Contact_Name FROM contacts";
         ObservableList<String> contactsList = FXCollections.observableArrayList();
 
         try(Statement statement = DatabaseConnection.getConnection().createStatement();

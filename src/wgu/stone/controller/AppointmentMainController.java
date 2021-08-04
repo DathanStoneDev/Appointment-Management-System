@@ -1,13 +1,14 @@
 package wgu.stone.controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import wgu.stone.dao.implementations.AppointmentDAOImpl;
@@ -37,8 +38,12 @@ public class AppointmentMainController implements Initializable {
     @FXML private Button deleteAppointmentButton;
     @FXML private Button cancelButton;
     @FXML private Button exitAppButton;
+    @FXML private RadioButton monthlyRadioButton;
+    @FXML private RadioButton weeklyRadioButton;
+    @FXML private ToggleGroup filterAppsGroup;
 
     private AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
+    private ObservableList<Appointment> appointments = FXCollections.observableArrayList();
 
     @FXML
     private void goToAddAppForm() throws IOException {
@@ -72,10 +77,17 @@ public class AppointmentMainController implements Initializable {
         appointmentDAO.deleteAppointment(appointmentTableView.getSelectionModel().getSelectedItem().getAppId());
     }
 
+    @FXML
+    private void filterAppointmentList() {
+        if(monthlyRadioButton.isSelected()) {
+            appointments.stream().forEach(a -> a.getStartDatetime());
+        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        appointmentTableView.setItems(appointmentDAO.getAppointmentsList());
+        appointments = appointmentDAO.getAppointmentsList();
+        appointmentTableView.setItems(appointments);
         appointmentIdColumn.setCellValueFactory(new PropertyValueFactory<>("appId"));
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("appTitle"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("appDescription"));
@@ -85,5 +97,9 @@ public class AppointmentMainController implements Initializable {
         startDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDatetime"));
         endDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDatetime"));
         customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        filterAppsGroup = new ToggleGroup();
+        monthlyRadioButton.setToggleGroup(filterAppsGroup);
+        weeklyRadioButton.setToggleGroup(filterAppsGroup);
+        monthlyRadioButton.setSelected(true);
     }
 }

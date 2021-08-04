@@ -1,8 +1,5 @@
 package wgu.stone.model;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 public class Appointment {
 
     private int appId;
@@ -10,13 +7,11 @@ public class Appointment {
     private String appDescription;
     private String appLocation;
     private String appType;
-    private LocalDateTime startDatetime;
-    private LocalDateTime endDatetime;
+    private String startDatetime;
+    private String endDatetime;
     private int customerId;
     private String appContact;
     private int userId;
-    private int contactId;
-
 
 
     public Appointment() {
@@ -24,8 +19,8 @@ public class Appointment {
     }
 
     public Appointment(String appTitle, String appDescription, String appLocation, String appType,
-                     LocalDateTime startDatetime, LocalDateTime endDatetime,
-                       String appContact, int contactId, int userId, int customerId) {
+                     String startDatetime,String endDatetime,
+                       String appContact, int userId, int customerId) {
         this.appTitle = appTitle;
         this.appDescription = appDescription;
         this.appLocation = appLocation;
@@ -33,7 +28,6 @@ public class Appointment {
         this.startDatetime = startDatetime;
         this.endDatetime = endDatetime;
         this.appContact = appContact;
-        this.contactId = contactId;
         this.userId = userId;
         this.customerId = customerId;
 }
@@ -78,22 +72,18 @@ public class Appointment {
     }
 
     public String getStartDatetime() {
-        DateTimeFormatter d = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String format = startDatetime.format(d);
-        return format;
+        return startDatetime;
     }
 
-    public void setStartDatetime(LocalDateTime startDatetime) {
+    public void setStartDatetime(String startDatetime) {
         this.startDatetime = startDatetime;
     }
 
     public String getEndDatetime() {
-        DateTimeFormatter d = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String formatEnd = endDatetime.format(d);
-        return formatEnd;
+        return endDatetime;
     }
 
-    public void setEndDatetime(LocalDateTime endDatetime) {
+    public void setEndDatetime(String endDatetime) {
         this.endDatetime = endDatetime;
     }
 
@@ -111,14 +101,6 @@ public class Appointment {
 
     public void setAppContact(String appContact) {
         this.appContact = appContact;
-    }
-
-    public int getContactId() {
-        return contactId;
-    }
-
-    public void setContactId(int contactId) {
-        this.contactId = contactId;
     }
 
     public int getUserId() {

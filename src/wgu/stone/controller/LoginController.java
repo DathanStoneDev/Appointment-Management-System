@@ -42,17 +42,17 @@ public class LoginController implements Initializable {
     private ResourceBundle rb = ResourceBundle.getBundle("Nat", Locale.getDefault());
 
     //Logged in user.
-    protected static String loggedIn;
+    protected static int loggedInUser;
 
 
     /**
      * Logging into the application. Linked to the loginButton.
      */
-    public String loginToApp() throws IOException {
+    public void loginToApp() throws IOException {
         String userName = userNameField.getText();
         String userPassword = passwordField.getText();
         if(login.checkUserInfo(userName, userPassword)) {
-            loggedIn = userName;
+            loggedInUser = login.getUserId(userName);
             Parent addProduct = FXMLLoader.load(getClass().getResource("/wgu/stone/view/CustomerMainForm.fxml"));
             Scene addProductScene = new Scene(addProduct);
             Stage window = (Stage) loginButton.getScene().getWindow();
@@ -61,7 +61,6 @@ public class LoginController implements Initializable {
         } else {
             loginErrorLabel.setText(rb.getString("loginErrorLabel"));
         }
-        return loggedIn;
     }
 
 

@@ -13,9 +13,11 @@ import wgu.stone.dao.interfaces.CustomerDAO;
 import wgu.stone.model.Appointment;
 import wgu.stone.model.Customer;
 import java.net.URL;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class AddAppointmentController implements Initializable {
@@ -58,6 +60,9 @@ public class AddAppointmentController implements Initializable {
     private AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
     private CustomerDAO customerDAO = new CustomerDAOImpl();
 
+    //DateTimeFormatters
+    protected static DateTimeFormatter d1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
     //possibly edit this. Works for now. Maybe a switch
     private String selectAppType() {
         try {
@@ -88,20 +93,22 @@ public class AddAppointmentController implements Initializable {
     }
 
 
-    private LocalDateTime createStartLocaleDateTime() {
+    private String createStartLocaleDateTime() {
 
         LocalDate startDate = datePicker.getValue();
         LocalTime startTime = startTimeComboBox.getValue();
         LocalDateTime start = LocalDateTime.of(startDate, startTime);
-        return start;
+        String startFinal = start.format(d1);
+        return startFinal;
     }
 
-    private LocalDateTime createEndLocaleDateTime() {
+    private String createEndLocaleDateTime() {
 
         LocalDate endDate = datePicker.getValue();
         LocalTime endTime = endTimeComboBox.getValue();
         LocalDateTime end = LocalDateTime.of(endDate, endTime);
-        return end;
+        String endFinal = end.format(d1);
+        return endFinal;
     }
 
     @FXML
@@ -116,6 +123,9 @@ public class AddAppointmentController implements Initializable {
         appointment.setStartDatetime(createStartLocaleDateTime());
         appointment.setEndDatetime(createEndLocaleDateTime());
         appointment.setCustomerId(customerTable.getSelectionModel().getSelectedItem().getCustomerId());
+        appointment.setUserId(LoginController.loggedInUser);
+
+        appointmentDAO.saveAppointment(appointment);
     }
 
     @Override

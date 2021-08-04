@@ -9,9 +9,7 @@ import wgu.stone.dao.interfaces.AppointmentDAO;
 import wgu.stone.dao.interfaces.CustomerDAO;
 import wgu.stone.model.Appointment;
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -45,8 +43,8 @@ public class UpdateAppointmentController implements Initializable {
 
     //DAO Interface Instances
     private AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
-    //private final DateTimeFormatter d1 = DateTimeFormatter.ofPattern("HH:mm:ss");
-    //private final DateTimeFormatter d2 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    //private final DateTimeFormatter custom = DateTimeFormatter.ofPattern("HH:mm:ss yyyy-MM-dd");
+
 
 
     private String selectAppType() {
@@ -78,20 +76,21 @@ public class UpdateAppointmentController implements Initializable {
         }
     }
 
-    private LocalDateTime createStartLocaleDateTime() {
+    private String createStartLocaleDateTime() {
 
         LocalDate startDate = datePicker.getValue();
         LocalTime startTime = startTimeComboBox.getValue();
         LocalDateTime start = LocalDateTime.of(startDate, startTime);
-        return start;
+        System.out.println(start);
+        return start.toString();
     }
 
-    private LocalDateTime createEndLocaleDateTime() {
+    private String createEndLocaleDateTime() {
 
         LocalDate endDate = datePicker.getValue();
         LocalTime endTime = endTimeComboBox.getValue();
         LocalDateTime end = LocalDateTime.of(endDate, endTime);
-        return end;
+        return end.toString();
     }
 
     public void updateAppointment() {
@@ -106,7 +105,7 @@ public class UpdateAppointmentController implements Initializable {
         appointment.setStartDatetime(createStartLocaleDateTime());
         appointment.setEndDatetime(createEndLocaleDateTime());
         appointment.setAppType(selectAppType());
-        System.out.println(appointment.getEndDatetime());
+        appointment.setUserId(LoginController.loggedInUser);
     }
 
     public void initData(Appointment appointment) {
@@ -115,6 +114,10 @@ public class UpdateAppointmentController implements Initializable {
         customerIdField.setText(Integer.toString(appointment.getCustomerId()));
         appIdField.setText(Integer.toString(appointment.getAppId()));
         descriptionField.setText(appointment.getAppDescription());
+        //LocalDateTime dateTime = LocalDateTime.parse(appointment.getStartDatetime()); //this can be deleted
+
+        //**Need to focus on getting ZoneDateTimes Instead and formatting those.
+        //**Need to be in the yyyy-MM-dd HH:mm:ss format for mySql -> DateTimeFormatter.
        // startTimeComboBox.setValue();
        // endTimeComboBox.setValue(); - try to grab total localDateTime and parse it individually.
         locationComboBox.setValue(appointment.getAppLocation());

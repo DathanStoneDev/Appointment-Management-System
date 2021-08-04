@@ -2,18 +2,19 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="618.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.stone.controller.AppointmentMainController">
-    <Label layoutX="273.0" layoutY="22.0" text="Appointment Records">
+    <Label layoutX="382.0" layoutY="22.0" text="Appointment Records">
         <font>
           <Font name="System Bold" size="18.0" />
         </font>
     </Label>
-    <TableView fx:id="appointmentTableView" layoutY="112.0" prefHeight="317.0" prefWidth="949.0">
+    <TableView fx:id="appointmentTableView" layoutY="182.0" prefHeight="351.0" prefWidth="949.0">
       <columns>
           <TableColumn fx:id="appointmentIdColumn" prefWidth="54.0" text="App. ID" />
           <TableColumn fx:id="titleColumn" prefWidth="74.0" text="Title" />
@@ -26,9 +27,12 @@
           <TableColumn fx:id="customerIdColumn" prefWidth="122.0" text="Cust. ID" />
       </columns>
     </TableView>
-    <Button fx:id="addAppointmentButton" layoutX="14.0" layoutY="442.0" mnemonicParsing="false" onAction="#goToAddAppForm" prefHeight="25.0" prefWidth="75.0" text="Add" />
-    <Button fx:id="updateAppointmentButton" layoutX="98.0" layoutY="442.0" mnemonicParsing="false" onAction="#goToUpdateForm" prefHeight="25.0" prefWidth="75.0" text="Update" />
-    <Button fx:id="deleteAppointmentButton" layoutX="183.0" layoutY="442.0" mnemonicParsing="false" onAction="#deleteAppointment" prefHeight="25.0" prefWidth="75.0" text="Delete" />
-    <Button layoutX="564.0" layoutY="442.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="154.0" text="Back To Main Screen" />
-    <Button layoutX="694.0" layoutY="10.0" mnemonicParsing="false" text="X" />
+    <Button fx:id="addAppointmentButton" layoutX="14.0" layoutY="538.0" mnemonicParsing="false" onAction="#goToAddAppForm" prefHeight="25.0" prefWidth="75.0" text="Add" />
+    <Button fx:id="updateAppointmentButton" layoutX="96.0" layoutY="538.0" mnemonicParsing="false" onAction="#goToUpdateForm" prefHeight="25.0" prefWidth="75.0" text="Update" />
+    <Button fx:id="deleteAppointmentButton" layoutX="179.0" layoutY="538.0" mnemonicParsing="false" onAction="#deleteAppointment" prefHeight="25.0" prefWidth="75.0" text="Delete" />
+    <Button layoutX="781.0" layoutY="538.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="154.0" text="Back To Main Screen" />
+    <Button layoutX="911.0" layoutY="10.0" mnemonicParsing="false" text="X" />
+   <RadioButton fx:id="monthlyRadioButton" layoutX="14.0" layoutY="150.0" mnemonicParsing="false" text="Monthly" />
+   <RadioButton fx:id="weeklyRadioButton" layoutX="89.0" layoutY="150.0" mnemonicParsing="false" text="Weekly" />
+   <Label fx:id="filterLabel" layoutX="14.0" layoutY="124.0" />
 </AnchorPane>

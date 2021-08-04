@@ -1,11 +1,15 @@
 package wgu.stone;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import wgu.stone.dao.implementations.Report;
 import wgu.stone.database.DatabaseConnection;
+import wgu.stone.model.Appointment;
 
 
 import java.sql.SQLException;
