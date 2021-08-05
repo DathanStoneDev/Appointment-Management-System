@@ -2,7 +2,6 @@ package wgu.stone.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,8 +10,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import wgu.stone.dao.implementations.AppointmentDAOImpl;
-import wgu.stone.dao.interfaces.AppointmentDAO;
+import wgu.stone.DAO.implementations.AppointmentDAOImpl;
+import wgu.stone.DAO.interfaces.AppointmentDAO;
 import wgu.stone.model.Appointment;
 import java.io.IOException;
 import java.net.URL;
@@ -75,13 +74,6 @@ public class AppointmentMainController implements Initializable {
     @FXML
     private void deleteAppointment() {
         appointmentDAO.deleteAppointment(appointmentTableView.getSelectionModel().getSelectedItem().getAppId());
-    }
-
-    @FXML
-    private void filterAppointmentList() {
-        if(monthlyRadioButton.isSelected()) {
-            appointments.stream().forEach(a -> a.getStartDatetime());
-        }
     }
 
     @Override

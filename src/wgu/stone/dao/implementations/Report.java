@@ -1,4 +1,4 @@
-package wgu.stone.dao.implementations;
+package wgu.stone.DAO.implementations;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,9 +19,8 @@ public class Report {
                 "ON c.Contact_ID = a.Contact_ID " +
                 "WHERE c.Contact_Name = ?";
 
-        try(PreparedStatement p = DatabaseConnection.getConnection().prepareStatement(sql)) {
-            p.setString(1, contactName);
-            ResultSet rs = p.executeQuery();
+        try(PreparedStatement p = DatabaseConnection.getConnection().prepareStatement(sql);
+            ResultSet rs = p.executeQuery()) {
             while(rs.next()) {
                 Appointment appointment = new Appointment();
                 appointment.setAppContact(rs.getString("Contact_Name"));
@@ -34,7 +33,6 @@ public class Report {
                 appointment.setCustomerId(rs.getInt("Customer_ID"));
                 contactScheduleList.add(appointment);
             }
-            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

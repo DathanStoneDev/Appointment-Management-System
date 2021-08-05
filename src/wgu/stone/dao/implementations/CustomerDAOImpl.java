@@ -1,4 +1,4 @@
-package wgu.stone.dao.implementations;
+package wgu.stone.DAO.implementations;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

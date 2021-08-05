@@ -53,7 +53,7 @@ public class LoginController implements Initializable {
         String userPassword = passwordField.getText();
         if(login.checkUserInfo(userName, userPassword)) {
             loggedInUser = login.getUserId(userName);
-            Parent addProduct = FXMLLoader.load(getClass().getResource("/wgu/stone/view/CustomerMainForm.fxml"));
+            Parent addProduct = FXMLLoader.load(getClass().getResource("/wgu/stone/view/MainDashboard.fxml"));
             Scene addProductScene = new Scene(addProduct);
             Stage window = (Stage) loginButton.getScene().getWindow();
             window.setScene(addProductScene);

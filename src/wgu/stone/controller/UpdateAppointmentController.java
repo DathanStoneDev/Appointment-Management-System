@@ -3,17 +3,12 @@ package wgu.stone.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import wgu.stone.dao.implementations.AppointmentDAOImpl;
-import wgu.stone.dao.implementations.CustomerDAOImpl;
-import wgu.stone.dao.interfaces.AppointmentDAO;
-import wgu.stone.dao.interfaces.CustomerDAO;
+import wgu.stone.DAO.implementations.AppointmentDAOImpl;
+import wgu.stone.DAO.interfaces.AppointmentDAO;
 import wgu.stone.model.Appointment;
 import java.net.URL;
 import java.time.*;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 import java.util.ResourceBundle;
-
 import static wgu.stone.controller.AddAppointmentController.locations;
 import static wgu.stone.controller.AddAppointmentController.types;
 
