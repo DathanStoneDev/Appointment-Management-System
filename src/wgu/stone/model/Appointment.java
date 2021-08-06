@@ -10,6 +10,7 @@ public class Appointment {
     private String startDatetime;
     private String endDatetime;
     private int customerId;
+    private int contactId;
     private String appContact;
     private int userId;
 
@@ -20,7 +21,7 @@ public class Appointment {
 
     public Appointment(String appTitle, String appDescription, String appLocation, String appType,
                      String startDatetime,String endDatetime,
-                       String appContact, int userId, int customerId) {
+                       String appContact, int userId, int customerId, int contactId) {
         this.appTitle = appTitle;
         this.appDescription = appDescription;
         this.appLocation = appLocation;
@@ -30,6 +31,7 @@ public class Appointment {
         this.appContact = appContact;
         this.userId = userId;
         this.customerId = customerId;
+        this.contactId = contactId;
 }
     public int getAppId() {
         return appId;
@@ -109,5 +111,13 @@ public class Appointment {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public int getContactId() {
+        return contactId;
+    }
+
+    public void setContactId(int contactId) {
+        this.contactId = contactId;
     }
 }

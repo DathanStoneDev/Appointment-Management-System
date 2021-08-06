@@ -18,7 +18,7 @@
             <Font name="System Bold Italic" size="10.0" />
          </font>
       </Label>
-      <Button layoutX="438.0" layoutY="175.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="140.0" text="Appointments" />
+      <Button fx:id="mainAppointmentFormButton" layoutX="438.0" layoutY="175.0" mnemonicParsing="false" onAction="#goToMainAppointmentForm" prefHeight="25.0" prefWidth="140.0" text="Appointments" />
       <Button layoutX="230.0" layoutY="175.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="140.0" text="Customer Records" />
    </children>
 </AnchorPane>

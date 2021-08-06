@@ -11,6 +11,7 @@ import wgu.stone.DAO.implementations.CustomerDAOImpl;
 import wgu.stone.DAO.interfaces.AppointmentDAO;
 import wgu.stone.dao.interfaces.CustomerDAO;
 import wgu.stone.model.Appointment;
+import wgu.stone.model.Contact;
 import wgu.stone.model.Customer;
 import java.net.URL;
 import java.time.LocalDate;
@@ -37,7 +38,7 @@ public class AddAppointmentController implements Initializable {
     @FXML private ComboBox<LocalTime> startTimeComboBox;
     @FXML private ComboBox<LocalTime> endTimeComboBox;
     @FXML private ComboBox<String> locationComboBox;
-    @FXML private ComboBox<String> contactNameComboBox;
+    @FXML private ComboBox<Contact> contactNameComboBox;
 
     //may put these in the model.
     protected static final String[] types = {"Consult", "Business", "Project"};
@@ -117,7 +118,8 @@ public class AddAppointmentController implements Initializable {
         appointment.setAppTitle(titleField.getText());
         appointment.setAppDescription(descriptionField.getText());
         appointment.setAppLocation(locationComboBox.getValue());
-        appointment.setAppContact(contactNameComboBox.getValue());
+        appointment.setAppContact(contactNameComboBox.getValue().getContactName());
+        appointment.setContactId(contactNameComboBox.getValue().getContactId());
         appointment.setAppType(selectAppType());
         appointment.setStartDatetime(createStartLocaleDateTime());
         appointment.setEndDatetime(createEndLocaleDateTime());

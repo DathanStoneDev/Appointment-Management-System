@@ -5,9 +5,9 @@ import javafx.collections.ObservableList;
 import wgu.stone.DAO.interfaces.AppointmentDAO;
 import wgu.stone.database.DatabaseConnection;
 import wgu.stone.model.Appointment;
+import wgu.stone.model.Contact;
+
 import java.sql.*;
-
-
 
 public class AppointmentDAOImpl implements AppointmentDAO {
 
@@ -16,7 +16,7 @@ public class AppointmentDAOImpl implements AppointmentDAO {
 
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
         String sql = "SELECT a.Appointment_ID, a.Title, a.Description, a.Location, c.Contact_Name, a.Type, a.Start, " +
-                "a.End, a.Customer_ID, a.User_ID " +
+                "a.End, a.Customer_ID, a.User_ID, a.Contact_ID " +
                 "FROM appointments a " +
                 "JOIN contacts c ON c.Contact_ID = a.Contact_ID";
 
@@ -34,6 +34,7 @@ public class AppointmentDAOImpl implements AppointmentDAO {
                 appointment.setEndDatetime(rs.getTimestamp("End").toString());
                 appointment.setCustomerId(rs.getInt("Customer_ID"));
                 appointment.setUserId(rs.getInt("User_ID"));
+                appointment.setContactId(rs.getInt("Contact_ID"));
                 appointments.add(appointment);
             }
         } catch (SQLException e) {
@@ -82,7 +83,7 @@ public class AppointmentDAOImpl implements AppointmentDAO {
     public void saveAppointment(Appointment appointment) {
 
         String sql = "INSERT INTO appointments(Title, Description, Location, `Type`, `Start`, `End`, " +
-                "Customer_ID, User_ID) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+                "Customer_ID, User_ID, Contact_ID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try(PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(sql)) {
 
@@ -94,6 +95,7 @@ public class AppointmentDAOImpl implements AppointmentDAO {
             ps.setString(6, appointment.getEndDatetime());
             ps.setInt(7, appointment.getCustomerId());
             ps.setInt(8, appointment.getUserId());
+            ps.setInt(9, appointment.getContactId());
             ps.executeUpdate();
 
         } catch (SQLException e) {
@@ -103,16 +105,18 @@ public class AppointmentDAOImpl implements AppointmentDAO {
     }
 
     @Override
-    public ObservableList<String> getContactsList() {
+    public ObservableList<Contact> getContactsList() {
 
-        String sql = "SELECT Contact_Name FROM contacts";
-        ObservableList<String> contactsList = FXCollections.observableArrayList();
+        String sql = "SELECT Contact_ID, Contact_Name FROM contacts";
+        ObservableList<Contact> contactsList = FXCollections.observableArrayList();
 
         try(Statement statement = DatabaseConnection.getConnection().createStatement();
         ResultSet rs = statement.executeQuery(sql)) {
             while(rs.next()) {
+                int id = rs.getInt("Contact_ID");
                 String name = rs.getString("Contact_Name");
-                contactsList.add(name);
+                Contact contact = new Contact(id, name);
+                contactsList.add(contact);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -125,7 +129,7 @@ public class AppointmentDAOImpl implements AppointmentDAO {
 
         ObservableList<Appointment> contactScheduleList = FXCollections.observableArrayList();
 
-        String sql = "SELECT c.Contact_Name, a.Appointment_ID, a.Title, a.Type, a.Description, a.Start, a.End, a.Customer_ID " +
+        String sql = "SELECT c.Contact_Name, a.Location, a.Appointment_ID, a.Title, a.Type, a.Description, a.Start, a.End, a.Customer_ID " +
                 "FROM appointments a " +
                 "JOIN contacts c " +
                 "ON c.Contact_ID = a.Contact_ID";
@@ -139,9 +143,10 @@ public class AppointmentDAOImpl implements AppointmentDAO {
                 appointment.setAppTitle(rs.getString("Title"));
                 appointment.setAppType(rs.getString("Type"));
                 appointment.setAppDescription(rs.getString("Description"));
-                appointment.setStartDatetime(rs.getString("Start"));
-                appointment.setEndDatetime(rs.getString("End"));
+                appointment.setStartDatetime(rs.getTimestamp("Start").toString());
+                appointment.setEndDatetime(rs.getTimestamp("End").toString());
                 appointment.setCustomerId(rs.getInt("Customer_ID"));
+                appointment.setAppLocation(rs.getString("Location"));
                 contactScheduleList.add(appointment);
             }
         } catch (SQLException e) {

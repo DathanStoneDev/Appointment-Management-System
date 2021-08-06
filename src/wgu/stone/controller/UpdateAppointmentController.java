@@ -6,6 +6,8 @@ import javafx.scene.control.*;
 import wgu.stone.DAO.implementations.AppointmentDAOImpl;
 import wgu.stone.DAO.interfaces.AppointmentDAO;
 import wgu.stone.model.Appointment;
+import wgu.stone.model.Contact;
+
 import java.net.URL;
 import java.time.*;
 import java.util.ResourceBundle;
@@ -22,7 +24,7 @@ public class UpdateAppointmentController implements Initializable {
     @FXML private TextField customerIdField;
     @FXML private DatePicker datePicker;
     @FXML private ComboBox<String> locationComboBox;
-    @FXML private ComboBox<String> contactNameComboBox;
+    @FXML private ComboBox<Contact> contactNameComboBox;
     @FXML private ComboBox<LocalTime> startTimeComboBox;
     @FXML private ComboBox<LocalTime> endTimeComboBox;
 
@@ -94,7 +96,8 @@ public class UpdateAppointmentController implements Initializable {
         appointment.setAppId(Integer.parseInt(appIdField.getText()));
         appointment.setCustomerId(Integer.parseInt(customerIdField.getText()));
         appointment.setAppDescription(descriptionField.getText());
-        appointment.setAppContact(contactNameComboBox.getValue());
+        appointment.setAppContact(contactNameComboBox.getValue().getContactName());
+        appointment.setContactId(contactNameComboBox.getValue().getContactId());
         appointment.setAppLocation(locationComboBox.getValue());
         appointment.setAppTitle(titleField.getText());
         appointment.setStartDatetime(createStartLocaleDateTime());
@@ -118,7 +121,7 @@ public class UpdateAppointmentController implements Initializable {
         locationComboBox.setValue(appointment.getAppLocation());
        // datePicker.setValue();
         titleField.setText(appointment.getAppTitle());
-        contactNameComboBox.setValue(appointment.getAppContact());
+        //contactNameComboBox.setValue(appointment.getAppContact());
         customerIdField.setText(Integer.toString(appointment.getCustomerId()));
     }
 
