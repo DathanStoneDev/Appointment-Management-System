@@ -1,6 +1,5 @@
-package wgu.stone.dao.implementations;
+package wgu.stone.DAO.databaseConnection;
 
-import wgu.stone.database.DatabaseConnection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,7 +11,7 @@ public class Login {
      * validates the username and password.
      * @param un username is passed.
      * @param up user password is passed.
-     * @return true if username and password have a match in the database. Else, false.
+     * @return Returns true if username and password have a match in the database. Else, false.
      */
 
     public boolean checkUserInfo(String un, String up) {
@@ -32,6 +31,11 @@ public class Login {
         } return false;
     }
 
+    /**
+     * Retrieves the User ID of the current user logged in.
+     * @param userName Passed from the loginController to retrieve the User ID.
+     * @return Returns the User ID.
+     */
     public int getUserId (String userName) {
 
         int loggedInUserId = 0;

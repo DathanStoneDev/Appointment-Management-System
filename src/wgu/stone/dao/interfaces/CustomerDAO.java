@@ -1,4 +1,4 @@
-package wgu.stone.dao.interfaces;
+package wgu.stone.DAO.interfaces;
 
 import javafx.collections.ObservableList;
 import wgu.stone.model.Country;

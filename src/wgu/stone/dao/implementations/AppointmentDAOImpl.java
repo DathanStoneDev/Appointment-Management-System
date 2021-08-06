@@ -3,11 +3,11 @@ package wgu.stone.DAO.implementations;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import wgu.stone.DAO.interfaces.AppointmentDAO;
-import wgu.stone.database.DatabaseConnection;
+import wgu.stone.DAO.databaseConnection.DatabaseConnection;
 import wgu.stone.model.Appointment;
 import wgu.stone.model.Contact;
-
 import java.sql.*;
+
 
 public class AppointmentDAOImpl implements AppointmentDAO {
 
@@ -30,8 +30,8 @@ public class AppointmentDAOImpl implements AppointmentDAO {
                 appointment.setAppLocation(rs.getString("Location"));
                 appointment.setAppContact(rs.getString("Contact_Name"));
                 appointment.setAppType(rs.getString("Type"));
-                appointment.setStartDatetime(rs.getTimestamp("Start").toString());
-                appointment.setEndDatetime(rs.getTimestamp("End").toString());
+                appointment.setStartDatetime((rs.getString("Start")));
+                appointment.setEndDatetime(rs.getString("End"));
                 appointment.setCustomerId(rs.getInt("Customer_ID"));
                 appointment.setUserId(rs.getInt("User_ID"));
                 appointment.setContactId(rs.getInt("Contact_ID"));
@@ -113,9 +113,9 @@ public class AppointmentDAOImpl implements AppointmentDAO {
         try(Statement statement = DatabaseConnection.getConnection().createStatement();
         ResultSet rs = statement.executeQuery(sql)) {
             while(rs.next()) {
-                int id = rs.getInt("Contact_ID");
-                String name = rs.getString("Contact_Name");
-                Contact contact = new Contact(id, name);
+                Contact contact = new Contact();
+                contact.setContactId(rs.getInt("Contact_ID"));
+                contact.setContactName(rs.getString("Contact_Name"));
                 contactsList.add(contact);
             }
         } catch (SQLException e) {

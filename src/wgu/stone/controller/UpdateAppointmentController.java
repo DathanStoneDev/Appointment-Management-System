@@ -104,6 +104,8 @@ public class UpdateAppointmentController implements Initializable {
         appointment.setEndDatetime(createEndLocaleDateTime());
         appointment.setAppType(selectAppType());
         appointment.setUserId(LoginController.loggedInUser);
+
+        appointmentDAO.updateAppointment(appointment);
     }
 
     public void initData(Appointment appointment) {

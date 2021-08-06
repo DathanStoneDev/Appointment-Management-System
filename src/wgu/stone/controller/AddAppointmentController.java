@@ -9,7 +9,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import wgu.stone.DAO.implementations.AppointmentDAOImpl;
 import wgu.stone.DAO.implementations.CustomerDAOImpl;
 import wgu.stone.DAO.interfaces.AppointmentDAO;
-import wgu.stone.dao.interfaces.CustomerDAO;
+import wgu.stone.DAO.interfaces.CustomerDAO;
 import wgu.stone.model.Appointment;
 import wgu.stone.model.Contact;
 import wgu.stone.model.Customer;

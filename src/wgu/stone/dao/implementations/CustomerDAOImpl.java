@@ -2,8 +2,8 @@ package wgu.stone.DAO.implementations;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import wgu.stone.dao.interfaces.CustomerDAO;
-import wgu.stone.database.DatabaseConnection;
+import wgu.stone.DAO.interfaces.CustomerDAO;
+import wgu.stone.DAO.databaseConnection.DatabaseConnection;
 import wgu.stone.model.Country;
 import wgu.stone.model.Customer;
 import wgu.stone.model.Division;

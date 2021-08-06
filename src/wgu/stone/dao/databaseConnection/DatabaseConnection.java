@@ -1,4 +1,4 @@
-package wgu.stone.database;
+package wgu.stone.DAO.databaseConnection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,7 +8,7 @@ import java.util.ResourceBundle;
 /**
  * Database connection methods.
  */
-public class DatabaseConnection {
+public final class DatabaseConnection {
 
     //connection variable.
     private static Connection conn;
@@ -48,6 +48,7 @@ public class DatabaseConnection {
             }
         } catch (SQLException e) {
             System.out.println("Could not close the connection: " + e.getMessage());
+            e.printStackTrace();
         } return null;
     }
 }

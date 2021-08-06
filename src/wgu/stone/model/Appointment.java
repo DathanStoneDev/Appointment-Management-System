@@ -77,9 +77,7 @@ public class Appointment {
         return startDatetime;
     }
 
-    public void setStartDatetime(String startDatetime) {
-        this.startDatetime = startDatetime;
-    }
+    public void setStartDatetime(String startDatetime) { this.startDatetime = startDatetime;}
 
     public String getEndDatetime() {
         return endDatetime;

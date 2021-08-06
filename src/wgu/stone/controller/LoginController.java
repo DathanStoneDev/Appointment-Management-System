@@ -10,7 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import wgu.stone.dao.implementations.Login;
+import wgu.stone.DAO.databaseConnection.Login;
 import java.io.IOException;
 import java.net.URL;
 import java.time.ZoneId;
