@@ -1,9 +1,9 @@
-package wgu.stone.DAO.implementations;
+package wgu.stone.dao.implementations;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import wgu.stone.DAO.interfaces.AppointmentDAO;
-import wgu.stone.DAO.databaseConnection.DatabaseConnection;
+import wgu.stone.dao.interfaces.AppointmentDAO;
+import wgu.stone.dao.databaseConnection.DatabaseConnection;
 import wgu.stone.model.Appointment;
 import wgu.stone.model.Contact;
 import java.sql.*;

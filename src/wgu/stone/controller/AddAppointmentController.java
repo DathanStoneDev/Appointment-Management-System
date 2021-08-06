@@ -6,17 +6,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import wgu.stone.DAO.implementations.AppointmentDAOImpl;
-import wgu.stone.DAO.implementations.CustomerDAOImpl;
-import wgu.stone.DAO.interfaces.AppointmentDAO;
-import wgu.stone.DAO.interfaces.CustomerDAO;
+import wgu.stone.dao.implementations.AppointmentDAOImpl;
+import wgu.stone.dao.implementations.CustomerDAOImpl;
+import wgu.stone.dao.interfaces.AppointmentDAO;
+import wgu.stone.dao.interfaces.CustomerDAO;
 import wgu.stone.model.Appointment;
 import wgu.stone.model.Contact;
 import wgu.stone.model.Customer;
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
@@ -63,7 +61,7 @@ public class AddAppointmentController implements Initializable {
     //DateTimeFormatters
     protected static DateTimeFormatter d1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    //possibly edit this. Works for now. Maybe a switch
+    //possibly edit this. Works for now. This can go to a hashmap.
     private String selectAppType() {
         try {
             if(consultType.isSelected()) {
@@ -92,25 +90,41 @@ public class AddAppointmentController implements Initializable {
         }
     }
 
-
+    /**
+     * Creates a LocalDateTime from the LocalDate and LocalTime selections from the date picker and startTimeComboBox.
+     * Converts the LocalDateTime to a ZoneDateTime and with a zoneID of UTC.
+     * Lastly, Formats the ZoneDateTime.
+     * @return returns a string of the final formatted UTC time to be persisted to the Database.
+     */
     private String createStartLocaleDateTime() {
 
         LocalDate startDate = datePicker.getValue();
         LocalTime startTime = startTimeComboBox.getValue();
         LocalDateTime start = LocalDateTime.of(startDate, startTime);
-        String startFinal = start.format(d1);
+        ZonedDateTime zonedDateTime = ZonedDateTime.of(start, ZoneId.of("UTC"));
+        String startFinal = zonedDateTime.format(d1);
         return startFinal;
     }
 
+    /**
+     * Creates a LocalDateTime from the LocalDate and LocalTime selections from the date picker and endTimeComboBox.
+     * Converts the LocalDateTime to a ZoneDateTime and with a zoneID of UTC.
+     * Lastly, Formats the ZoneDateTime.
+     * @return returns a string of the final formatted UTC time to be persisted to the Database.
+     */
     private String createEndLocaleDateTime() {
 
         LocalDate endDate = datePicker.getValue();
         LocalTime endTime = endTimeComboBox.getValue();
         LocalDateTime end = LocalDateTime.of(endDate, endTime);
-        String endFinal = end.format(d1);
+        ZonedDateTime zonedDateTime = ZonedDateTime.of(end, ZoneId.of("UTC"));
+        String endFinal = zonedDateTime.format(d1);
         return endFinal;
     }
 
+    /**
+     * Adds a new appointment to the Database.
+     */
     @FXML
     private void addNewAppointment() {
 

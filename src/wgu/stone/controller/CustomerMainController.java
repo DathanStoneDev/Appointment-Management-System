@@ -10,7 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import wgu.stone.DAO.implementations.CustomerDAOImpl;
+import wgu.stone.dao.implementations.CustomerDAOImpl;
 import wgu.stone.dao.interfaces.CustomerDAO;
 import wgu.stone.model.Customer;
 import java.io.IOException;

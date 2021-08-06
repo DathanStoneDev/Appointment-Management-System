@@ -5,7 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import wgu.stone.DAO.databaseConnection.DatabaseConnection;
+import wgu.stone.dao.databaseConnection.DatabaseConnection;
 
 
 import java.sql.SQLException;

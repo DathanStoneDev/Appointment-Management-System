@@ -1,4 +1,4 @@
-package wgu.stone.DAO.databaseConnection;
+package wgu.stone.dao.databaseConnection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

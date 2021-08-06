@@ -3,8 +3,8 @@ package wgu.stone.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import wgu.stone.DAO.implementations.AppointmentDAOImpl;
-import wgu.stone.DAO.interfaces.AppointmentDAO;
+import wgu.stone.dao.implementations.AppointmentDAOImpl;
+import wgu.stone.dao.interfaces.AppointmentDAO;
 import wgu.stone.model.Appointment;
 import wgu.stone.model.Contact;
 

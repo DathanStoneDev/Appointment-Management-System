@@ -1,5 +1,10 @@
 package wgu.stone.model;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Appointment {
 
     private int appId;
@@ -78,8 +83,12 @@ public class Appointment {
     }
 
     public void setStartDatetime(String startDatetime) { this.startDatetime = startDatetime;}
-
+    //Works. Try with ZoneDateTime and mess with comps settings to test this.
     public String getEndDatetime() {
+        DateTimeFormatter d = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime dateTime = LocalDateTime.parse(endDatetime, d);
+        String finalString = dateTime.format(d);
+        endDatetime = finalString;
         return endDatetime;
     }
 

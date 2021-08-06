@@ -11,7 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import wgu.stone.DAO.implementations.CustomerDAOImpl;
+import wgu.stone.dao.implementations.CustomerDAOImpl;
 import wgu.stone.dao.interfaces.CustomerDAO;
 import wgu.stone.model.Country;
 import wgu.stone.model.Customer;
