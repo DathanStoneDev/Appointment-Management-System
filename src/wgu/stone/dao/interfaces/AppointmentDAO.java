@@ -11,4 +11,5 @@ public interface AppointmentDAO {
     void saveAppointment(Appointment appointment);
     ObservableList<Contact> getContactsList();
     ObservableList<Appointment> getContactScheduleList();
+    ObservableList<String> getAppsByMonthAndType();
 }

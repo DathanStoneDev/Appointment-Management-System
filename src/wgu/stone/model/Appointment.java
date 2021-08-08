@@ -2,6 +2,7 @@ package wgu.stone.model;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -79,17 +80,23 @@ public class Appointment {
     }
 
     public String getStartDatetime() {
-        return startDatetime;
+        DateTimeFormatter d1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime l = LocalDateTime.parse(startDatetime, d1);
+        ZonedDateTime z = l.atZone(ZoneOffset.UTC);
+        ZonedDateTime zz = z.withZoneSameInstant(ZoneId.systemDefault());
+        String customerStartTime = zz.format(d1);
+        return customerStartTime;
     }
 
     public void setStartDatetime(String startDatetime) { this.startDatetime = startDatetime;}
-    //Works. Try with ZoneDateTime and mess with comps settings to test this.
+    //works. Put into Utility for DateTimeFormatting and the method.
     public String getEndDatetime() {
-        DateTimeFormatter d = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime dateTime = LocalDateTime.parse(endDatetime, d);
-        String finalString = dateTime.format(d);
-        endDatetime = finalString;
-        return endDatetime;
+        DateTimeFormatter d1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime l = LocalDateTime.parse(endDatetime, d1);
+        ZonedDateTime z = l.atZone(ZoneOffset.UTC);
+        ZonedDateTime zz = z.withZoneSameInstant(ZoneId.systemDefault());
+        String customerEndTime = zz.format(d1);
+        return customerEndTime;
     }
 
     public void setEndDatetime(String endDatetime) {

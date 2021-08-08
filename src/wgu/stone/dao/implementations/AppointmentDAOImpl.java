@@ -7,6 +7,10 @@ import wgu.stone.dao.databaseConnection.DatabaseConnection;
 import wgu.stone.model.Appointment;
 import wgu.stone.model.Contact;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class AppointmentDAOImpl implements AppointmentDAO {
@@ -143,8 +147,8 @@ public class AppointmentDAOImpl implements AppointmentDAO {
                 appointment.setAppTitle(rs.getString("Title"));
                 appointment.setAppType(rs.getString("Type"));
                 appointment.setAppDescription(rs.getString("Description"));
-                appointment.setStartDatetime(rs.getTimestamp("Start").toString());
-                appointment.setEndDatetime(rs.getTimestamp("End").toString());
+                appointment.setStartDatetime(rs.getString("Start"));
+                appointment.setEndDatetime(rs.getString("End"));
                 appointment.setCustomerId(rs.getInt("Customer_ID"));
                 appointment.setAppLocation(rs.getString("Location"));
                 contactScheduleList.add(appointment);
@@ -153,5 +157,28 @@ public class AppointmentDAOImpl implements AppointmentDAO {
             e.printStackTrace();
         }
         return contactScheduleList;
+    }
+
+    public ObservableList<String> getAppsByMonthAndType() {
+
+        ObservableList<String> reportStringList = FXCollections.observableArrayList();
+
+        String sql = "SELECT `Type` as type, month(`Start`) as mstart, COUNT(Type) as ctype FROM appointments " +
+                "GROUP BY `Type`, month(`Start`)";
+
+        try(Statement s = DatabaseConnection.getConnection().createStatement();
+        ResultSet rs = s.executeQuery(sql)) {
+            while(rs.next()) {
+                String typeKey = rs.getString("type");
+                int monthValue = rs.getInt("mstart");
+                int count = rs.getInt("ctype");
+                String reportString = "Type: " + typeKey + " Month: " + monthValue + " Count: " + count;
+                reportStringList.add(reportString);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println(reportStringList);
+        return reportStringList;
     }
 }

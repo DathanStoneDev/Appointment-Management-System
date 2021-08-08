@@ -101,8 +101,9 @@ public class AddAppointmentController implements Initializable {
         LocalDate startDate = datePicker.getValue();
         LocalTime startTime = startTimeComboBox.getValue();
         LocalDateTime start = LocalDateTime.of(startDate, startTime);
-        ZonedDateTime zonedDateTime = ZonedDateTime.of(start, ZoneId.of("UTC"));
-        String startFinal = zonedDateTime.format(d1);
+        ZonedDateTime loc = ZonedDateTime.of(start, ZoneId.systemDefault());
+        ZonedDateTime utc = loc.withZoneSameInstant(ZoneOffset.UTC);
+        String startFinal = utc.format(d1);
         return startFinal;
     }
 
@@ -117,8 +118,9 @@ public class AddAppointmentController implements Initializable {
         LocalDate endDate = datePicker.getValue();
         LocalTime endTime = endTimeComboBox.getValue();
         LocalDateTime end = LocalDateTime.of(endDate, endTime);
-        ZonedDateTime zonedDateTime = ZonedDateTime.of(end, ZoneId.of("UTC"));
-        String endFinal = zonedDateTime.format(d1);
+        ZonedDateTime loc = ZonedDateTime.of(end, ZoneId.systemDefault());
+        ZonedDateTime utc = loc.withZoneSameInstant(ZoneOffset.UTC);
+        String endFinal = utc.format(d1);
         return endFinal;
     }
 

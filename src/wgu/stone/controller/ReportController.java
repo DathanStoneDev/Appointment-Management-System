@@ -11,36 +11,43 @@ import wgu.stone.dao.implementations.AppointmentDAOImpl;
 import wgu.stone.dao.interfaces.AppointmentDAO;
 import wgu.stone.model.Appointment;
 import wgu.stone.model.Contact;
+
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 
 
 public class ReportController implements Initializable {
 
-    @FXML TableView<Appointment> contactAppointmentsView;
-    @FXML TableColumn<Appointment, String> contactNameColumn;
-    @FXML TableColumn<Appointment, Integer> appIdColumn;
-    @FXML TableColumn<Appointment, String> titleColumn;
-    @FXML TableColumn<Appointment, String> typeColumn;
-    @FXML TableColumn<Appointment, String> descriptionColumn;
-    @FXML TableColumn<Appointment, String> startColumn;
-    @FXML TableColumn<Appointment, String> endColumn;
-    @FXML TableColumn<Appointment, Integer> customerIdColumn;
+    @FXML private TableView<Appointment> contactAppointmentsView;
+    @FXML private TableColumn<Appointment, String> contactNameColumn;
+    @FXML private TableColumn<Appointment, Integer> appIdColumn;
+    @FXML private TableColumn<Appointment, String> titleColumn;
+    @FXML private TableColumn<Appointment, String> typeColumn;
+    @FXML private TableColumn<Appointment, String> descriptionColumn;
+    @FXML private TableColumn<Appointment, String> startColumn;
+    @FXML private TableColumn<Appointment, String> endColumn;
+    @FXML private TableColumn<Appointment, Integer> customerIdColumn;
 
-    @FXML TableView<Appointment> locationAppointmentsView;
-    @FXML TableColumn<Appointment, String> appIdColumnLoc;
-    @FXML TableColumn<Appointment, String> appTitleColumnLoc;
-    @FXML TableColumn<Appointment, String> appDescriptionColumnLoc;
-    @FXML TableColumn<Appointment, String> typeColumnLoc;
-    @FXML TableColumn<Appointment, String> startColumnLoc;
-    @FXML TableColumn<Appointment, String> endColumnLoc;
-    @FXML TableColumn<Appointment, Integer> customerIdColumnLoc;
+    @FXML private TableView<Appointment> locationAppointmentsView;
+    @FXML private TableColumn<Appointment, String> appIdColumnLoc;
+    @FXML private TableColumn<Appointment, String> appTitleColumnLoc;
+    @FXML private TableColumn<Appointment, String> appDescriptionColumnLoc;
+    @FXML private TableColumn<Appointment, String> typeColumnLoc;
+    @FXML private TableColumn<Appointment, String> startColumnLoc;
+    @FXML private TableColumn<Appointment, String> endColumnLoc;
+    @FXML private TableColumn<Appointment, Integer> customerIdColumnLoc;
 
+    @FXML private TextArea textArea;
 
     @FXML private Button backToMainScreenButton;
     @FXML private ComboBox<Contact> contactsComboBox;
     @FXML private ComboBox<String> locationComboBox;
+    @FXML private ComboBox<String> typesComboBox;
 
     @FXML private TabPane reportsPane;
     @FXML private Tab contactAppReport;
@@ -73,6 +80,8 @@ public class ReportController implements Initializable {
 
         locationComboBox.setItems(AddAppointmentController.locations);
         contactsComboBox.setItems(appointmentDAO.getContactsList());
+        appointmentDAO.getAppsByMonthAndType();
+        textArea.setEditable(false);
     }
 
     @FXML
@@ -80,7 +89,6 @@ public class ReportController implements Initializable {
 
         FilteredList<Appointment> filteredList = contactAppointmentsList.filtered(c -> c.getAppContact().equals(contactsComboBox.getValue().getContactName()));
         contactAppointmentsView.setItems(filteredList);
-        System.out.println(filteredList);
     }
 
     @FXML
@@ -88,5 +96,17 @@ public class ReportController implements Initializable {
 
         FilteredList<Appointment> filteredList = contactAppointmentsList.filtered(c -> c.getAppLocation().equals(locationComboBox.getValue()));
         locationAppointmentsView.setItems(filteredList);
+    }
+
+    @FXML
+    private void monthAndTypeReport() {
+
+        ObservableList<String> reportStrings = appointmentDAO.getAppsByMonthAndType();
+        StringBuffer stringBuffer = new StringBuffer();
+        for(String s : reportStrings) {
+            stringBuffer.append(s + "\n");
+        }
+        textArea.appendText(stringBuffer.toString());
+
     }
 }
