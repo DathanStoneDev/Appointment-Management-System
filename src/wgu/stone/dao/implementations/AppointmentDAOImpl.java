@@ -7,10 +7,7 @@ import wgu.stone.dao.databaseConnection.DatabaseConnection;
 import wgu.stone.model.Appointment;
 import wgu.stone.model.Contact;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
 
 
 public class AppointmentDAOImpl implements AppointmentDAO {

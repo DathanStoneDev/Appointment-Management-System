@@ -11,11 +11,18 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import wgu.stone.dao.databaseConnection.Login;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
 
 public class LoginController implements Initializable {
@@ -45,20 +52,33 @@ public class LoginController implements Initializable {
     protected static int loggedInUser;
 
 
+
     /**
      * Logging into the application. Linked to the loginButton.
      */
     public void loginToApp() throws IOException {
+        DateTimeFormatter d = DateTimeFormatter.ISO_DATE_TIME;
+        String loginTime = d.format(OffsetDateTime.now().truncatedTo(ChronoUnit.MILLIS));
         String userName = userNameField.getText();
         String userPassword = passwordField.getText();
+        FileWriter fileWriter = new FileWriter("login_activity.txt", true);
+        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
         if(login.checkUserInfo(userName, userPassword)) {
             loggedInUser = login.getUserId(userName);
+            bufferedWriter.write("Time: " + loginTime + " - Success");
+            bufferedWriter.newLine();
+            bufferedWriter.close();
+
             Parent addProduct = FXMLLoader.load(getClass().getResource("/wgu/stone/view/MainDashboard.fxml"));
             Scene addProductScene = new Scene(addProduct);
             Stage window = (Stage) loginButton.getScene().getWindow();
             window.setScene(addProductScene);
             window.show();
         } else {
+            bufferedWriter.write("Time: " + loginTime + " - Unsuccessful");
+            bufferedWriter.newLine();
+            bufferedWriter.close();
             loginErrorLabel.setText(rb.getString("loginErrorLabel"));
         }
     }

@@ -61,6 +61,7 @@ public class AddAppointmentController implements Initializable {
     //DateTimeFormatters
     protected static DateTimeFormatter d1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
+    //turn this to combobox - use observable map
     //possibly edit this. Works for now. This can go to a hashmap.
     private String selectAppType() {
         try {

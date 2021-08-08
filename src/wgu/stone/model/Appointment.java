@@ -1,10 +1,6 @@
 package wgu.stone.model;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
+import wgu.stone.utility.DateTimeFormatterUtility;
 
 public class Appointment {
 
@@ -80,23 +76,13 @@ public class Appointment {
     }
 
     public String getStartDatetime() {
-        DateTimeFormatter d1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime l = LocalDateTime.parse(startDatetime, d1);
-        ZonedDateTime z = l.atZone(ZoneOffset.UTC);
-        ZonedDateTime zz = z.withZoneSameInstant(ZoneId.systemDefault());
-        String customerStartTime = zz.format(d1);
-        return customerStartTime;
+        return DateTimeFormatterUtility.formatDateTime(startDatetime);
     }
 
     public void setStartDatetime(String startDatetime) { this.startDatetime = startDatetime;}
-    //works. Put into Utility for DateTimeFormatting and the method.
+
     public String getEndDatetime() {
-        DateTimeFormatter d1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime l = LocalDateTime.parse(endDatetime, d1);
-        ZonedDateTime z = l.atZone(ZoneOffset.UTC);
-        ZonedDateTime zz = z.withZoneSameInstant(ZoneId.systemDefault());
-        String customerEndTime = zz.format(d1);
-        return customerEndTime;
+        return DateTimeFormatterUtility.formatDateTime(endDatetime);
     }
 
     public void setEndDatetime(String endDatetime) {

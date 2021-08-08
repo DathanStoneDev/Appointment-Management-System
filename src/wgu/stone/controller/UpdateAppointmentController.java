@@ -1,5 +1,7 @@
 package wgu.stone.controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -7,6 +9,7 @@ import wgu.stone.dao.implementations.AppointmentDAOImpl;
 import wgu.stone.dao.interfaces.AppointmentDAO;
 import wgu.stone.model.Appointment;
 import wgu.stone.model.Contact;
+import wgu.stone.model.Country;
 
 import java.net.URL;
 import java.time.*;
@@ -40,6 +43,7 @@ public class UpdateAppointmentController implements Initializable {
 
     //DAO Interface Instances
     private AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
+    private ObservableList<Contact> contactList = FXCollections.observableArrayList();
     //private final DateTimeFormatter custom = DateTimeFormatter.ofPattern("HH:mm:ss yyyy-MM-dd");
 
 
@@ -114,23 +118,25 @@ public class UpdateAppointmentController implements Initializable {
         customerIdField.setText(Integer.toString(appointment.getCustomerId()));
         appIdField.setText(Integer.toString(appointment.getAppId()));
         descriptionField.setText(appointment.getAppDescription());
-        //LocalDateTime dateTime = LocalDateTime.parse(appointment.getStartDatetime()); //this can be deleted
-
-        //**Need to focus on getting ZoneDateTimes Instead and formatting those.
-        //**Need to be in the yyyy-MM-dd HH:mm:ss format for mySql -> DateTimeFormatter.
-       // startTimeComboBox.setValue();
-       // endTimeComboBox.setValue(); - try to grab total localDateTime and parse it individually.
         locationComboBox.setValue(appointment.getAppLocation());
-       // datePicker.setValue();
         titleField.setText(appointment.getAppTitle());
-        //contactNameComboBox.setValue(appointment.getAppContact());
         customerIdField.setText(Integer.toString(appointment.getCustomerId()));
+        String type = appointment.getAppType();
+
+
+        for(Contact c : contactList) {
+            if(c.getContactName().equals(appointment.getAppContact())) {
+                contactNameComboBox.setValue(c);
+            }
+        }
+
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         locationComboBox.setItems(AddAppointmentController.locations);
-        contactNameComboBox.setItems(appointmentDAO.getContactsList());
+        contactList = appointmentDAO.getContactsList();
+        contactNameComboBox.setItems(contactList);
         customerIdField.setDisable(true);
         appIdField.setDisable(true);
         setTimesForComboBoxes();
@@ -140,4 +146,7 @@ public class UpdateAppointmentController implements Initializable {
         consultType.setToggleGroup(typeGroup);
         locationComboBox.setItems(locations);
     }
+
+
+
 }
