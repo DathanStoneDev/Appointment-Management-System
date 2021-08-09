@@ -4,7 +4,6 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -13,9 +12,6 @@
    <children>
       <ComboBox fx:id="locationComboBox" layoutX="345.0" layoutY="220.0" prefWidth="150.0" />
       <Label layoutX="265.0" layoutY="268.0" text="contact name" />
-      <RadioButton fx:id="projectType" layoutX="337.0" layoutY="183.0" mnemonicParsing="false" text="Project" />
-      <RadioButton fx:id="consultType" layoutX="337.0" layoutY="87.0" mnemonicParsing="false" text="Consult" />
-      <RadioButton fx:id="businessType" layoutX="337.0" layoutY="137.0" mnemonicParsing="false" text="Business" />
       <TextField fx:id="descriptionField" layoutX="85.0" layoutY="133.0" prefHeight="25.0" prefWidth="154.0" />
       <TextField fx:id="titleField" layoutX="87.0" layoutY="83.0" />
       <Label layoutX="50.0" layoutY="87.0" text="Title" />
@@ -37,9 +33,11 @@
       <Label layoutX="48.0" layoutY="183.0" text="Date" />
       <Button fx:id="cancelButton" layoutX="443.0" layoutY="349.0" mnemonicParsing="false" text="Cancel" />
       <Button fx:id="exitAppButton" layoutX="483.0" layoutY="13.0" mnemonicParsing="false" text="X" />
-      <TextField fx:id="appIdField" layoutX="88.0" layoutY="39.0" />
-      <Label layoutX="42.0" layoutY="43.0" text="App ID" />
-      <TextField fx:id="customerIdField" layoutX="87.0" layoutY="305.0" />
-      <Label layoutX="18.0" layoutY="309.0" text="Customer ID" />
+      <TextField fx:id="appIdField" layoutX="346.0" layoutY="83.0" />
+      <Label layoutX="294.0" layoutY="87.0" text="App ID" />
+      <TextField fx:id="customerIdField" layoutX="346.0" layoutY="125.0" />
+      <Label layoutX="268.0" layoutY="129.0" text="Customer ID" />
+      <ComboBox fx:id="typeComboBox" layoutX="345.0" layoutY="179.0" prefWidth="150.0" />
+      <Label layoutX="300.0" layoutY="183.0" text="Type" />
    </children>
 </AnchorPane>

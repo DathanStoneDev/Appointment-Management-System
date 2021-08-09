@@ -45,7 +45,7 @@
                </AnchorPane>
          </content>
        </Tab>
-       <Tab fx:id="totalAppReport" onSelectionChanged="#monthAndTypeReport" text="Total Appointments By Type/Month Report">
+       <Tab fx:id="totalAppReport" text="Total Appointments By Type/Month Report">
          <content>
            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>

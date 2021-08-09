@@ -11,7 +11,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import wgu.stone.dao.databaseConnection.Login;
-
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -22,7 +21,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.logging.Logger;
+
 
 
 public class LoginController implements Initializable {
@@ -55,6 +54,7 @@ public class LoginController implements Initializable {
 
     /**
      * Logging into the application. Linked to the loginButton.
+     * Logs all attempts.
      */
     public void loginToApp() throws IOException {
         DateTimeFormatter d = DateTimeFormatter.ISO_DATE_TIME;

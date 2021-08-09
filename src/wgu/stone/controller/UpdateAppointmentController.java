@@ -9,13 +9,13 @@ import wgu.stone.dao.implementations.AppointmentDAOImpl;
 import wgu.stone.dao.interfaces.AppointmentDAO;
 import wgu.stone.model.Appointment;
 import wgu.stone.model.Contact;
-import wgu.stone.model.Country;
-
 import java.net.URL;
+import java.text.DateFormat;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
-import static wgu.stone.controller.AddAppointmentController.locations;
-import static wgu.stone.controller.AddAppointmentController.types;
+
+import static wgu.stone.controller.AddAppointmentController.*;
 
 public class UpdateAppointmentController implements Initializable {
 
@@ -30,11 +30,7 @@ public class UpdateAppointmentController implements Initializable {
     @FXML private ComboBox<Contact> contactNameComboBox;
     @FXML private ComboBox<LocalTime> startTimeComboBox;
     @FXML private ComboBox<LocalTime> endTimeComboBox;
-
-    @FXML private RadioButton consultType;
-    @FXML private RadioButton businessType;
-    @FXML private RadioButton projectType;
-    @FXML private ToggleGroup typeGroup;
+    @FXML private ComboBox<String> typeComboBox;
 
     //Confirmation buttons.
     @FXML private Button addAppointmentButton;
@@ -44,26 +40,7 @@ public class UpdateAppointmentController implements Initializable {
     //DAO Interface Instances
     private AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
     private ObservableList<Contact> contactList = FXCollections.observableArrayList();
-    //private final DateTimeFormatter custom = DateTimeFormatter.ofPattern("HH:mm:ss yyyy-MM-dd");
 
-
-
-    private String selectAppType() {
-        types.clone();
-        try {
-            if(consultType.isSelected()) {
-                return types[0];
-            }
-            if(businessType.isSelected()) {
-                return types[1];
-            }
-            if(projectType.isSelected()) {
-                return types[2];
-            }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        } return null;
-    }
 
     private void setTimesForComboBoxes() {
 
@@ -77,21 +54,38 @@ public class UpdateAppointmentController implements Initializable {
         }
     }
 
+    /**
+     * Creates a LocalDateTime from the LocalDate and LocalTime selections from the date picker and startTimeComboBox.
+     * Converts the LocalDateTime to a ZoneDateTime and with a zoneID of UTC.
+     * Lastly, Formats the ZoneDateTime.
+     * @return returns a string of the final formatted UTC time to be persisted to the Database.
+     */
     private String createStartLocaleDateTime() {
 
         LocalDate startDate = datePicker.getValue();
         LocalTime startTime = startTimeComboBox.getValue();
         LocalDateTime start = LocalDateTime.of(startDate, startTime);
-        System.out.println(start);
-        return start.toString();
+        ZonedDateTime loc = ZonedDateTime.of(start, ZoneId.systemDefault());
+        ZonedDateTime utc = loc.withZoneSameInstant(ZoneOffset.UTC);
+        String startFinal = utc.format(d1);
+        return startFinal;
     }
 
+    /**
+     * Creates a LocalDateTime from the LocalDate and LocalTime selections from the date picker and endTimeComboBox.
+     * Converts the LocalDateTime to a ZoneDateTime and with a zoneID of UTC.
+     * Lastly, Formats the ZoneDateTime.
+     * @return returns a string of the final formatted UTC time to be persisted to the Database.
+     */
     private String createEndLocaleDateTime() {
 
         LocalDate endDate = datePicker.getValue();
         LocalTime endTime = endTimeComboBox.getValue();
         LocalDateTime end = LocalDateTime.of(endDate, endTime);
-        return end.toString();
+        ZonedDateTime loc = ZonedDateTime.of(end, ZoneId.systemDefault());
+        ZonedDateTime utc = loc.withZoneSameInstant(ZoneOffset.UTC);
+        String endFinal = utc.format(d1);
+        return endFinal;
     }
 
     public void updateAppointment() {
@@ -106,7 +100,7 @@ public class UpdateAppointmentController implements Initializable {
         appointment.setAppTitle(titleField.getText());
         appointment.setStartDatetime(createStartLocaleDateTime());
         appointment.setEndDatetime(createEndLocaleDateTime());
-        appointment.setAppType(selectAppType());
+        appointment.setAppType(typeComboBox.getValue());
         appointment.setUserId(LoginController.loggedInUser);
 
         appointmentDAO.updateAppointment(appointment);
@@ -121,14 +115,17 @@ public class UpdateAppointmentController implements Initializable {
         locationComboBox.setValue(appointment.getAppLocation());
         titleField.setText(appointment.getAppTitle());
         customerIdField.setText(Integer.toString(appointment.getCustomerId()));
-        String type = appointment.getAppType();
-
-
+        typeComboBox.setValue(appointment.getAppType());
+        datePicker.setValue(getDateFromDateTime(appointment.getStartDatetime()));
+        startTimeComboBox.setValue(getTimeFromDateTime(appointment.getStartDatetime()));
+        endTimeComboBox.setValue(getTimeFromDateTime(appointment.getEndDatetime()));
         for(Contact c : contactList) {
             if(c.getContactName().equals(appointment.getAppContact())) {
                 contactNameComboBox.setValue(c);
             }
         }
+
+        System.out.println(getDateFromDateTime(appointment.getStartDatetime()));
 
     }
 
@@ -140,13 +137,21 @@ public class UpdateAppointmentController implements Initializable {
         customerIdField.setDisable(true);
         appIdField.setDisable(true);
         setTimesForComboBoxes();
-        typeGroup = new ToggleGroup();
-        businessType.setToggleGroup(typeGroup);
-        projectType.setToggleGroup(typeGroup);
-        consultType.setToggleGroup(typeGroup);
         locationComboBox.setItems(locations);
+        typeComboBox.setItems(types);
+
     }
 
+    private LocalDate getDateFromDateTime(String dateTime) {
+        DateTimeFormatter d = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDate date = LocalDate.parse(dateTime, d);
+        return date;
+    }
 
+    private LocalTime getTimeFromDateTime(String dateTime) {
+        DateTimeFormatter d = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalTime time = LocalTime.parse(dateTime, d);
+        return time;
+    }
 
 }

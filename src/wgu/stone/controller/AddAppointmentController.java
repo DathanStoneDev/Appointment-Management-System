@@ -37,17 +37,12 @@ public class AddAppointmentController implements Initializable {
     @FXML private ComboBox<LocalTime> endTimeComboBox;
     @FXML private ComboBox<String> locationComboBox;
     @FXML private ComboBox<Contact> contactNameComboBox;
+    @FXML private ComboBox<String> typeComboBox;
 
     //may put these in the model.
-    protected static final String[] types = {"Consult", "Business", "Project"};
+    protected static final ObservableList<String> types = FXCollections.observableArrayList(new String[]{"Consult", "Business", "Project"});
     protected static final ObservableList<String> locations = FXCollections.observableArrayList("Phoenix Arizona",
             "White Plains New York", "Montreal Canada", "London England");
-
-    //Types buttons.
-    @FXML private RadioButton consultType;
-    @FXML private RadioButton businessType;
-    @FXML private RadioButton projectType;
-    @FXML private ToggleGroup typeGroup;
 
     //Confirmation buttons.
     @FXML private Button addAppointmentButton;
@@ -61,22 +56,8 @@ public class AddAppointmentController implements Initializable {
     //DateTimeFormatters
     protected static DateTimeFormatter d1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    //turn this to combobox - use observable map
-    //possibly edit this. Works for now. This can go to a hashmap.
     private String selectAppType() {
-        try {
-            if(consultType.isSelected()) {
-                return types[0];
-            }
-            if(businessType.isSelected()) {
-                return types[1];
-            }
-            if(projectType.isSelected()) {
-                return types[2];
-            }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        } return null;
+        return typeComboBox.getValue();
     }
 
     private void setTimesForComboBoxes() {
@@ -153,10 +134,7 @@ public class AddAppointmentController implements Initializable {
         customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         setTimesForComboBoxes();
         contactNameComboBox.setItems(appointmentDAO.getContactsList());
-        typeGroup = new ToggleGroup();
-        businessType.setToggleGroup(typeGroup);
-        projectType.setToggleGroup(typeGroup);
-        consultType.setToggleGroup(typeGroup);
         locationComboBox.setItems(locations);
+        typeComboBox.setItems(types);
     }
 }

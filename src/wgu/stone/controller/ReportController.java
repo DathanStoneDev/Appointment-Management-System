@@ -11,12 +11,7 @@ import wgu.stone.dao.implementations.AppointmentDAOImpl;
 import wgu.stone.dao.interfaces.AppointmentDAO;
 import wgu.stone.model.Appointment;
 import wgu.stone.model.Contact;
-
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 
@@ -82,24 +77,25 @@ public class ReportController implements Initializable {
         contactsComboBox.setItems(appointmentDAO.getContactsList());
         appointmentDAO.getAppsByMonthAndType();
         textArea.setEditable(false);
+
+        monthAndTypeReport();
     }
 
     @FXML
-    private void setContactAppTableView() {
+    private final void setContactAppTableView() {
 
         FilteredList<Appointment> filteredList = contactAppointmentsList.filtered(c -> c.getAppContact().equals(contactsComboBox.getValue().getContactName()));
         contactAppointmentsView.setItems(filteredList);
     }
 
     @FXML
-    private void setLocationAppTableView() {
+    private final void setLocationAppTableView() {
 
         FilteredList<Appointment> filteredList = contactAppointmentsList.filtered(c -> c.getAppLocation().equals(locationComboBox.getValue()));
         locationAppointmentsView.setItems(filteredList);
     }
 
-    @FXML
-    private void monthAndTypeReport() {
+    private final void monthAndTypeReport() {
 
         ObservableList<String> reportStrings = appointmentDAO.getAppsByMonthAndType();
         StringBuffer stringBuffer = new StringBuffer();
