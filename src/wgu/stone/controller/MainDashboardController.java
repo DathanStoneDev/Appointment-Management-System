@@ -21,6 +21,7 @@ public class MainDashboardController implements Initializable {
 
     @FXML Button reportFormButton;
     @FXML Button mainAppointmentFormButton;
+    @FXML Button customerMainFormButton;
 
     AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
 
@@ -42,6 +43,14 @@ public class MainDashboardController implements Initializable {
         window.setScene(mainAppScene);
         window.show();
 
+    }
+
+    @FXML void goToCustomerMainForm() throws IOException {
+        Parent customer = FXMLLoader.load(getClass().getResource("/wgu/stone/view/CustomerMainForm.fxml"));
+        Scene customerScene = new Scene(customer);
+        Stage window = (Stage) customerMainFormButton.getScene().getWindow();
+        window.setScene(customerScene);
+        window.show();
     }
 
     private void alertForUpcomingAppointments() {

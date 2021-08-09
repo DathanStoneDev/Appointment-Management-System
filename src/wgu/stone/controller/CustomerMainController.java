@@ -35,7 +35,7 @@ public class CustomerMainController implements Initializable {
     @FXML private Button updateCustomerButton;
     @FXML private Button deleteCustomerButton;
     @FXML private Button exitAppButton;
-    @FXML private Button addAppointmentsButton;
+    @FXML private Button mainDashboardButton;
 
     //CustomerDAO interface to call methods.
     private CustomerDAO customerDAO = new CustomerDAOImpl();
@@ -94,11 +94,11 @@ public class CustomerMainController implements Initializable {
      * @throws IOException
      */
     @FXML
-    private void goToMainAppointmentForm() throws IOException {
-        Parent addAppointment = FXMLLoader.load(getClass().getResource("/wgu/stone/view/AppointmentMainForm.fxml"));
-        Scene addAppointmentScene = new Scene(addAppointment);
-        Stage window = (Stage) addCustomerButton.getScene().getWindow();
-        window.setScene(addAppointmentScene);
+    private void goToMainDashboard() throws IOException {
+        Parent dashboard = FXMLLoader.load(getClass().getResource("/wgu/stone/view/MainDashboard.fxml"));
+        Scene mainDashboardScene = new Scene(dashboard);
+        Stage window = (Stage) mainDashboardButton.getScene().getWindow();
+        window.setScene(mainDashboardScene);
         window.show();
 
     }
@@ -109,10 +109,10 @@ public class CustomerMainController implements Initializable {
      */
     @FXML
     private void goToCustomerAddForm() throws IOException {
-            Parent addAppointment = FXMLLoader.load(getClass().getResource("/wgu/stone/view/AddCustomerForm.fxml"));
-            Scene addAppointmentScene = new Scene(addAppointment);
+            Parent addCustomer = FXMLLoader.load(getClass().getResource("/wgu/stone/view/AddCustomerForm.fxml"));
+            Scene addCustomerScene = new Scene(addCustomer);
             Stage window = (Stage) addCustomerButton.getScene().getWindow();
-            window.setScene(addAppointmentScene);
+            window.setScene(addCustomerScene);
             window.show();
     }
 

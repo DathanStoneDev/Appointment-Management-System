@@ -4,13 +4,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import wgu.stone.dao.implementations.AppointmentDAOImpl;
 import wgu.stone.dao.interfaces.AppointmentDAO;
 import wgu.stone.model.Appointment;
 import wgu.stone.model.Contact;
+
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -105,4 +111,14 @@ public class ReportController implements Initializable {
         textArea.appendText(stringBuffer.toString());
 
     }
+
+    @FXML
+    private final void backToMainDashboard() throws IOException {
+        Parent mainDash = FXMLLoader.load(getClass().getResource("/wgu/stone/view/MainDashboard.fxml"));
+        Scene mainDashScene = new Scene(mainDash);
+        Stage window = (Stage) backToMainScreenButton.getScene().getWindow();
+        window.setScene(mainDashScene);
+        window.show();
+    }
+
 }
