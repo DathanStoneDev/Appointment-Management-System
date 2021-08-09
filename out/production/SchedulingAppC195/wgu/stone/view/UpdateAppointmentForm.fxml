@@ -29,7 +29,7 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="addAppointmentButton" layoutX="181.0" layoutY="349.0" mnemonicParsing="false" onAction="#updateAppointment" prefHeight="25.0" prefWidth="168.0" text="Update Appointment" />
+      <Button layoutX="181.0" layoutY="349.0" mnemonicParsing="false" onAction="#updateAppointment" prefHeight="25.0" prefWidth="168.0" text="Update Appointment" />
       <Label layoutX="48.0" layoutY="183.0" text="Date" />
       <Button fx:id="cancelButton" layoutX="443.0" layoutY="349.0" mnemonicParsing="false" text="Cancel" />
       <Button fx:id="exitAppButton" layoutX="483.0" layoutY="13.0" mnemonicParsing="false" text="X" />

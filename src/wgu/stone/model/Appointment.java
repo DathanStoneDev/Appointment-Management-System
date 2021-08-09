@@ -76,13 +76,13 @@ public class Appointment {
     }
 
     public String getStartDatetime() {
-        return DateTimeFormatterUtility.formatDateTime(startDatetime);
+        return startDatetime;
     }
 
     public void setStartDatetime(String startDatetime) { this.startDatetime = startDatetime;}
 
     public String getEndDatetime() {
-        return DateTimeFormatterUtility.formatDateTime(endDatetime);
+        return endDatetime;
     }
 
     public void setEndDatetime(String endDatetime) {

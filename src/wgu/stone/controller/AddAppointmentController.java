@@ -86,6 +86,9 @@ public class AddAppointmentController implements Initializable {
         ZonedDateTime loc = ZonedDateTime.of(start, ZoneId.systemDefault());
         ZonedDateTime utc = loc.withZoneSameInstant(ZoneOffset.UTC);
         String startFinal = utc.format(d1);
+        System.out.println(loc);
+        System.out.println(utc);
+        System.out.println(startFinal);
         return startFinal;
     }
 

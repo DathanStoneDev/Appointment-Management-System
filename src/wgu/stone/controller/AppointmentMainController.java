@@ -75,7 +75,7 @@ public class AppointmentMainController implements Initializable {
     private void deleteAppointment() {
         appointmentDAO.deleteAppointment(appointmentTableView.getSelectionModel().getSelectedItem().getAppId());
     }
-
+    //here I need to implement the DateTiemFormatter.
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         appointments = appointmentDAO.getAppointmentsList();
