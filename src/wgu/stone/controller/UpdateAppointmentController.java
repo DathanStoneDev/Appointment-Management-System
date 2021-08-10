@@ -3,12 +3,18 @@ package wgu.stone.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import wgu.stone.dao.implementations.AppointmentDAOImpl;
 import wgu.stone.dao.interfaces.AppointmentDAO;
 import wgu.stone.model.Appointment;
 import wgu.stone.model.Contact;
+
+import java.io.IOException;
 import java.net.URL;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
@@ -32,8 +38,7 @@ public class UpdateAppointmentController implements Initializable {
     @FXML private ComboBox<String> typeComboBox;
 
     //Confirmation buttons.
-    @FXML private Button addAppointmentButton;
-    @FXML private Button cancelButton;
+    @FXML private Button backToMainAppointmentButton;
     @FXML private Button exitAppButton;
 
     //DAO Interface Instances
@@ -151,6 +156,21 @@ public class UpdateAppointmentController implements Initializable {
         DateTimeFormatter d = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalTime time = LocalTime.parse(dateTime, d);
         return time;
+    }
+
+    @FXML
+    private final void exitApp() {
+        Stage window = (Stage) exitAppButton.getScene().getWindow();
+        window.close();
+    }
+
+    @FXML
+    private final void backToMainDashboard() throws IOException {
+        Parent mainApp = FXMLLoader.load(getClass().getResource("/wgu/stone/view/AppointmentMainForm.fxml"));
+        Scene mainAppScene = new Scene(mainApp);
+        Stage window = (Stage) backToMainAppointmentButton.getScene().getWindow();
+        window.setScene(mainAppScene);
+        window.show();
     }
 
 }

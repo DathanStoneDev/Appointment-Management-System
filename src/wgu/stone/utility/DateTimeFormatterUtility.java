@@ -1,9 +1,6 @@
 package wgu.stone.utility;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 
 /**
@@ -32,4 +29,18 @@ public final class DateTimeFormatterUtility {
         String formattedString = zz.format(d1);
         return formattedString;
     }
+
+    public static LocalDateTime formatToLocalDateTime(String dateTime) {
+        LocalDateTime l = LocalDateTime.parse(dateTime, d1);
+        return  l;
+    }
+
+    public static LocalDateTime formatLocalDateTimeForNewObject(String dateTime) {
+        LocalDateTime l = LocalDateTime.parse(dateTime, d1);
+        ZonedDateTime z = l.atZone(ZoneOffset.UTC);
+        ZonedDateTime zz = z.withZoneSameInstant(ZoneId.systemDefault());
+        LocalDateTime ll = zz.toLocalDateTime();
+        return ll;
+    }
+
 }

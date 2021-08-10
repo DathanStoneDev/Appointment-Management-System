@@ -26,8 +26,8 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="exitAppButton" layoutX="574.0" layoutY="15.0" mnemonicParsing="false" text="X" />
+      <Button fx:id="exitAppButton" layoutX="574.0" layoutY="15.0" mnemonicParsing="false" onAction="#exitApp" text="X" />
       <Button fx:id="saveNewCustomerButton" layoutX="254.0" layoutY="383.0" mnemonicParsing="false" onAction="#addNewCustomer" text="Save Customer" />
-      <Button fx:id="cancelButton" layoutX="548.0" layoutY="408.0" mnemonicParsing="false" text="Cancel" />
+      <Button fx:id="backToMainCustomerButton" layoutX="548.0" layoutY="408.0" mnemonicParsing="false" onAction="#backToMainDashboard" text="Cancel" />
    </children>
 </AnchorPane>

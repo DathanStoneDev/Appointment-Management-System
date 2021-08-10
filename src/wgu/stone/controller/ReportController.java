@@ -48,12 +48,6 @@ public class ReportController implements Initializable {
     @FXML private Button backToMainScreenButton;
     @FXML private ComboBox<Contact> contactsComboBox;
     @FXML private ComboBox<String> locationComboBox;
-    @FXML private ComboBox<String> typesComboBox;
-
-    @FXML private TabPane reportsPane;
-    @FXML private Tab contactAppReport;
-    @FXML private Tab totalAppReport;
-    @FXML private Tab locationAppReport;
 
     private ObservableList<Appointment> contactAppointmentsList = FXCollections.observableArrayList();
     private AppointmentDAO appointmentDAO = new AppointmentDAOImpl();

@@ -2,6 +2,7 @@ package wgu.stone.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,8 +14,14 @@ import javafx.stage.Stage;
 import wgu.stone.dao.implementations.AppointmentDAOImpl;
 import wgu.stone.dao.interfaces.AppointmentDAO;
 import wgu.stone.model.Appointment;
+import wgu.stone.utility.DateTimeFormatterUtility;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.temporal.WeekFields;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class AppointmentMainController implements Initializable {
@@ -34,11 +41,11 @@ public class AppointmentMainController implements Initializable {
     //Appointment form buttons.
     @FXML private Button addAppointmentButton;
     @FXML private Button updateAppointmentButton;
-    @FXML private Button deleteAppointmentButton;
-    @FXML private Button cancelButton;
+    @FXML private Button backToMainScreenButton;
     @FXML private Button exitAppButton;
     @FXML private RadioButton monthlyRadioButton;
     @FXML private RadioButton weeklyRadioButton;
+    @FXML private RadioButton allAppointmentsRadioButton;
     @FXML private ToggleGroup filterAppsGroup;
 
     private AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
@@ -73,7 +80,24 @@ public class AppointmentMainController implements Initializable {
 
     @FXML
     private void deleteAppointment() {
-        appointmentDAO.deleteAppointment(appointmentTableView.getSelectionModel().getSelectedItem().getAppId());
+        int appId = appointmentTableView.getSelectionModel().getSelectedItem().getAppId();
+        appointmentDAO.deleteAppointment(appId);
+        appointments.removeIf(a -> a.getAppId() == appId);
+    }
+
+    @FXML
+    private final void exitApp() {
+        Stage window = (Stage) exitAppButton.getScene().getWindow();
+        window.close();
+    }
+
+    @FXML
+    private final void backToMainDashboard() throws IOException {
+        Parent main = FXMLLoader.load(getClass().getResource("/wgu/stone/view/MainDashboard.fxml"));
+        Scene mainScene = new Scene(main);
+        Stage window = (Stage) backToMainScreenButton.getScene().getWindow();
+        window.setScene(mainScene);
+        window.show();
     }
 
     @Override
@@ -92,6 +116,45 @@ public class AppointmentMainController implements Initializable {
         filterAppsGroup = new ToggleGroup();
         monthlyRadioButton.setToggleGroup(filterAppsGroup);
         weeklyRadioButton.setToggleGroup(filterAppsGroup);
-        monthlyRadioButton.setSelected(true);
+        allAppointmentsRadioButton.setToggleGroup(filterAppsGroup);
+        allAppointmentsRadioButton.setSelected(true);
+    }
+
+    @FXML
+    private void getAppointmentsByCurrentMonth() {
+
+        //gets current month
+        LocalDate currentDate = LocalDate.now();
+        Month currentMonth = currentDate.getMonth();
+
+        FilteredList<Appointment> filteredList = appointments
+                .filtered(a -> DateTimeFormatterUtility.formatLocalDateTimeForNewObject(a.getStartDatetime())
+                        .getMonth().equals(currentMonth));
+        appointmentTableView.setItems(filteredList);
+    }
+
+    @FXML
+    private void getAppointmentsByCurrentWeek() {
+        ObservableList<Appointment> filteredWeek = FXCollections.observableArrayList();
+
+        LocalDate currentDate = LocalDate.now();
+        WeekFields weekFields = WeekFields.of(Locale.getDefault());
+        int currentWeek = currentDate.get(weekFields.weekOfWeekBasedYear());
+
+        for(Appointment a : appointments) {
+            LocalDateTime appDateTime = DateTimeFormatterUtility.formatLocalDateTimeForNewObject(a.getStartDatetime());
+            int week = appDateTime.get(weekFields.weekOfWeekBasedYear());
+
+
+            if(week == currentWeek) {
+               filteredWeek.add(a);
+            }
+        appointmentTableView.setItems(filteredWeek);
+        }
+    }
+
+    @FXML
+    private void getAllAppointments() {
+        appointmentTableView.setItems(appointments);
     }
 }

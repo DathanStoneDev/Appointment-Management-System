@@ -31,7 +31,7 @@ public class AddCustomerController implements Initializable {
     //Buttons.
     @FXML private Button saveNewCustomerButton;
     @FXML private Button exitAppButton;
-    @FXML private Button cancelButton;
+    @FXML private Button backToMainCustomerButton;
 
     //ComboBoxes.
     @FXML private ComboBox<Division> divisionCombo;
@@ -87,5 +87,21 @@ public class AddCustomerController implements Initializable {
         ObservableList<Division> filtered = divList.filtered(d -> d.getCountryID() == selection);
         divisionCombo.setItems(filtered);
     }
+
+    @FXML
+    private final void exitApp() {
+        Stage window = (Stage) exitAppButton.getScene().getWindow();
+        window.close();
+    }
+
+    @FXML
+    private final void backToMainDashboard() throws IOException {
+        Parent mainCustomer = FXMLLoader.load(getClass().getResource("/wgu/stone/view/CustomerMainForm.fxml"));
+        Scene mainCustomerScene = new Scene(mainCustomer);
+        Stage window = (Stage) backToMainCustomerButton.getScene().getWindow();
+        window.setScene(mainCustomerScene);
+        window.show();
+    }
+
 
 }

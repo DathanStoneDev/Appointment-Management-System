@@ -32,8 +32,8 @@
    </Label>
    <Button fx:id="addAppointmentButton" layoutX="222.0" layoutY="557.0" mnemonicParsing="false" onAction="#addNewAppointment" prefHeight="25.0" prefWidth="168.0" text="Add Appointment" />
    <Label layoutX="49.0" layoutY="415.0" text="Date" />
-   <Button fx:id="cancelButton" layoutX="525.0" layoutY="557.0" mnemonicParsing="false" text="Cancel" />
-   <Button fx:id="exitAppButton" layoutX="558.0" layoutY="18.0" mnemonicParsing="false" text="X" />
+   <Button fx:id="backToMainAppointmentButton" layoutX="525.0" layoutY="557.0" mnemonicParsing="false" onAction="#backToMainAppointment" text="Cancel" />
+   <Button fx:id="exitAppButton" layoutX="558.0" layoutY="18.0" mnemonicParsing="false" onAction="#exitApp" text="X" />
    <TableView fx:id="customerTable" layoutX="192.0" layoutY="57.0" prefHeight="261.0" prefWidth="228.0">
       <columns>
          <TableColumn fx:id="customerIdColumn" prefWidth="88.0" text="Customer ID" />

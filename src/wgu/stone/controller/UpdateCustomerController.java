@@ -39,6 +39,7 @@ public class UpdateCustomerController implements Initializable {
     //Buttons.
     @FXML private Button saveUpdatedCustomerButton;
     @FXML private Button cancelUpdateButton;
+    @FXML private Button exitAppButton;
 
     //CustomerDAO Interface to call methods.
     private CustomerDAO customerDAO = new CustomerDAOImpl();
@@ -124,13 +125,19 @@ public class UpdateCustomerController implements Initializable {
      * @throws IOException
      */
     @FXML
-    private void cancelUpdate() throws IOException {
+    private void backToMainCustomerForm() throws IOException {
 
-        Parent addCustomer = FXMLLoader.load(getClass().getResource("/wgu/stone/view/CustomerMainForm.fxml"));
-        Scene addCustomerScene = new Scene(addCustomer);
+        Parent mainCustomer = FXMLLoader.load(getClass().getResource("/wgu/stone/view/CustomerMainForm.fxml"));
+        Scene mainCustomerScene = new Scene(mainCustomer);
         Stage window = (Stage) cancelUpdateButton.getScene().getWindow();
-        window.setScene(addCustomerScene);
+        window.setScene(mainCustomerScene);
         window.show();
+    }
+
+    @FXML
+    private final void exitApp() {
+        Stage window = (Stage) exitAppButton.getScene().getWindow();
+        window.close();
     }
 
     /**

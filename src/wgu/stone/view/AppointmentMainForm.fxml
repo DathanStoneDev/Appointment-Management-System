@@ -30,9 +30,10 @@
     <Button fx:id="addAppointmentButton" layoutX="14.0" layoutY="538.0" mnemonicParsing="false" onAction="#goToAddAppForm" prefHeight="25.0" prefWidth="75.0" text="Add" />
     <Button fx:id="updateAppointmentButton" layoutX="96.0" layoutY="538.0" mnemonicParsing="false" onAction="#goToUpdateForm" prefHeight="25.0" prefWidth="75.0" text="Update" />
     <Button fx:id="deleteAppointmentButton" layoutX="179.0" layoutY="538.0" mnemonicParsing="false" onAction="#deleteAppointment" prefHeight="25.0" prefWidth="75.0" text="Delete" />
-    <Button layoutX="781.0" layoutY="538.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="154.0" text="Back To Main Screen" />
-    <Button layoutX="911.0" layoutY="10.0" mnemonicParsing="false" text="X" />
-   <RadioButton fx:id="monthlyRadioButton" layoutX="14.0" layoutY="150.0" mnemonicParsing="false" text="Monthly" />
-   <RadioButton fx:id="weeklyRadioButton" layoutX="89.0" layoutY="150.0" mnemonicParsing="false" text="Weekly" />
+    <Button fx:id="backToMainScreenButton" layoutX="781.0" layoutY="538.0" mnemonicParsing="false" onAction="#backToMainDashboard" prefHeight="25.0" prefWidth="154.0" text="Back To Main Screen" />
+    <Button fx:id="exitAppButton" layoutX="911.0" layoutY="10.0" mnemonicParsing="false" onAction="#exitApp" text="X" />
+   <RadioButton fx:id="monthlyRadioButton" layoutX="14.0" layoutY="150.0" mnemonicParsing="false" onAction="#getAppointmentsByCurrentMonth" text="Monthly" />
+   <RadioButton fx:id="weeklyRadioButton" layoutX="89.0" layoutY="150.0" mnemonicParsing="false" onAction="#getAppointmentsByCurrentWeek" text="Weekly" />
    <Label fx:id="filterLabel" layoutX="14.0" layoutY="124.0" />
+   <RadioButton fx:id="allAppointmentsRadioButton" layoutX="156.0" layoutY="150.0" mnemonicParsing="false" onAction="#getAllAppointments" text="All Appointments" />
 </AnchorPane>

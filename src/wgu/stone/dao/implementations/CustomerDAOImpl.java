@@ -58,6 +58,12 @@ public class CustomerDAOImpl implements CustomerDAO {
 
         String sql1 = "DELETE FROM appointments WHERE Customer_ID = ?";
         String sql2 = "DELETE FROM customers WHERE Customer_ID = ?";
+        try (PreparedStatement p = DatabaseConnection.getConnection().prepareStatement(sql1)) {
+            p.setInt(1, id);
+            p.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         try (PreparedStatement p = DatabaseConnection.getConnection().prepareStatement(sql2)) {
             p.setInt(1, id);

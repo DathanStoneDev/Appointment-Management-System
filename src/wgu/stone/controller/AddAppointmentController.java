@@ -3,9 +3,13 @@ package wgu.stone.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import wgu.stone.dao.implementations.AppointmentDAOImpl;
 import wgu.stone.dao.implementations.CustomerDAOImpl;
 import wgu.stone.dao.interfaces.AppointmentDAO;
@@ -13,6 +17,9 @@ import wgu.stone.dao.interfaces.CustomerDAO;
 import wgu.stone.model.Appointment;
 import wgu.stone.model.Contact;
 import wgu.stone.model.Customer;
+import wgu.stone.utility.DateTimeFormatterUtility;
+
+import java.io.IOException;
 import java.net.URL;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
@@ -45,9 +52,8 @@ public class AddAppointmentController implements Initializable {
             "White Plains New York", "Montreal Canada", "London England");
 
     //Confirmation buttons.
-    @FXML private Button addAppointmentButton;
-    @FXML private Button cancelButton;
     @FXML private Button exitAppButton;
+    @FXML private Button backToMainAppointmentButton;
 
     //DAO Interface Instances
     private AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
@@ -55,6 +61,8 @@ public class AddAppointmentController implements Initializable {
 
     //DateTimeFormatters
     protected static DateTimeFormatter d1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    private ObservableList<Appointment> appointments = FXCollections.observableArrayList();
 
     private String selectAppType() {
         return typeComboBox.getValue();
@@ -86,9 +94,6 @@ public class AddAppointmentController implements Initializable {
         ZonedDateTime loc = ZonedDateTime.of(start, ZoneId.systemDefault());
         ZonedDateTime utc = loc.withZoneSameInstant(ZoneOffset.UTC);
         String startFinal = utc.format(d1);
-        System.out.println(loc);
-        System.out.println(utc);
-        System.out.println(startFinal);
         return startFinal;
     }
 
@@ -127,7 +132,13 @@ public class AddAppointmentController implements Initializable {
         appointment.setCustomerId(customerTable.getSelectionModel().getSelectedItem().getCustomerId());
         appointment.setUserId(LoginController.loggedInUser);
 
-        appointmentDAO.saveAppointment(appointment);
+        if(!doesAppointmentOverlap(appointment)) {
+            appointmentDAO.saveAppointment(appointment);
+            System.out.println("Saved");
+        } else {
+            System.out.println("Not saved");
+        }
+
     }
 
     @Override
@@ -139,5 +150,43 @@ public class AddAppointmentController implements Initializable {
         contactNameComboBox.setItems(appointmentDAO.getContactsList());
         locationComboBox.setItems(locations);
         typeComboBox.setItems(types);
+        appointments = appointmentDAO.getAppointmentsList();
+    }
+
+    @FXML
+    private final void exitApp() {
+        Stage window = (Stage) exitAppButton.getScene().getWindow();
+        window.close();
+    }
+
+    @FXML
+    private final void backToMainAppointment() throws IOException {
+        Parent mainApp = FXMLLoader.load(getClass().getResource("/wgu/stone/view/AppointmentMainForm.fxml"));
+        Scene mainAppScene = new Scene(mainApp);
+        Stage window = (Stage) backToMainAppointmentButton.getScene().getWindow();
+        window.setScene(mainAppScene);
+        window.show();
+    }
+    //Time for appointment is converted to LocalDateTime (Still in UTC)
+    //May need to convert appointment time back to LocalDateTime not in UTC.
+    //This is horribly written. Dirty and works.
+    private Boolean doesAppointmentOverlap(Appointment appointment) {
+        LocalDateTime appStartDateTime = DateTimeFormatterUtility.formatLocalDateTimeForNewObject(appointment.getStartDatetime());
+        LocalDateTime appEndDateTime = DateTimeFormatterUtility.formatLocalDateTimeForNewObject(appointment.getEndDatetime());
+
+        Boolean overlap = false;
+
+        for (Appointment a : appointments) {
+
+            LocalDateTime appListStart = DateTimeFormatterUtility.formatToLocalDateTime(a.getStartDatetime());
+            LocalDateTime appListEnd = DateTimeFormatterUtility.formatToLocalDateTime(a.getEndDatetime());
+
+           if (appStartDateTime.isAfter(appListStart) && appStartDateTime.isBefore(appListEnd)
+                   || appEndDateTime.isAfter(appListStart) && appEndDateTime.isBefore(appListEnd)
+           || appStartDateTime.isEqual(appListStart) && appEndDateTime.isEqual(appListEnd)) {
+               overlap = true;
+           }
+        }
+        return overlap;
     }
 }

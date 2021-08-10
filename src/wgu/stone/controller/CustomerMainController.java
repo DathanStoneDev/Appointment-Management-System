@@ -33,7 +33,6 @@ public class CustomerMainController implements Initializable {
     //Buttons.
     @FXML private Button addCustomerButton;
     @FXML private Button updateCustomerButton;
-    @FXML private Button deleteCustomerButton;
     @FXML private Button exitAppButton;
     @FXML private Button mainDashboardButton;
 

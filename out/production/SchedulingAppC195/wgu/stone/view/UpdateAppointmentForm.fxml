@@ -31,8 +31,8 @@
       </Label>
       <Button layoutX="181.0" layoutY="349.0" mnemonicParsing="false" onAction="#updateAppointment" prefHeight="25.0" prefWidth="168.0" text="Update Appointment" />
       <Label layoutX="48.0" layoutY="183.0" text="Date" />
-      <Button fx:id="cancelButton" layoutX="443.0" layoutY="349.0" mnemonicParsing="false" text="Cancel" />
-      <Button fx:id="exitAppButton" layoutX="483.0" layoutY="13.0" mnemonicParsing="false" text="X" />
+      <Button fx:id="backToMainAppointmentButton" layoutX="443.0" layoutY="349.0" mnemonicParsing="false" onAction="#backToMainDashboard" text="Cancel" />
+      <Button fx:id="exitAppButton" layoutX="483.0" layoutY="13.0" mnemonicParsing="false" onAction="#exitApp" text="X" />
       <TextField fx:id="appIdField" layoutX="346.0" layoutY="83.0" />
       <Label layoutX="294.0" layoutY="87.0" text="App ID" />
       <TextField fx:id="customerIdField" layoutX="346.0" layoutY="125.0" />
