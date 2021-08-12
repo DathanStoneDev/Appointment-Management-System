@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import wgu.stone.dao.implementations.CustomerDAOImpl;
 import wgu.stone.dao.interfaces.CustomerDAO;
 import wgu.stone.model.Customer;
+import wgu.stone.utility.Buttons;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -84,8 +85,7 @@ public class CustomerMainController implements Initializable {
      */
     @FXML
     private void exitApplication() {
-        Stage window = (Stage) exitAppButton.getScene().getWindow();
-        window.close();
+        Buttons.exitApplication(exitAppButton);
     }
 
     /**

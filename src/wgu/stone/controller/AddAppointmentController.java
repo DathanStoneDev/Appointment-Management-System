@@ -167,8 +167,7 @@ public class AddAppointmentController implements Initializable {
         window.setScene(mainAppScene);
         window.show();
     }
-    //Time for appointment is converted to LocalDateTime (Still in UTC)
-    //May need to convert appointment time back to LocalDateTime not in UTC.
+
     //This is horribly written. Dirty and works.
     private Boolean doesAppointmentOverlap(Appointment appointment) {
         LocalDateTime appStartDateTime = DateTimeFormatterUtility.formatLocalDateTimeForNewObject(appointment.getStartDatetime());

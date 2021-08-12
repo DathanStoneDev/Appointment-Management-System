@@ -182,7 +182,6 @@ public class AppointmentDAOImpl implements AppointmentDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println(reportStringList);
         return reportStringList;
     }
 
@@ -204,7 +203,6 @@ public class AppointmentDAOImpl implements AppointmentDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println(appointmentsWithin15Minutes);
         return appointmentsWithin15Minutes;
     }
 }

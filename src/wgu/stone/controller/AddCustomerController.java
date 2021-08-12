@@ -58,7 +58,8 @@ public class AddCustomerController implements Initializable {
      * Adds a new customer.
      * @throws IOException
      */
-    public void addNewCustomer() throws IOException {
+    @FXML
+    private final void addNewCustomer() throws IOException {
 
         Customer customer = new Customer();
         customer.setCustomerName(customerNameField.getText());
@@ -81,7 +82,8 @@ public class AddCustomerController implements Initializable {
     /**
      * Filters the ComboBox for divisions based on the selection of the country from the country ComboBox.
      */
-    public void setDivisionCombo() {
+    @FXML
+    private final void setDivisionCombo() {
 
         int selection = countryCombo.getSelectionModel().getSelectedItem().getCountryId();
         ObservableList<Division> filtered = divList.filtered(d -> d.getCountryID() == selection);

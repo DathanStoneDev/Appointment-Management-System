@@ -12,19 +12,28 @@ import javafx.stage.Stage;
 import wgu.stone.dao.implementations.AppointmentDAOImpl;
 import wgu.stone.dao.interfaces.AppointmentDAO;
 import wgu.stone.model.Appointment;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * User Interface that is presented to the user upon successful login.
+ * Allows the user to navigate to the Report, Customers, or Appointment forms.
+ */
 public class MainDashboardController implements Initializable {
 
+    //Buttons on the dashboard.
     @FXML Button reportFormButton;
     @FXML Button mainAppointmentFormButton;
     @FXML Button customerMainFormButton;
 
+    //Instance of the appointmentDAO.
     AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
 
+    /**
+     * Goes to the ReportForm.
+     * @throws IOException
+     */
     @FXML
     private void goToReportForm() throws IOException {
         Parent report = FXMLLoader.load(getClass().getResource("/wgu/stone/view/ReportsForm.fxml"));
@@ -35,6 +44,10 @@ public class MainDashboardController implements Initializable {
 
     }
 
+    /**
+     * Goes to the MainAppointmentForm
+     * @throws IOException
+     */
     @FXML
     private void goToMainAppointmentForm() throws IOException {
         Parent mainApp = FXMLLoader.load(getClass().getResource("/wgu/stone/view/AppointmentMainForm.fxml"));
@@ -45,7 +58,12 @@ public class MainDashboardController implements Initializable {
 
     }
 
-    @FXML void goToCustomerMainForm() throws IOException {
+    /**
+     * Goes to the CustomerMainForm.
+     * @throws IOException
+     */
+    @FXML
+    private void goToCustomerMainForm() throws IOException {
         Parent customer = FXMLLoader.load(getClass().getResource("/wgu/stone/view/CustomerMainForm.fxml"));
         Scene customerScene = new Scene(customer);
         Stage window = (Stage) customerMainFormButton.getScene().getWindow();
@@ -53,7 +71,11 @@ public class MainDashboardController implements Initializable {
         window.show();
     }
 
-    private void alertForUpcomingAppointments() {
+    /**
+     * Provides an alert once the Dashboard appears to show a user if an appointment is within 15 minutes or not.
+     * If an appointment is upcoming, a description of the appointment is shown.
+     */
+    private final void alertForUpcomingAppointments() {
 
         ObservableList<Appointment> appointmentsIn15Minutes = appointmentDAO.getAppointmentsOnLogin();
         String app = "";
