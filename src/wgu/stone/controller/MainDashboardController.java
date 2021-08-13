@@ -75,7 +75,7 @@ public class MainDashboardController implements Initializable {
      * Provides an alert once the Dashboard appears to show a user if an appointment is within 15 minutes or not.
      * If an appointment is upcoming, a description of the appointment is shown.
      */
-    private final void alertForUpcomingAppointments() {
+    private void alertForUpcomingAppointments() {
 
         ObservableList<Appointment> appointmentsIn15Minutes = appointmentDAO.getAppointmentsOnLogin();
         String app = "";

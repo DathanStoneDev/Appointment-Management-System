@@ -63,6 +63,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             p.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println(e.getMessage() + " Customer_ID is invalid");
         }
 
         try (PreparedStatement p = DatabaseConnection.getConnection().prepareStatement(sql2)) {
@@ -70,6 +71,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             p.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println(e.getMessage() + " Customer_ID is invalid");
         }
     }
 

@@ -17,8 +17,8 @@ import wgu.stone.dao.interfaces.CustomerDAO;
 import wgu.stone.model.Appointment;
 import wgu.stone.model.Contact;
 import wgu.stone.model.Customer;
+import wgu.stone.utility.Buttons;
 import wgu.stone.utility.DateTimeFormatterUtility;
-
 import java.io.IOException;
 import java.net.URL;
 import java.time.*;
@@ -54,20 +54,19 @@ public class AddAppointmentController implements Initializable {
     //Confirmation buttons.
     @FXML private Button exitAppButton;
     @FXML private Button backToMainAppointmentButton;
+    @FXML private Button saveAppointmentButton;
 
     //DAO Interface Instances
     private AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
     private CustomerDAO customerDAO = new CustomerDAOImpl();
 
-    //DateTimeFormatters
+    //DateTimeFormatter
+    //get rid of this
     protected static DateTimeFormatter d1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     private ObservableList<Appointment> appointments = FXCollections.observableArrayList();
 
-    private String selectAppType() {
-        return typeComboBox.getValue();
-    }
-
+    //Needs to be edited to create Times in EST.
     private void setTimesForComboBoxes() {
 
         LocalTime start = LocalTime.of(8, 0);
@@ -126,19 +125,31 @@ public class AddAppointmentController implements Initializable {
         appointment.setAppLocation(locationComboBox.getValue());
         appointment.setAppContact(contactNameComboBox.getValue().getContactName());
         appointment.setContactId(contactNameComboBox.getValue().getContactId());
-        appointment.setAppType(selectAppType());
+        appointment.setAppType(typeComboBox.getValue());
         appointment.setStartDatetime(createStartLocaleDateTime());
         appointment.setEndDatetime(createEndLocaleDateTime());
         appointment.setCustomerId(customerTable.getSelectionModel().getSelectedItem().getCustomerId());
         appointment.setUserId(LoginController.loggedInUser);
 
-        if(!doesAppointmentOverlap(appointment)) {
-            appointmentDAO.saveAppointment(appointment);
-            System.out.println("Saved");
-        } else {
-            System.out.println("Not saved");
+        try {
+            if(!doesAppointmentOverlap(appointment)) {
+                appointmentDAO.saveAppointment(appointment);
+                Parent mainApp = FXMLLoader.load(getClass().getResource("/wgu/stone/view/AppointmentMainForm.fxml"));
+                Scene mainAppScene = new Scene(mainApp);
+                Stage window = (Stage) saveAppointmentButton.getScene().getWindow();
+                window.setScene(mainAppScene);
+                window.show();
+                System.out.println("Saved");
+            } else {
+                System.out.println("Not saved");
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Invalid Appointment Time: Overlap");
+                alert.setContentText("The appointment has an overlap with another customer. Please try another selection");
+                alert.show();
+            }
+        } catch (NullPointerException | IOException e) {
+            e.printStackTrace();
         }
-
     }
 
     @Override
@@ -153,14 +164,20 @@ public class AddAppointmentController implements Initializable {
         appointments = appointmentDAO.getAppointmentsList();
     }
 
+    /**
+     * Exits the application.
+     */
     @FXML
-    private final void exitApp() {
-        Stage window = (Stage) exitAppButton.getScene().getWindow();
-        window.close();
+    private void exitApp() {
+        Buttons.exitApplication(exitAppButton);
     }
 
+    /**
+     * Goes to the MainAppointmentForm.
+     * @throws IOException
+     */
     @FXML
-    private final void backToMainAppointment() throws IOException {
+    private void backToMainAppointment() throws IOException {
         Parent mainApp = FXMLLoader.load(getClass().getResource("/wgu/stone/view/AppointmentMainForm.fxml"));
         Scene mainAppScene = new Scene(mainApp);
         Stage window = (Stage) backToMainAppointmentButton.getScene().getWindow();

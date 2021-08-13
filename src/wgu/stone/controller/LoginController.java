@@ -1,16 +1,13 @@
 package wgu.stone.controller;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import wgu.stone.dao.databaseConnection.Login;
+import wgu.stone.utility.Buttons;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -56,25 +53,29 @@ public class LoginController implements Initializable {
      * Logging into the application. Linked to the loginButton.
      * Logs all attempts.
      */
-    public void loginToApp() throws IOException {
+    @FXML
+    private void loginToApp() throws IOException {
+
+        //Gets the login time.
         DateTimeFormatter d = DateTimeFormatter.ISO_DATE_TIME;
         String loginTime = d.format(OffsetDateTime.now().truncatedTo(ChronoUnit.MILLIS));
+
+        //initializes userName and userPassword.
         String userName = userNameField.getText();
         String userPassword = passwordField.getText();
+
+        //creates the login_activity.txt file to write login attempts.
         FileWriter fileWriter = new FileWriter("login_activity.txt", true);
         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
+        //Checks for valid userName and userPassword and logs the attempt.
         if(login.checkUserInfo(userName, userPassword)) {
             loggedInUser = login.getUserId(userName);
             bufferedWriter.write("Time: " + loginTime + " - Success");
             bufferedWriter.newLine();
             bufferedWriter.close();
 
-            Parent addProduct = FXMLLoader.load(getClass().getResource("/wgu/stone/view/MainDashboard.fxml"));
-            Scene addProductScene = new Scene(addProduct);
-            Stage window = (Stage) loginButton.getScene().getWindow();
-            window.setScene(addProductScene);
-            window.show();
+            Buttons.toMainDashboard(loginButton);
         } else {
             bufferedWriter.write("Time: " + loginTime + " - Unsuccessful");
             bufferedWriter.newLine();
@@ -87,14 +88,14 @@ public class LoginController implements Initializable {
     /**
      * Determines the location of the user and displays it on the locationLabel.
      */
-    public void determineUserLocation() {
+    private void determineUserLocation() {
         locationLabel.setText(ZoneId.systemDefault().toString());
     }
 
     /**
      * Determines the language of the user's computer and sets it for the form.
      */
-    public void determineUserLanguage() {
+    private void determineUserLanguage() {
         usernameLabel.setText(rb.getString("usernameLabel"));
         passwordLabel.setText(rb.getString("passwordLabel"));
         titleLabel.setText(rb.getString("titleLabel"));
@@ -104,9 +105,9 @@ public class LoginController implements Initializable {
     /**
      * Exits the application.
      */
-    public void exitApplication() {
-        Stage window = (Stage) exitAppButton.getScene().getWindow();
-        window.close();
+    @FXML
+    private void exitApplication() {
+        Buttons.exitApplication(exitAppButton);
     }
 
     /**

@@ -73,11 +73,13 @@ public class CustomerMainController implements Initializable {
         alert.setContentText("Are you sure you want to delete this customer?");
         Optional<ButtonType> result = alert.showAndWait();
             if(result.isPresent() && result.get() == ButtonType.OK) {
-                //may need a check here to make sure customer was deleted.
-                customers.removeIf(c -> c.getCustomerId() == customerId);
-                customerDAO.deleteCustomer(customerId);
+                    customerDAO.deleteCustomer(customerId);
+                    customers.removeIf(c -> c.getCustomerId() == customerId);
+                    Alert deleteConfirmation = new Alert(Alert.AlertType.INFORMATION);
+                    deleteConfirmation.setTitle("Deleted Customer");
+                    alert.setContentText("Customer with the ID of: " + customerId + " has been deleted.");
+                    alert.show();
             }
-
     }
 
     /**

@@ -16,6 +16,8 @@ import wgu.stone.dao.interfaces.CustomerDAO;
 import wgu.stone.model.Country;
 import wgu.stone.model.Customer;
 import wgu.stone.model.Division;
+import wgu.stone.utility.Buttons;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -59,7 +61,7 @@ public class AddCustomerController implements Initializable {
      * @throws IOException
      */
     @FXML
-    private final void addNewCustomer() throws IOException {
+    private void addNewCustomer() throws IOException {
 
         Customer customer = new Customer();
         customer.setCustomerName(customerNameField.getText());
@@ -83,7 +85,7 @@ public class AddCustomerController implements Initializable {
      * Filters the ComboBox for divisions based on the selection of the country from the country ComboBox.
      */
     @FXML
-    private final void setDivisionCombo() {
+    private void setDivisionCombo() {
 
         int selection = countryCombo.getSelectionModel().getSelectedItem().getCountryId();
         ObservableList<Division> filtered = divList.filtered(d -> d.getCountryID() == selection);
@@ -91,18 +93,13 @@ public class AddCustomerController implements Initializable {
     }
 
     @FXML
-    private final void exitApp() {
-        Stage window = (Stage) exitAppButton.getScene().getWindow();
-        window.close();
+    private void exitApp() {
+        Buttons.exitApplication(exitAppButton);
     }
 
     @FXML
-    private final void backToMainDashboard() throws IOException {
-        Parent mainCustomer = FXMLLoader.load(getClass().getResource("/wgu/stone/view/CustomerMainForm.fxml"));
-        Scene mainCustomerScene = new Scene(mainCustomer);
-        Stage window = (Stage) backToMainCustomerButton.getScene().getWindow();
-        window.setScene(mainCustomerScene);
-        window.show();
+    private void backToMainDashboard() throws IOException {
+        Buttons.toMainDashboard(backToMainCustomerButton);
     }
 
 

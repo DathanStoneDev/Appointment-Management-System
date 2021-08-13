@@ -30,7 +30,7 @@
          <Font name="System Bold" size="18.0" />
       </font>
    </Label>
-   <Button fx:id="addAppointmentButton" layoutX="222.0" layoutY="557.0" mnemonicParsing="false" onAction="#addNewAppointment" prefHeight="25.0" prefWidth="168.0" text="Add Appointment" />
+   <Button fx:id="saveAppointmentButton" layoutX="222.0" layoutY="557.0" mnemonicParsing="false" onAction="#addNewAppointment" prefHeight="25.0" prefWidth="168.0" text="Add Appointment" />
    <Label layoutX="49.0" layoutY="415.0" text="Date" />
    <Button fx:id="backToMainAppointmentButton" layoutX="525.0" layoutY="557.0" mnemonicParsing="false" onAction="#backToMainAppointment" text="Cancel" />
    <Button fx:id="exitAppButton" layoutX="558.0" layoutY="18.0" mnemonicParsing="false" onAction="#exitApp" text="X" />

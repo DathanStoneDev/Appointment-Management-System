@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import wgu.stone.dao.implementations.AppointmentDAOImpl;
 import wgu.stone.dao.interfaces.AppointmentDAO;
 import wgu.stone.model.Appointment;
+import wgu.stone.utility.Buttons;
 import wgu.stone.utility.DateTimeFormatterUtility;
 import java.io.IOException;
 import java.net.URL;
@@ -48,9 +49,16 @@ public class AppointmentMainController implements Initializable {
     @FXML private RadioButton allAppointmentsRadioButton;
     @FXML private ToggleGroup filterAppsGroup;
 
+    //Instance of AppointmentDAO Interface.
     private AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
+
+    //List of appointments.
     private ObservableList<Appointment> appointments = FXCollections.observableArrayList();
 
+    /**
+     * Goes to the AddAppointmentForm
+     * @throws IOException
+     */
     @FXML
     private void goToAddAppForm() throws IOException {
         Parent addApp = FXMLLoader.load(getClass().getResource("/wgu/stone/view/AddAppointmentForm.fxml"));
@@ -60,6 +68,10 @@ public class AppointmentMainController implements Initializable {
         window.show();
     }
 
+    /**
+     * Goes to the UpdateAppointmentForm
+     * @throws IOException
+     */
     @FXML
     private void goToUpdateForm() throws IOException {
         FXMLLoader loader = new FXMLLoader();
@@ -78,26 +90,38 @@ public class AppointmentMainController implements Initializable {
         }
     }
 
+    /**
+     * Deletes a selected appointment and then removes the appointment from the list.
+     */
     @FXML
     private void deleteAppointment() {
-        int appId = appointmentTableView.getSelectionModel().getSelectedItem().getAppId();
-        appointmentDAO.deleteAppointment(appId);
-        appointments.removeIf(a -> a.getAppId() == appId);
+
+        try {
+            int appId = appointmentTableView.getSelectionModel().getSelectedItem().getAppId();
+            appointmentDAO.deleteAppointment(appId);
+            appointments.removeIf(a -> a.getAppId() == appId);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            System.out.println("A selection was not made");
+            //make an alert
+        }
     }
 
+    /**
+     * Exits the application
+     */
     @FXML
-    private final void exitApp() {
-        Stage window = (Stage) exitAppButton.getScene().getWindow();
-        window.close();
+    private void exitApp() {
+        Buttons.exitApplication(exitAppButton);
     }
 
+    /**
+     * Goes to the MainDashboard
+     * @throws IOException
+     */
     @FXML
-    private final void backToMainDashboard() throws IOException {
-        Parent main = FXMLLoader.load(getClass().getResource("/wgu/stone/view/MainDashboard.fxml"));
-        Scene mainScene = new Scene(main);
-        Stage window = (Stage) backToMainScreenButton.getScene().getWindow();
-        window.setScene(mainScene);
-        window.show();
+    private void backToMainDashboard() throws IOException {
+        Buttons.toMainDashboard(backToMainScreenButton);
     }
 
     @Override
@@ -120,19 +144,32 @@ public class AppointmentMainController implements Initializable {
         allAppointmentsRadioButton.setSelected(true);
     }
 
+    /**
+     * set to the monthlyRadioButton - if selected, this method is called.
+     * Gets the current month and then creates a filtered list of appointments that consist of only appointments in that
+     * month. The list is then set as the tableview.
+     */
     @FXML
     private void getAppointmentsByCurrentMonth() {
 
-        //gets current month
+        //gets current month.
         LocalDate currentDate = LocalDate.now();
         Month currentMonth = currentDate.getMonth();
 
+        //creates filtered list.
         FilteredList<Appointment> filteredList = appointments
                 .filtered(a -> DateTimeFormatterUtility.formatLocalDateTimeForNewObject(a.getStartDatetime())
                         .getMonth().equals(currentMonth));
+
+        //sets tableview to filtered list.
         appointmentTableView.setItems(filteredList);
     }
 
+    /**
+     * set to the weeklyRadioButton - if selected, this method is called.
+     * Gets the current week and then displays a list of appointments only in the current week.
+     * Sets the tableview to the list.
+     */
     @FXML
     private void getAppointmentsByCurrentWeek() {
         ObservableList<Appointment> filteredWeek = FXCollections.observableArrayList();
@@ -153,6 +190,11 @@ public class AppointmentMainController implements Initializable {
         }
     }
 
+    /**
+     * Gets all the appointments and displays them. This method is initialized when this view is selected.
+     * Method is set to the allAppointmentsRadioButton in case the user toggled to another filter, and would like to
+     * see all appointments again.
+     */
     @FXML
     private void getAllAppointments() {
         appointmentTableView.setItems(appointments);
