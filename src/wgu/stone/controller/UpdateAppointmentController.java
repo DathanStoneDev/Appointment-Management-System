@@ -13,11 +13,9 @@ import wgu.stone.dao.implementations.AppointmentDAOImpl;
 import wgu.stone.dao.interfaces.AppointmentDAO;
 import wgu.stone.model.Appointment;
 import wgu.stone.model.Contact;
-
 import java.io.IOException;
 import java.net.URL;
 import java.time.*;
-import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 import static wgu.stone.controller.AddAppointmentController.*;
@@ -64,15 +62,12 @@ public class UpdateAppointmentController implements Initializable {
      * Lastly, Formats the ZoneDateTime.
      * @return returns a string of the final formatted UTC time to be persisted to the Database.
      */
-    private String createStartLocaleDateTime() {
+    private LocalDateTime createStartLocaleDateTime() {
 
         LocalDate startDate = datePicker.getValue();
         LocalTime startTime = startTimeComboBox.getValue();
         LocalDateTime start = LocalDateTime.of(startDate, startTime);
-        ZonedDateTime loc = ZonedDateTime.of(start, ZoneId.systemDefault());
-        ZonedDateTime utc = loc.withZoneSameInstant(ZoneOffset.UTC);
-        String startFinal = utc.format(d1);
-        return startFinal;
+        return start;
     }
 
     /**
@@ -81,15 +76,12 @@ public class UpdateAppointmentController implements Initializable {
      * Lastly, Formats the ZoneDateTime.
      * @return returns a string of the final formatted UTC time to be persisted to the Database.
      */
-    private String createEndLocaleDateTime() {
+    private LocalDateTime createEndLocaleDateTime() {
 
         LocalDate endDate = datePicker.getValue();
         LocalTime endTime = endTimeComboBox.getValue();
         LocalDateTime end = LocalDateTime.of(endDate, endTime);
-        ZonedDateTime loc = ZonedDateTime.of(end, ZoneId.systemDefault());
-        ZonedDateTime utc = loc.withZoneSameInstant(ZoneOffset.UTC);
-        String endFinal = utc.format(d1);
-        return endFinal;
+        return end;
     }
 
     public void updateAppointment() {
@@ -146,26 +138,24 @@ public class UpdateAppointmentController implements Initializable {
 
     }
 
-    private LocalDate getDateFromDateTime(String dateTime) {
-        DateTimeFormatter d = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDate date = LocalDate.parse(dateTime, d);
+    private LocalDate getDateFromDateTime(LocalDateTime dateTime) {
+        LocalDate date = LocalDate.from(dateTime);
         return date;
     }
 
-    private LocalTime getTimeFromDateTime(String dateTime) {
-        DateTimeFormatter d = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalTime time = LocalTime.parse(dateTime, d);
+    private LocalTime getTimeFromDateTime(LocalDateTime dateTime) {
+        LocalTime time = LocalTime.from(dateTime);
         return time;
     }
 
     @FXML
-    private final void exitApp() {
+    private void exitApp() {
         Stage window = (Stage) exitAppButton.getScene().getWindow();
         window.close();
     }
 
     @FXML
-    private final void backToMainDashboard() throws IOException {
+    private void backToMainDashboard() throws IOException {
         Parent mainApp = FXMLLoader.load(getClass().getResource("/wgu/stone/view/AppointmentMainForm.fxml"));
         Scene mainAppScene = new Scene(mainApp);
         Stage window = (Stage) backToMainAppointmentButton.getScene().getWindow();

@@ -18,7 +18,6 @@ import wgu.stone.model.Appointment;
 import wgu.stone.model.Contact;
 import wgu.stone.model.Customer;
 import wgu.stone.utility.Buttons;
-import wgu.stone.utility.DateTimeFormatterUtility;
 import java.io.IOException;
 import java.net.URL;
 import java.time.*;
@@ -85,15 +84,12 @@ public class AddAppointmentController implements Initializable {
      * Lastly, Formats the ZoneDateTime.
      * @return returns a string of the final formatted UTC time to be persisted to the Database.
      */
-    private String createStartLocaleDateTime() {
+    private LocalDateTime createStartLocaleDateTime() {
 
         LocalDate startDate = datePicker.getValue();
         LocalTime startTime = startTimeComboBox.getValue();
         LocalDateTime start = LocalDateTime.of(startDate, startTime);
-        ZonedDateTime loc = ZonedDateTime.of(start, ZoneId.systemDefault());
-        ZonedDateTime utc = loc.withZoneSameInstant(ZoneOffset.UTC);
-        String startFinal = utc.format(d1);
-        return startFinal;
+        return start;
     }
 
     /**
@@ -102,15 +98,12 @@ public class AddAppointmentController implements Initializable {
      * Lastly, Formats the ZoneDateTime.
      * @return returns a string of the final formatted UTC time to be persisted to the Database.
      */
-    private String createEndLocaleDateTime() {
+    private LocalDateTime createEndLocaleDateTime() {
 
         LocalDate endDate = datePicker.getValue();
         LocalTime endTime = endTimeComboBox.getValue();
         LocalDateTime end = LocalDateTime.of(endDate, endTime);
-        ZonedDateTime loc = ZonedDateTime.of(end, ZoneId.systemDefault());
-        ZonedDateTime utc = loc.withZoneSameInstant(ZoneOffset.UTC);
-        String endFinal = utc.format(d1);
-        return endFinal;
+        return end;
     }
 
     /**
@@ -187,19 +180,20 @@ public class AddAppointmentController implements Initializable {
 
     //This is horribly written. Dirty and works.
     private Boolean doesAppointmentOverlap(Appointment appointment) {
-        LocalDateTime appStartDateTime = DateTimeFormatterUtility.formatLocalDateTimeForNewObject(appointment.getStartDatetime());
-        LocalDateTime appEndDateTime = DateTimeFormatterUtility.formatLocalDateTimeForNewObject(appointment.getEndDatetime());
+
+        LocalDateTime addAppStartDateTime = appointment.getStartDatetime();
+        LocalDateTime addAppEndDateTime = appointment.getEndDatetime();
 
         Boolean overlap = false;
 
         for (Appointment a : appointments) {
 
-            LocalDateTime appListStart = DateTimeFormatterUtility.formatToLocalDateTime(a.getStartDatetime());
-            LocalDateTime appListEnd = DateTimeFormatterUtility.formatToLocalDateTime(a.getEndDatetime());
+            LocalDateTime appListStart = a.getStartDatetime();
+            LocalDateTime appListEnd = a.getEndDatetime();
 
-           if (appStartDateTime.isAfter(appListStart) && appStartDateTime.isBefore(appListEnd)
-                   || appEndDateTime.isAfter(appListStart) && appEndDateTime.isBefore(appListEnd)
-           || appStartDateTime.isEqual(appListStart) && appEndDateTime.isEqual(appListEnd)) {
+           if (addAppStartDateTime.isAfter(appListStart) && addAppStartDateTime.isBefore(appListEnd)
+                   || addAppEndDateTime.isAfter(appListStart) && addAppEndDateTime.isBefore(appListEnd)
+           || addAppStartDateTime.isEqual(appListStart) && addAppEndDateTime.isEqual(appListEnd)) {
                overlap = true;
            }
         }

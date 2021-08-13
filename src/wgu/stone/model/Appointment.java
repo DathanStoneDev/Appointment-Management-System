@@ -2,6 +2,8 @@ package wgu.stone.model;
 
 import wgu.stone.utility.DateTimeFormatterUtility;
 
+import java.time.LocalDateTime;
+
 public class Appointment {
 
     private int appId;
@@ -9,8 +11,8 @@ public class Appointment {
     private String appDescription;
     private String appLocation;
     private String appType;
-    private String startDatetime;
-    private String endDatetime;
+    private LocalDateTime startDatetime;
+    private LocalDateTime endDatetime;
     private int customerId;
     private int contactId;
     private String appContact;
@@ -22,13 +24,13 @@ public class Appointment {
     }
 
     public Appointment(String appTitle, String appDescription, String appLocation, String appType,
-                     String startDatetime,String endDatetime,
+                     LocalDateTime startDateTime,LocalDateTime endDatetime,
                        String appContact, int userId, int customerId, int contactId) {
         this.appTitle = appTitle;
         this.appDescription = appDescription;
         this.appLocation = appLocation;
         this.appType = appType;
-        this.startDatetime = startDatetime;
+        this.startDatetime = startDateTime;
         this.endDatetime = endDatetime;
         this.appContact = appContact;
         this.userId = userId;
@@ -75,17 +77,17 @@ public class Appointment {
         this.appType = appType;
     }
 
-    public String getStartDatetime() {
+    public LocalDateTime getStartDatetime() {
         return startDatetime;
     }
 
-    public void setStartDatetime(String startDatetime) { this.startDatetime = startDatetime;}
+    public void setStartDatetime(LocalDateTime startDatetime) { this.startDatetime = startDatetime;}
 
-    public String getEndDatetime() {
+    public LocalDateTime getEndDatetime() {
         return endDatetime;
     }
 
-    public void setEndDatetime(String endDatetime) {
+    public void setEndDatetime(LocalDateTime endDatetime) {
         this.endDatetime = endDatetime;
     }
 
@@ -119,5 +121,13 @@ public class Appointment {
 
     public void setContactId(int contactId) {
         this.contactId = contactId;
+    }
+
+    public String getStartTimeFormatted() {
+        return DateTimeFormatterUtility.formatDateTimeForTableview(startDatetime);
+    }
+
+    public String getEndTimeFormatted() {
+        return DateTimeFormatterUtility.formatDateTimeForTableview(endDatetime);
     }
 }

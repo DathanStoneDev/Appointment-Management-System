@@ -1,15 +1,16 @@
 package wgu.stone.utility;
 
+import java.sql.Timestamp;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
+
 
 /**
  * Provides the DateTimeFormatter methods.
  */
 public final class DateTimeFormatterUtility {
 
-    private final static DateTimeFormatter d1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    public final static DateTimeFormatter d1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     /**
      * Private constructor to prevent instantiation of this class.
@@ -18,29 +19,25 @@ public final class DateTimeFormatterUtility {
 
     }
 
-    /**
-     * Formats a string and converts to a user's ZoneDateTime string.
-     * @param dateTime dateTime parameter passed that will be parsed.
-     * @return returns formatted string that is now in the User's ZoneDateTime.
-     */
-    public static String formatDateTime(String dateTime) {
-        LocalDateTime l = LocalDateTime.parse(dateTime, d1);
-        ZonedDateTime z = l.atZone(ZoneOffset.UTC);
-        ZonedDateTime zz = z.withZoneSameInstant(ZoneId.systemDefault());
-        String formattedString = zz.format(d1);
+    public static String formatDateTimeForTableview(LocalDateTime ldt) {
+        String formattedString = ldt.format(d1);
+        System.out.println(formattedString);
         return formattedString;
     }
 
-    public static LocalDateTime formatToLocalDateTime(String dateTime) {
-        LocalDateTime l = LocalDateTime.parse(dateTime, d1);
-        return  l;
+    public static String formatLocalDateTimeUTCForDatabase(LocalDateTime ldt) {
+        ZonedDateTime loc = ZonedDateTime.of(ldt, ZoneId.systemDefault());
+        ZonedDateTime utc = loc.withZoneSameInstant(ZoneOffset.UTC);
+        String startFinal = utc.format(d1);
+        return startFinal;
     }
 
-    public static LocalDateTime formatLocalDateTimeForNewObject(String dateTime) {
-        LocalDateTime l = LocalDateTime.parse(dateTime, d1);
-        ZonedDateTime z = l.atZone(ZoneOffset.UTC);
+    public static LocalDateTime formatDateTimeFromDatabase(Timestamp t) {
+        LocalDateTime l = t.toLocalDateTime();
+        ZonedDateTime z = l.atZone(ZoneId.of("UTC"));
         ZonedDateTime zz = z.withZoneSameInstant(ZoneId.systemDefault());
-        LocalDateTime ll = zz.toLocalDateTime();
-        return ll;
+        LocalDateTime finalLocalDateTime = zz.toLocalDateTime();
+        return finalLocalDateTime;
     }
+
 }

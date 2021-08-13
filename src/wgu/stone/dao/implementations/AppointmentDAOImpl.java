@@ -33,8 +33,8 @@ public class AppointmentDAOImpl implements AppointmentDAO {
                 appointment.setAppLocation(rs.getString("Location"));
                 appointment.setAppContact(rs.getString("Contact_Name"));
                 appointment.setAppType(rs.getString("Type"));
-                appointment.setStartDatetime((DateTimeFormatterUtility.formatDateTime(rs.getString("Start"))));
-                appointment.setEndDatetime(DateTimeFormatterUtility.formatDateTime(rs.getString("End")));
+                appointment.setStartDatetime(DateTimeFormatterUtility.formatDateTimeFromDatabase(rs.getTimestamp("Start")));
+                appointment.setEndDatetime(DateTimeFormatterUtility.formatDateTimeFromDatabase(rs.getTimestamp("End")));
                 appointment.setCustomerId(rs.getInt("Customer_ID"));
                 appointment.setUserId(rs.getInt("User_ID"));
                 appointment.setContactId(rs.getInt("Contact_ID"));
@@ -74,8 +74,8 @@ public class AppointmentDAOImpl implements AppointmentDAO {
             preparedStatement.setString(2, appointment.getAppDescription());
             preparedStatement.setString(3, appointment.getAppLocation());
             preparedStatement.setString(4, appointment.getAppType());
-            preparedStatement.setObject(5, appointment.getStartDatetime());
-            preparedStatement.setObject(6, appointment.getEndDatetime());
+            preparedStatement.setString(5, DateTimeFormatterUtility.formatLocalDateTimeUTCForDatabase(appointment.getStartDatetime()));
+            preparedStatement.setString(6, DateTimeFormatterUtility.formatLocalDateTimeUTCForDatabase(appointment.getEndDatetime()));
             preparedStatement.setInt(7, appointment.getUserId());
             preparedStatement.setInt(8, appointment.getContactId());
 
@@ -98,8 +98,8 @@ public class AppointmentDAOImpl implements AppointmentDAO {
             ps.setString(2, appointment.getAppDescription());
             ps.setString(3, appointment.getAppLocation());
             ps.setString(4, appointment.getAppType());
-            ps.setString(5, appointment.getStartDatetime());
-            ps.setString(6, appointment.getEndDatetime());
+            ps.setString(5, DateTimeFormatterUtility.formatLocalDateTimeUTCForDatabase(appointment.getStartDatetime()));
+            ps.setString(6, DateTimeFormatterUtility.formatLocalDateTimeUTCForDatabase(appointment.getEndDatetime()));
             ps.setInt(7, appointment.getCustomerId());
             ps.setInt(8, appointment.getUserId());
             ps.setInt(9, appointment.getContactId());
@@ -151,8 +151,8 @@ public class AppointmentDAOImpl implements AppointmentDAO {
                 appointment.setAppTitle(rs.getString("Title"));
                 appointment.setAppType(rs.getString("Type"));
                 appointment.setAppDescription(rs.getString("Description"));
-                appointment.setStartDatetime(DateTimeFormatterUtility.formatDateTime(rs.getString("Start")));
-                appointment.setEndDatetime(DateTimeFormatterUtility.formatDateTime(rs.getString("End")));
+                appointment.setStartDatetime(DateTimeFormatterUtility.formatDateTimeFromDatabase(rs.getTimestamp("Start")));
+                appointment.setEndDatetime(DateTimeFormatterUtility.formatDateTimeFromDatabase(rs.getTimestamp("End")));
                 appointment.setCustomerId(rs.getInt("Customer_ID"));
                 appointment.setAppLocation(rs.getString("Location"));
                 contactScheduleList.add(appointment);
@@ -196,8 +196,8 @@ public class AppointmentDAOImpl implements AppointmentDAO {
             while(rs.next()) {
                 Appointment appointment = new Appointment();
                 appointment.setAppId(rs.getInt("Appointment_ID"));
-                appointment.setStartDatetime(DateTimeFormatterUtility.formatDateTime(rs.getString("Start")));
-                appointment.setEndDatetime(DateTimeFormatterUtility.formatDateTime(rs.getString("End")));
+                appointment.setStartDatetime(DateTimeFormatterUtility.formatDateTimeFromDatabase(rs.getTimestamp("Start")));
+                appointment.setEndDatetime(DateTimeFormatterUtility.formatDateTimeFromDatabase(rs.getTimestamp("End")));
                 appointmentsWithin15Minutes.add(appointment);
             }
         } catch (SQLException e) {
