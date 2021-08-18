@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import wgu.stone.dao.implementations.AppointmentDAOImpl;
 import wgu.stone.dao.interfaces.AppointmentDAO;
 import wgu.stone.model.Appointment;
+import wgu.stone.utility.DateTimeFormatterUtility;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -83,8 +84,8 @@ public class MainDashboardController implements Initializable {
         if(!appointmentsIn15Minutes.isEmpty()) {
             for(Appointment a : appointmentsIn15Minutes) {
                 int id = a.getAppId();
-                String start = a.getStartDatetime();
-                String end = a.getEndDatetime();
+                String start = DateTimeFormatterUtility.formatDateTimeForTableview(a.getStartDatetime());
+                String end = DateTimeFormatterUtility.formatDateTimeForTableview(a.getEndDatetime());
 
                 app = "App ID: " + id + " Start: " + start + " End: " + end;
             }

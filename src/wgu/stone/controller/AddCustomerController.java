@@ -3,21 +3,17 @@ package wgu.stone.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import wgu.stone.dao.implementations.CustomerDAOImpl;
 import wgu.stone.dao.interfaces.CustomerDAO;
 import wgu.stone.model.Country;
 import wgu.stone.model.Customer;
 import wgu.stone.model.Division;
 import wgu.stone.utility.Buttons;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -33,7 +29,7 @@ public class AddCustomerController implements Initializable {
     //Buttons.
     @FXML private Button saveNewCustomerButton;
     @FXML private Button exitAppButton;
-    @FXML private Button backToMainCustomerButton;
+    @FXML private Button cancelButton;
 
     //ComboBoxes.
     @FXML private ComboBox<Division> divisionCombo;
@@ -62,23 +58,32 @@ public class AddCustomerController implements Initializable {
      */
     @FXML
     private void addNewCustomer() throws IOException {
+        try {
 
-        Customer customer = new Customer();
-        customer.setCustomerName(customerNameField.getText());
-        customer.setCustomerAddress(customerAddressField.getText());
-        customer.setCustomerPostalCode(customerPostalField.getText());
-        customer.setCustomerPhoneNumber(customerPhoneNumberField.getText());
-        customer.setDivisionName(divisionCombo.getSelectionModel().getSelectedItem().getDivName());
-        customer.setCountryName(countryCombo.getSelectionModel().getSelectedItem().getCountryName());
-        customer.setDivisionId(divisionCombo.getSelectionModel().getSelectedItem().getDivId());
+            String customerName = customerNameField.getText();
+            String customerAddress = customerAddressField.getText();
+            String customerPostalCode = customerPostalField.getText();
+            String customerPhoneNumber = customerPhoneNumberField.getText();
+            String countryName = countryCombo.getSelectionModel().getSelectedItem().getCountryName();
+            String divisionName = divisionCombo.getSelectionModel().getSelectedItem().getDivName();
+            int divisionId = divisionCombo.getSelectionModel().getSelectedItem().getDivId();
 
-        customerDAO.saveCustomer(customer);
+            Customer customer = new Customer(customerName, customerAddress, customerPostalCode, customerPhoneNumber,
+                    countryName, divisionName, divisionId);
 
-        Parent addCustomer = FXMLLoader.load(getClass().getResource("/wgu/stone/view/CustomerMainForm.fxml"));
-        Scene addCustomerScene = new Scene(addCustomer);
-        Stage window = (Stage) saveNewCustomerButton.getScene().getWindow();
-        window.setScene(addCustomerScene);
-        window.show();
+            customerDAO.saveCustomer(customer);
+
+            Buttons.toMainCustomerForm(saveNewCustomerButton);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Empty Fields");
+            alert.setContentText("Please ensure fields are not blank and ComboBoxes have a selected item");
+            alert.show();
+            e.printStackTrace();
+            return;
+        }
+
     }
 
     /**
@@ -92,14 +97,21 @@ public class AddCustomerController implements Initializable {
         divisionCombo.setItems(filtered);
     }
 
+    /**
+     * Exits the application
+     */
     @FXML
     private void exitApp() {
         Buttons.exitApplication(exitAppButton);
     }
 
+    /**
+     * Goes back to the MainCustomerForm if the cancel button is clicked.
+     * @throws IOException
+     */
     @FXML
-    private void backToMainDashboard() throws IOException {
-        Buttons.toMainDashboard(backToMainCustomerButton);
+    private void backToMainCustomerForm() throws IOException {
+        Buttons.toMainCustomerForm(cancelButton);
     }
 
 

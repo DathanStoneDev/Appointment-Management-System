@@ -1,5 +1,7 @@
 package wgu.stone.model;
 
+import javafx.scene.control.Alert;
+
 public class Customer {
 
     private int customerId;
@@ -34,16 +36,17 @@ public class Customer {
 
     /**
      * Constructor in AddCustomer form
-     * @param customerName
-     * @param customerAddress
-     * @param customerPostalCode
-     * @param customerPhoneNumber
-     * @param countryName
-     * @param divisionName
-     * @param divisionId
      */
     public Customer(String customerName, String customerAddress, String customerPostalCode, String customerPhoneNumber,
                     String countryName, String divisionName, int divisionId) {
+        if(customerName.isBlank() || customerAddress.isBlank() || customerPostalCode.isBlank()
+                || customerPhoneNumber.isBlank()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Empty Fields");
+            alert.setContentText("Please ensure fields are not blank");
+            alert.show();
+            throw new IllegalArgumentException("Empty Fields");
+        }
         this.customerName = customerName;
         this.customerAddress = customerAddress;
         this.customerPostalCode = customerPostalCode;
@@ -55,17 +58,17 @@ public class Customer {
 
     /**
      * Constructor in UpdateCustomer form
-     * @param customerId
-     * @param customerName
-     * @param customerAddress
-     * @param customerPostalCode
-     * @param customerPhoneNumber
-     * @param countryName
-     * @param divisionName
-     * @param divisionId
      */
     public Customer(int customerId, String customerName, String customerAddress, String customerPostalCode,
                     String customerPhoneNumber, String countryName, String divisionName, int divisionId) {
+        if(customerName.isBlank() || customerAddress.isBlank() || customerPostalCode.isBlank()
+                || customerPhoneNumber.isBlank()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Empty Fields");
+            alert.setContentText("Please ensure fields are not blank");
+            alert.show();
+            throw new IllegalArgumentException("Empty Fields");
+        }
         this.customerId = customerId;
         this.customerName = customerName;
         this.customerAddress = customerAddress;

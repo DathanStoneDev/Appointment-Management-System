@@ -7,13 +7,14 @@ import wgu.stone.dao.databaseConnection.DatabaseConnection;
 import wgu.stone.model.Appointment;
 import wgu.stone.model.Contact;
 import wgu.stone.utility.DateTimeFormatterUtility;
-
 import java.sql.*;
-
-
 
 public class AppointmentDAOImpl implements AppointmentDAO {
 
+    /**
+     * Retrieves a list of Appointment Objects.
+     * @return Returns an ObservableList of appointment objects.
+     */
     @Override
     public ObservableList<Appointment> getAppointmentsList() {
 
@@ -33,8 +34,8 @@ public class AppointmentDAOImpl implements AppointmentDAO {
                 appointment.setAppLocation(rs.getString("Location"));
                 appointment.setAppContact(rs.getString("Contact_Name"));
                 appointment.setAppType(rs.getString("Type"));
-                appointment.setStartDatetime((DateTimeFormatterUtility.formatDateTime(rs.getString("Start"))));
-                appointment.setEndDatetime(DateTimeFormatterUtility.formatDateTime(rs.getString("End")));
+                appointment.setStartDatetime(DateTimeFormatterUtility.formatDateTimeFromDatabase(rs.getTimestamp("Start")));
+                appointment.setEndDatetime(DateTimeFormatterUtility.formatDateTimeFromDatabase(rs.getTimestamp("End")));
                 appointment.setCustomerId(rs.getInt("Customer_ID"));
                 appointment.setUserId(rs.getInt("User_ID"));
                 appointment.setContactId(rs.getInt("Contact_ID"));
@@ -46,6 +47,10 @@ public class AppointmentDAOImpl implements AppointmentDAO {
         return appointments;
     }
 
+    /**
+     * Deletes an appointment.
+     * @param id Parameter used to select the Appointment to delete.
+     */
     @Override
     public void deleteAppointment(int id) {
 
@@ -60,6 +65,10 @@ public class AppointmentDAOImpl implements AppointmentDAO {
 
     }
 
+    /**
+     * Updates an appointment.
+     * @param appointment Parameter used to provide the appointment object to update.
+     */
     @Override
     public void updateAppointment(Appointment appointment) {
 
@@ -74,8 +83,8 @@ public class AppointmentDAOImpl implements AppointmentDAO {
             preparedStatement.setString(2, appointment.getAppDescription());
             preparedStatement.setString(3, appointment.getAppLocation());
             preparedStatement.setString(4, appointment.getAppType());
-            preparedStatement.setObject(5, appointment.getStartDatetime());
-            preparedStatement.setObject(6, appointment.getEndDatetime());
+            preparedStatement.setString(5, DateTimeFormatterUtility.formatLocalDateTimeUTCForDatabase(appointment.getStartDatetime()));
+            preparedStatement.setString(6, DateTimeFormatterUtility.formatLocalDateTimeUTCForDatabase(appointment.getEndDatetime()));
             preparedStatement.setInt(7, appointment.getUserId());
             preparedStatement.setInt(8, appointment.getContactId());
 
@@ -86,6 +95,10 @@ public class AppointmentDAOImpl implements AppointmentDAO {
         }
     }
 
+    /**
+     * Saves a new appointment.
+     * @param appointment Parameter used to provide the appointment object to save.
+     */
     @Override
     public void saveAppointment(Appointment appointment) {
 
@@ -98,8 +111,8 @@ public class AppointmentDAOImpl implements AppointmentDAO {
             ps.setString(2, appointment.getAppDescription());
             ps.setString(3, appointment.getAppLocation());
             ps.setString(4, appointment.getAppType());
-            ps.setString(5, appointment.getStartDatetime());
-            ps.setString(6, appointment.getEndDatetime());
+            ps.setString(5, DateTimeFormatterUtility.formatLocalDateTimeUTCForDatabase(appointment.getStartDatetime()));
+            ps.setString(6, DateTimeFormatterUtility.formatLocalDateTimeUTCForDatabase(appointment.getEndDatetime()));
             ps.setInt(7, appointment.getCustomerId());
             ps.setInt(8, appointment.getUserId());
             ps.setInt(9, appointment.getContactId());
@@ -112,6 +125,10 @@ public class AppointmentDAOImpl implements AppointmentDAO {
         }
     }
 
+    /**
+     * Retrieves a list of contact objects.
+     * @return Returns an observableList of contact objects.
+     */
     @Override
     public ObservableList<Contact> getContactsList() {
 
@@ -132,6 +149,10 @@ public class AppointmentDAOImpl implements AppointmentDAO {
         return contactsList;
     }
 
+    /**
+     * Retrieves a list of Appointment Objects specifically for the Contact Appointments Report.
+     * @return Returns an ObservableList of appointment objects.
+     */
     @Override
     public ObservableList<Appointment> getContactScheduleList() {
 
@@ -151,8 +172,8 @@ public class AppointmentDAOImpl implements AppointmentDAO {
                 appointment.setAppTitle(rs.getString("Title"));
                 appointment.setAppType(rs.getString("Type"));
                 appointment.setAppDescription(rs.getString("Description"));
-                appointment.setStartDatetime(DateTimeFormatterUtility.formatDateTime(rs.getString("Start")));
-                appointment.setEndDatetime(DateTimeFormatterUtility.formatDateTime(rs.getString("End")));
+                appointment.setStartDatetime(DateTimeFormatterUtility.formatDateTimeFromDatabase(rs.getTimestamp("Start")));
+                appointment.setEndDatetime(DateTimeFormatterUtility.formatDateTimeFromDatabase(rs.getTimestamp("End")));
                 appointment.setCustomerId(rs.getInt("Customer_ID"));
                 appointment.setAppLocation(rs.getString("Location"));
                 contactScheduleList.add(appointment);
@@ -163,6 +184,10 @@ public class AppointmentDAOImpl implements AppointmentDAO {
         return contactScheduleList;
     }
 
+    /**
+     * Returns an observable list of Strings that are composed of appointments grouped by month and type.
+     * @return ObservableList of Strings.
+     */
     public ObservableList<String> getAppsByMonthAndType() {
 
         ObservableList<String> reportStringList = FXCollections.observableArrayList();
@@ -185,6 +210,10 @@ public class AppointmentDAOImpl implements AppointmentDAO {
         return reportStringList;
     }
 
+    /**
+     * Gets all appointments within 15 minutes of login.
+     * @return ObservableList of appointments.
+     */
     public ObservableList<Appointment> getAppointmentsOnLogin() {
 
         ObservableList<Appointment> appointmentsWithin15Minutes = FXCollections.observableArrayList();
@@ -196,8 +225,8 @@ public class AppointmentDAOImpl implements AppointmentDAO {
             while(rs.next()) {
                 Appointment appointment = new Appointment();
                 appointment.setAppId(rs.getInt("Appointment_ID"));
-                appointment.setStartDatetime(DateTimeFormatterUtility.formatDateTime(rs.getString("Start")));
-                appointment.setEndDatetime(DateTimeFormatterUtility.formatDateTime(rs.getString("End")));
+                appointment.setStartDatetime(DateTimeFormatterUtility.formatDateTimeFromDatabase(rs.getTimestamp("Start")));
+                appointment.setEndDatetime(DateTimeFormatterUtility.formatDateTimeFromDatabase(rs.getTimestamp("End")));
                 appointmentsWithin15Minutes.add(appointment);
             }
         } catch (SQLException e) {

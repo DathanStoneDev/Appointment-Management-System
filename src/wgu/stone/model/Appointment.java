@@ -1,6 +1,9 @@
 package wgu.stone.model;
 
+import javafx.scene.control.Alert;
 import wgu.stone.utility.DateTimeFormatterUtility;
+import java.time.LocalDateTime;
+
 
 public class Appointment {
 
@@ -9,38 +12,73 @@ public class Appointment {
     private String appDescription;
     private String appLocation;
     private String appType;
-    private String startDatetime;
-    private String endDatetime;
-    private int customerId;
-    private int contactId;
+    private LocalDateTime startDatetime;
+    private LocalDateTime endDatetime;
+    private int customerId = 0;
+    private int contactId = 0;
     private String appContact;
     private int userId;
 
-
+    /**
+     * Default constructor
+     */
     public Appointment() {
 
     }
 
+    /**
+     * Adding a new appointment Constructor.
+     */
     public Appointment(String appTitle, String appDescription, String appLocation, String appType,
-                     String startDatetime,String endDatetime,
+                     LocalDateTime startDateTime,LocalDateTime endDatetime,
                        String appContact, int userId, int customerId, int contactId) {
+        if(appTitle.isBlank() || appDescription.isBlank()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Empty Fields");
+            alert.setContentText("Please ensure fields are not blank");
+            alert.show();
+            throw new IllegalArgumentException("Empty Field");
+        }
+        this.appTitle = appTitle;
+        this.appDescription = appDescription;
+        this.appLocation = appLocation;
+        this.appType = appType;
+        this.startDatetime = startDateTime;
+        this.endDatetime = endDatetime;
+        this.appContact = appContact;
+        this.userId = userId;
+        this.customerId = customerId;
+        this.contactId = contactId;
+    }
+
+    /**
+     * Update Appointment Constructor
+     */
+    public Appointment(int appId, String appTitle, String appDescription, String appLocation, String appType,
+                       LocalDateTime startDatetime, LocalDateTime endDatetime, int customerId,
+                       int contactId, String appContact, int userId) {
+        if(appTitle.isBlank() || appDescription.isBlank()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Empty Fields");
+            alert.setContentText("Please ensure fields are not blank");
+            alert.show();
+            throw new IllegalArgumentException("Empty Field");
+        }
+        this.appId = appId;
         this.appTitle = appTitle;
         this.appDescription = appDescription;
         this.appLocation = appLocation;
         this.appType = appType;
         this.startDatetime = startDatetime;
         this.endDatetime = endDatetime;
-        this.appContact = appContact;
-        this.userId = userId;
         this.customerId = customerId;
         this.contactId = contactId;
-}
-    public int getAppId() {
-        return appId;
+        this.appContact = appContact;
+        this.userId = userId;
     }
 
-    public void setAppId(int appId) {
-        this.appId = appId;
+    public int getAppId() {
+        return appId;
     }
 
     public String getAppTitle() {
@@ -75,26 +113,22 @@ public class Appointment {
         this.appType = appType;
     }
 
-    public String getStartDatetime() {
+    public LocalDateTime getStartDatetime() {
         return startDatetime;
     }
 
-    public void setStartDatetime(String startDatetime) { this.startDatetime = startDatetime;}
+    public void setStartDatetime(LocalDateTime startDatetime) { this.startDatetime = startDatetime;}
 
-    public String getEndDatetime() {
+    public LocalDateTime getEndDatetime() {
         return endDatetime;
     }
 
-    public void setEndDatetime(String endDatetime) {
+    public void setEndDatetime(LocalDateTime endDatetime) {
         this.endDatetime = endDatetime;
     }
 
     public int getCustomerId() {
         return customerId;
-    }
-
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
     }
 
     public String getAppContact() {
@@ -109,15 +143,31 @@ public class Appointment {
         return userId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
     public int getContactId() {
         return contactId;
     }
 
+    public String getStartTimeFormatted() {
+        return DateTimeFormatterUtility.formatDateTimeForTableview(startDatetime);
+    }
+
+    public String getEndTimeFormatted() {
+        return DateTimeFormatterUtility.formatDateTimeForTableview(endDatetime);
+    }
+
+    public void setAppId(int appId) {
+        this.appId = appId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
+
     public void setContactId(int contactId) {
         this.contactId = contactId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }

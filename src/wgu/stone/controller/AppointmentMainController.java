@@ -1,5 +1,6 @@
 package wgu.stone.controller;
 
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -15,12 +16,9 @@ import wgu.stone.dao.implementations.AppointmentDAOImpl;
 import wgu.stone.dao.interfaces.AppointmentDAO;
 import wgu.stone.model.Appointment;
 import wgu.stone.utility.Buttons;
-import wgu.stone.utility.DateTimeFormatterUtility;
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.Month;
+import java.time.*;
 import java.time.temporal.WeekFields;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -102,7 +100,6 @@ public class AppointmentMainController implements Initializable {
             appointments.removeIf(a -> a.getAppId() == appId);
         } catch (NullPointerException e) {
             e.printStackTrace();
-            System.out.println("A selection was not made");
             //make an alert
         }
     }
@@ -124,27 +121,35 @@ public class AppointmentMainController implements Initializable {
         Buttons.toMainDashboard(backToMainScreenButton);
     }
 
+    /**
+     * Initializes components of the AppointmentMain Form.
+     * Lambda Expressions used for the startDateColumn and endDateColumn to provide the values based on the
+     * getter methods created in the appointment model, so that the times are formatted correctly.
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         appointments = appointmentDAO.getAppointmentsList();
-        appointmentTableView.setItems(appointments);
         appointmentIdColumn.setCellValueFactory(new PropertyValueFactory<>("appId"));
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("appTitle"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("appDescription"));
         locationColumn.setCellValueFactory(new PropertyValueFactory<>("appLocation"));
         contactColumn.setCellValueFactory(new PropertyValueFactory<>("appContact"));
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("appType"));
-        startDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDatetime"));
-        endDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDatetime"));
+        startDateColumn.setCellValueFactory(cell -> new ReadOnlyStringWrapper(cell.getValue().getStartTimeFormatted()));
+        endDateColumn.setCellValueFactory(cell -> new ReadOnlyStringWrapper(cell.getValue().getEndTimeFormatted()));
         customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         filterAppsGroup = new ToggleGroup();
         monthlyRadioButton.setToggleGroup(filterAppsGroup);
         weeklyRadioButton.setToggleGroup(filterAppsGroup);
         allAppointmentsRadioButton.setToggleGroup(filterAppsGroup);
         allAppointmentsRadioButton.setSelected(true);
+        appointmentTableView.setItems(appointments);
     }
 
     /**
+     * Lambda Expression used when filtering appointments to reduce code, instead of using a traditional for loop.
      * set to the monthlyRadioButton - if selected, this method is called.
      * Gets the current month and then creates a filtered list of appointments that consist of only appointments in that
      * month. The list is then set as the tableview.
@@ -158,9 +163,9 @@ public class AppointmentMainController implements Initializable {
 
         //creates filtered list.
         FilteredList<Appointment> filteredList = appointments
-                .filtered(a -> DateTimeFormatterUtility.formatLocalDateTimeForNewObject(a.getStartDatetime())
+                .filtered(a -> a.getStartDatetime()
                         .getMonth().equals(currentMonth));
-
+        
         //sets tableview to filtered list.
         appointmentTableView.setItems(filteredList);
     }
@@ -176,10 +181,11 @@ public class AppointmentMainController implements Initializable {
 
         LocalDate currentDate = LocalDate.now();
         WeekFields weekFields = WeekFields.of(Locale.getDefault());
+
         int currentWeek = currentDate.get(weekFields.weekOfWeekBasedYear());
 
         for(Appointment a : appointments) {
-            LocalDateTime appDateTime = DateTimeFormatterUtility.formatLocalDateTimeForNewObject(a.getStartDatetime());
+            LocalDateTime appDateTime = a.getStartDatetime();
             int week = appDateTime.get(weekFields.weekOfWeekBasedYear());
 
 

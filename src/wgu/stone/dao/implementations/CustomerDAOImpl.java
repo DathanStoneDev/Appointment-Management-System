@@ -16,7 +16,6 @@ import java.sql.*;
  */
 public class CustomerDAOImpl implements CustomerDAO {
 
-                                        //CUSTOMER MAIN FORM PAGE
     /**
      * Retrieves data from the customers table in the database.
      * Creates customer objects and puts them into an ObservableList.
@@ -52,7 +51,11 @@ public class CustomerDAOImpl implements CustomerDAO {
         return allCustomers;
     }
 
-
+    /**
+     * Deletes a customer based on the customer ID.
+     * Deletes any appointments linked to the customer first due to foreign key restraints.
+     * @param id Customer ID parameter that specify the customer to delete.
+     */
     @Override
     public void deleteCustomer(int id) {
 
@@ -75,6 +78,10 @@ public class CustomerDAOImpl implements CustomerDAO {
         }
     }
 
+    /**
+     * Saves a new customer to the database.
+     * @param customer Customer Object passed in that will be added to the database.
+     */
     @Override
     public void saveCustomer(Customer customer) {
 
@@ -96,6 +103,10 @@ public class CustomerDAOImpl implements CustomerDAO {
         }
     }
 
+    /**
+     * Updates a customer based on the customer ID.
+     * @param customer Customer object that provides the necessary data to update in the database.
+     */
     @Override
     public void updateCustomer(Customer customer) {
 
@@ -119,6 +130,10 @@ public class CustomerDAOImpl implements CustomerDAO {
         }
     }
 
+    /**
+     * Retrieves a list of Division Objects for the Division ComboBoxes.
+     * @return Returns a list of Division Objects.
+     */
     @Override
     public ObservableList<Division> getDivisionList() {
 
@@ -140,6 +155,10 @@ public class CustomerDAOImpl implements CustomerDAO {
         return divisionList;
     }
 
+    /**
+     * Retrieves a list of country objects for the country ComboBoxes.
+     * @return Returns an observableList of country objects.
+     */
     @Override
     public ObservableList<Country> getCountryList() {
         ObservableList<Country> countryList = FXCollections.observableArrayList();
@@ -161,6 +180,10 @@ public class CustomerDAOImpl implements CustomerDAO {
         return countryList;
     }
 
+    /**
+     * Retrieves the customers and their IDs' in a list for the AddAppointmentForm.
+     * @return Returns an observable list of Customer names and IDs.
+     */
     @Override
     public ObservableList<Customer> getCustomerIdAndNamesList() {
 
