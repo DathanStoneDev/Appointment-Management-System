@@ -95,6 +95,7 @@ public class ReportController implements Initializable {
     }
 
     /**
+     * Lambda Expression used when filtering appointments to reduce code, instead of using a traditional for loop.
      * Creates a filtered list from the contactAppointmentList based on the contactComboBox selection.
      * Sets the contactAppointmentsView to the filtered list.
      */
@@ -106,6 +107,7 @@ public class ReportController implements Initializable {
     }
 
     /**
+     * Lambda Expression used when filtering appointments to reduce code, instead of using a traditional for loop.
      * Creates a filtered list from the contactAppointmentList based on the locationComboBox selection.
      * Sets the contactAppointmentsView to the filtered list.
      */

@@ -121,6 +121,13 @@ public class AppointmentMainController implements Initializable {
         Buttons.toMainDashboard(backToMainScreenButton);
     }
 
+    /**
+     * Initializes components of the AppointmentMain Form.
+     * Lambda Expressions used for the startDateColumn and endDateColumn to provide the values based on the
+     * getter methods created in the appointment model, so that the times are formatted correctly.
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         appointments = appointmentDAO.getAppointmentsList();
@@ -142,6 +149,7 @@ public class AppointmentMainController implements Initializable {
     }
 
     /**
+     * Lambda Expression used when filtering appointments to reduce code, instead of using a traditional for loop.
      * set to the monthlyRadioButton - if selected, this method is called.
      * Gets the current month and then creates a filtered list of appointments that consist of only appointments in that
      * month. The list is then set as the tableview.
