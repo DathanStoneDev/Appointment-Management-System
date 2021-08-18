@@ -7,13 +7,14 @@ import wgu.stone.dao.databaseConnection.DatabaseConnection;
 import wgu.stone.model.Appointment;
 import wgu.stone.model.Contact;
 import wgu.stone.utility.DateTimeFormatterUtility;
-
 import java.sql.*;
-
-
 
 public class AppointmentDAOImpl implements AppointmentDAO {
 
+    /**
+     * Retrieves a list of Appointment Objects.
+     * @return Returns an ObservableList of appointment objects.
+     */
     @Override
     public ObservableList<Appointment> getAppointmentsList() {
 
@@ -46,6 +47,10 @@ public class AppointmentDAOImpl implements AppointmentDAO {
         return appointments;
     }
 
+    /**
+     * Deletes an appointment.
+     * @param id Parameter used to select the Appointment to delete.
+     */
     @Override
     public void deleteAppointment(int id) {
 
@@ -60,6 +65,10 @@ public class AppointmentDAOImpl implements AppointmentDAO {
 
     }
 
+    /**
+     * Updates an appointment.
+     * @param appointment Parameter used to provide the appointment object to update.
+     */
     @Override
     public void updateAppointment(Appointment appointment) {
 
@@ -86,6 +95,10 @@ public class AppointmentDAOImpl implements AppointmentDAO {
         }
     }
 
+    /**
+     * Saves a new appointment.
+     * @param appointment Parameter used to provide the appointment object to save.
+     */
     @Override
     public void saveAppointment(Appointment appointment) {
 
@@ -112,6 +125,10 @@ public class AppointmentDAOImpl implements AppointmentDAO {
         }
     }
 
+    /**
+     * Retrieves a list of contact objects.
+     * @return Returns an observableList of contact objects.
+     */
     @Override
     public ObservableList<Contact> getContactsList() {
 
@@ -132,6 +149,10 @@ public class AppointmentDAOImpl implements AppointmentDAO {
         return contactsList;
     }
 
+    /**
+     * Retrieves a list of Appointment Objects specifically for the Contact Appointments Report.
+     * @return Returns an ObservableList of appointment objects.
+     */
     @Override
     public ObservableList<Appointment> getContactScheduleList() {
 
@@ -163,6 +184,10 @@ public class AppointmentDAOImpl implements AppointmentDAO {
         return contactScheduleList;
     }
 
+    /**
+     * Returns an observable list of Strings that are composed of appointments grouped by month and type.
+     * @return ObservableList of Strings.
+     */
     public ObservableList<String> getAppsByMonthAndType() {
 
         ObservableList<String> reportStringList = FXCollections.observableArrayList();
@@ -185,6 +210,10 @@ public class AppointmentDAOImpl implements AppointmentDAO {
         return reportStringList;
     }
 
+    /**
+     * Gets all appointments within 15 minutes of login.
+     * @return ObservableList of appointments.
+     */
     public ObservableList<Appointment> getAppointmentsOnLogin() {
 
         ObservableList<Appointment> appointmentsWithin15Minutes = FXCollections.observableArrayList();

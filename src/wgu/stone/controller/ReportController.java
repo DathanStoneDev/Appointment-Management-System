@@ -1,5 +1,6 @@
 package wgu.stone.controller;
 
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -70,8 +71,8 @@ public class ReportController implements Initializable {
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("appDescription"));
         appIdColumn.setCellValueFactory(new PropertyValueFactory<>("appId"));
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("appType"));
-        startColumn.setCellValueFactory(new PropertyValueFactory<>("startDatetime"));
-        endColumn.setCellValueFactory(new PropertyValueFactory<>("endDatetime"));
+        startColumn.setCellValueFactory(cell -> new ReadOnlyStringWrapper(cell.getValue().getStartTimeFormatted()));
+        endColumn.setCellValueFactory(cell -> new ReadOnlyStringWrapper(cell.getValue().getEndTimeFormatted()));
         customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
 
         //Location Report Tableview
@@ -79,8 +80,8 @@ public class ReportController implements Initializable {
         appDescriptionColumnLoc.setCellValueFactory(new PropertyValueFactory<>("appDescription"));
         appIdColumnLoc.setCellValueFactory(new PropertyValueFactory<>("appId"));
         typeColumnLoc.setCellValueFactory(new PropertyValueFactory<>("appType"));
-        startColumnLoc.setCellValueFactory(new PropertyValueFactory<>("startDatetime"));
-        endColumnLoc.setCellValueFactory(new PropertyValueFactory<>("endDatetime"));
+        startColumnLoc.setCellValueFactory(cell -> new ReadOnlyStringWrapper(cell.getValue().getStartTimeFormatted()));
+        endColumnLoc.setCellValueFactory(cell -> new ReadOnlyStringWrapper(cell.getValue().getEndTimeFormatted()));
         customerIdColumnLoc.setCellValueFactory(new PropertyValueFactory<>("customerId"));
 
         //ComboBoxes

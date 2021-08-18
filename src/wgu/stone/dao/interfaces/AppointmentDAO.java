@@ -4,6 +4,9 @@ import javafx.collections.ObservableList;
 import wgu.stone.model.Appointment;
 import wgu.stone.model.Contact;
 
+/**
+ * DAO Interface that the controllers will call to retrieve these methods from the AppointmentDAOImpl.
+ */
 public interface AppointmentDAO {
     ObservableList<Appointment> getAppointmentsList();
     void deleteAppointment(int id);

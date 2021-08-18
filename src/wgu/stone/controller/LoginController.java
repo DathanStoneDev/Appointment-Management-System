@@ -51,7 +51,7 @@ public class LoginController implements Initializable {
 
     /**
      * Logging into the application. Linked to the loginButton.
-     * Logs all attempts.
+     * Logs all attempts into a login_activity.txt file.
      */
     @FXML
     private void loginToApp() throws IOException {

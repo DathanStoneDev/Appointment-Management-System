@@ -5,6 +5,9 @@ import wgu.stone.model.Country;
 import wgu.stone.model.Customer;
 import wgu.stone.model.Division;
 
+/**
+ * DAO Interface that the controllers will call to retrieve these methods from the CustomerDAOImpl.
+ */
 public interface CustomerDAO {
 
     ObservableList<Customer> getCustomerList();

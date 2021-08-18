@@ -16,7 +16,6 @@ import wgu.stone.dao.implementations.AppointmentDAOImpl;
 import wgu.stone.dao.interfaces.AppointmentDAO;
 import wgu.stone.model.Appointment;
 import wgu.stone.utility.Buttons;
-import wgu.stone.utility.DateTimeFormatterUtility;
 import java.io.IOException;
 import java.net.URL;
 import java.time.*;
@@ -101,7 +100,6 @@ public class AppointmentMainController implements Initializable {
             appointments.removeIf(a -> a.getAppId() == appId);
         } catch (NullPointerException e) {
             e.printStackTrace();
-            System.out.println("A selection was not made");
             //make an alert
         }
     }
@@ -159,7 +157,7 @@ public class AppointmentMainController implements Initializable {
         FilteredList<Appointment> filteredList = appointments
                 .filtered(a -> a.getStartDatetime()
                         .getMonth().equals(currentMonth));
-
+        
         //sets tableview to filtered list.
         appointmentTableView.setItems(filteredList);
     }
@@ -175,6 +173,7 @@ public class AppointmentMainController implements Initializable {
 
         LocalDate currentDate = LocalDate.now();
         WeekFields weekFields = WeekFields.of(Locale.getDefault());
+
         int currentWeek = currentDate.get(weekFields.weekOfWeekBasedYear());
 
         for(Appointment a : appointments) {
