@@ -14,14 +14,7 @@ public class Customer {
     private int divisionId;
 
     /**
-     * Constructor for the tableview. Found in use
-     * @param customerId
-     * @param customerName
-     * @param customerAddress
-     * @param customerPostalCode
-     * @param customerPhoneNumber
-     * @param countryName
-     * @param divisionName
+     * Constructor for the tableview.
      */
     public Customer(int customerId, String customerName, String customerAddress, String customerPostalCode,
                     String customerPhoneNumber, String countryName, String divisionName) {
@@ -35,7 +28,7 @@ public class Customer {
     }
 
     /**
-     * Constructor in AddCustomer form
+     * Constructor in AddCustomer form.
      */
     public Customer(String customerName, String customerAddress, String customerPostalCode, String customerPhoneNumber,
                     String countryName, String divisionName, int divisionId) {
@@ -57,7 +50,7 @@ public class Customer {
     }
 
     /**
-     * Constructor in UpdateCustomer form
+     * Constructor in UpdateCustomer form.
      */
     public Customer(int customerId, String customerName, String customerAddress, String customerPostalCode,
                     String customerPhoneNumber, String countryName, String divisionName, int divisionId) {

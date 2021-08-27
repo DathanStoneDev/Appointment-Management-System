@@ -4,7 +4,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
+/**
+ * Class that holds methods for checking login parameters with the Database.
+ */
 public class Login {
 
     /**

@@ -9,17 +9,13 @@ import wgu.stone.model.Customer;
 import wgu.stone.model.Division;
 import java.sql.*;
 
-
-
 /**
  * Contains the method implementations for customers.
  */
 public class CustomerDAOImpl implements CustomerDAO {
 
     /**
-     * Retrieves data from the customers table in the database.
-     * Creates customer objects and puts them into an ObservableList.
-     * returns the ObservableList to be used for the customer tableview
+     * Retrieves data from the customers table in the database and creates an ObservableList.
      * @return ObservableList of customer objects.
      */
     @Override

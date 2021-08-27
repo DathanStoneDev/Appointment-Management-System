@@ -19,8 +19,9 @@ import java.time.temporal.ChronoUnit;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-
-
+/**
+ * A controller for logins.
+ */
 public class LoginController implements Initializable {
 
     //TextFields.
@@ -42,7 +43,7 @@ public class LoginController implements Initializable {
     private Login login = new Login();
 
     //Resource bundle that gets the locale of a user.
-    private ResourceBundle rb = ResourceBundle.getBundle("Nat", Locale.getDefault());
+    private ResourceBundle rb = ResourceBundle.getBundle("Resources/Nat", Locale.getDefault());
 
     //Logged in user.
     protected static int loggedInUser;
@@ -50,7 +51,7 @@ public class LoginController implements Initializable {
 
 
     /**
-     * Logging into the application. Linked to the loginButton.
+     * Logs into the application. Linked to the loginButton and
      * Logs all attempts into a login_activity.txt file.
      */
     @FXML
@@ -86,14 +87,14 @@ public class LoginController implements Initializable {
 
 
     /**
-     * Determines the location of the user and displays it on the locationLabel.
+     * Sets the location of the user and displays it on the locationLabel.
      */
     private void determineUserLocation() {
         locationLabel.setText(ZoneId.systemDefault().toString());
     }
 
     /**
-     * Determines the language of the user's computer and sets it for the form.
+     * Sets the language of the user's computer and sets it for the login form.
      */
     private void determineUserLanguage() {
         usernameLabel.setText(rb.getString("usernameLabel"));
@@ -110,11 +111,6 @@ public class LoginController implements Initializable {
         Buttons.exitApplication(exitAppButton);
     }
 
-    /**
-     * Initializes starting data on the form.
-     * @param url
-     * @param resourceBundle
-     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         determineUserLocation();

@@ -18,7 +18,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * Provides reports to the user.
+ * A controller for reports.
  */
 public class ReportController implements Initializable {
 
@@ -57,11 +57,6 @@ public class ReportController implements Initializable {
     //Instance of the appointmentDAO.
     private final AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
 
-    /**
-     * Initializes the Contact, Location and Month/Type Reports
-     * @param url
-     * @param resourceBundle
-     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //Contact Report TableView
@@ -96,8 +91,8 @@ public class ReportController implements Initializable {
 
     /**
      * Lambda Expression used when filtering appointments to reduce code, instead of using a traditional for loop.
-     * Creates a filtered list from the contactAppointmentList based on the contactComboBox selection.
-     * Sets the contactAppointmentsView to the filtered list.
+     * Creates a filtered list from the <code>contactAppointmentList</code> based on the <code>contactComboBox</code>selection.
+     * Displays the filtered list in the <code>contactAppointmentsView</code>.
      */
     @FXML
     private void setContactAppTableView() {
@@ -108,8 +103,8 @@ public class ReportController implements Initializable {
 
     /**
      * Lambda Expression used when filtering appointments to reduce code, instead of using a traditional for loop.
-     * Creates a filtered list from the contactAppointmentList based on the locationComboBox selection.
-     * Sets the contactAppointmentsView to the filtered list.
+     * Creates a filtered list from the <code>contactAppointmentList</code> based on the locationComboBox selection.
+     * Displays the filtered list in the <code>locationAppointmentsView</code>.
      */
     @FXML
     private void setLocationAppTableView() {
@@ -134,7 +129,7 @@ public class ReportController implements Initializable {
 
     /**
      * Takes the user back to the Dashboard.
-     * @throws IOException
+     * @throws IOException Throws exception if the MainDashboard cannot be retrieved.
      */
     @FXML
     private void backToMainDashboard() throws IOException {

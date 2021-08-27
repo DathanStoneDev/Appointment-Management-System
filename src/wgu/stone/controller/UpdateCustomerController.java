@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -16,12 +17,14 @@ import wgu.stone.dao.interfaces.CustomerDAO;
 import wgu.stone.model.Country;
 import wgu.stone.model.Customer;
 import wgu.stone.model.Division;
+import wgu.stone.utility.Buttons;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * Controller class responsible for updating customers.
+ * A controller for updating customers.
  */
 public class UpdateCustomerController implements Initializable {
 
@@ -51,11 +54,6 @@ public class UpdateCustomerController implements Initializable {
     private ObservableList<Division> divList = FXCollections.observableArrayList();
     private ObservableList<Country> countryList = FXCollections.observableArrayList();
 
-    /**
-     * Initializes the Lists, Country ComboBox and disables the customerID field.
-     * @param url
-     * @param resourceBundle
-     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         countryList = customerDAO.getCountryList();
@@ -67,28 +65,36 @@ public class UpdateCustomerController implements Initializable {
 
     /**
      * Updates a selected customer.
-     * @throws IOException
+     * @throws IOException Throws exception if the CustomerMainForm cannot be retrieved.
      */
     @FXML
     private void updateCustomer() throws IOException {
 
-        Customer customer = new Customer();
-        customer.setCustomerId(Integer.parseInt(customerIdField.getText()));
-        customer.setCustomerName(customerNameField.getText());
-        customer.setCustomerAddress(customerAddressField.getText());
-        customer.setCustomerPostalCode(customerPostalField.getText());
-        customer.setCustomerPhoneNumber(customerPhoneNumberField.getText());
-        customer.setDivisionName(divisionCombo.getSelectionModel().getSelectedItem().getDivName());
-        customer.setCountryName(countryCombo.getSelectionModel().getSelectedItem().getCountryName());
-        customer.setDivisionId(divisionCombo.getSelectionModel().getSelectedItem().getDivId());
+        try {
+            int customerId = Integer.parseInt(customerIdField.getText());
+            String customerName = customerNameField.getText();
+            String customerAddress = customerAddressField.getText();
+            String customerPostalCode = customerPostalField.getText();
+            String customerPhoneNumber = customerPhoneNumberField.getText();
+            String countryName = countryCombo.getSelectionModel().getSelectedItem().getCountryName();
+            String divisionName = divisionCombo.getSelectionModel().getSelectedItem().getDivName();
+            int divisionId = divisionCombo.getSelectionModel().getSelectedItem().getDivId();
 
-        customerDAO.updateCustomer(customer);
+            Customer customer = new Customer(customerId, customerName, customerAddress, customerPostalCode, customerPhoneNumber,
+                    countryName, divisionName, divisionId);
 
-        Parent addCustomer = FXMLLoader.load(getClass().getResource("/wgu/stone/view/CustomerMainForm.fxml"));
-        Scene addCustomerScene = new Scene(addCustomer);
-        Stage window = (Stage) saveUpdatedCustomerButton.getScene().getWindow();
-        window.setScene(addCustomerScene);
-        window.show();
+            customerDAO.updateCustomer(customer);
+
+            Buttons.toMainCustomerForm(saveUpdatedCustomerButton);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Empty Fields");
+            alert.setContentText("Please ensure fields are not blank and ComboBoxes have a selected item");
+            alert.show();
+            e.printStackTrace();
+            return;
+        }
     }
 
     /**
@@ -122,7 +128,7 @@ public class UpdateCustomerController implements Initializable {
 
     /**
      * Cancels updating a customer and sends the user back to the CustomerMainForm.
-     * @throws IOException
+     * @throws IOException Throws exception if the CustomerMainForm cannot be retrieved.
      */
     @FXML
     private void backToMainCustomerForm() throws IOException {
@@ -134,6 +140,9 @@ public class UpdateCustomerController implements Initializable {
         window.show();
     }
 
+    /**
+     * Exits the application.
+     */
     @FXML
     private final void exitApp() {
         Stage window = (Stage) exitAppButton.getScene().getWindow();
@@ -141,7 +150,7 @@ public class UpdateCustomerController implements Initializable {
     }
 
     /**
-     * Sets the Division ComboBox to a filtered list based on the Country ComboBox selection.
+     * Sets the <code>divisionCombo</code> to a filtered list based on the <code>countryCombo</code>selection.
      */
     @FXML
     private void setDivisionCombo() {

@@ -18,6 +18,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * A controller for adding customers.
+ */
 public class AddCustomerController implements Initializable {
 
     //TextFields.
@@ -41,11 +44,6 @@ public class AddCustomerController implements Initializable {
     //List of division objects for the division ComboBox.
     private ObservableList<Division> divList = FXCollections.observableArrayList();
 
-    /**
-     * Initializes the ComboBox Lists.
-     * @param url
-     * @param resourceBundle
-     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         countryCombo.setItems(customerDAO.getCountryList());
@@ -54,7 +52,7 @@ public class AddCustomerController implements Initializable {
 
     /**
      * Adds a new customer.
-     * @throws IOException
+     * @throws IOException Throws exception if the MainCustomerForm cannot be retrieved.
      */
     @FXML
     private void addNewCustomer() throws IOException {
@@ -87,7 +85,7 @@ public class AddCustomerController implements Initializable {
     }
 
     /**
-     * Filters the ComboBox for divisions based on the selection of the country from the country ComboBox.
+     * Filters the <code>divisionCombo</code> for divisions based on the selection of the country from the <code>countryCombo</code>.
      */
     @FXML
     private void setDivisionCombo() {
@@ -98,7 +96,7 @@ public class AddCustomerController implements Initializable {
     }
 
     /**
-     * Exits the application
+     * Exits the application.
      */
     @FXML
     private void exitApp() {
@@ -107,12 +105,10 @@ public class AddCustomerController implements Initializable {
 
     /**
      * Goes back to the MainCustomerForm if the cancel button is clicked.
-     * @throws IOException
+     * @throws IOException Throws exception if the MainCustomerForm cannot be retrieved.
      */
     @FXML
     private void backToMainCustomerForm() throws IOException {
         Buttons.toMainCustomerForm(cancelButton);
     }
-
-
 }

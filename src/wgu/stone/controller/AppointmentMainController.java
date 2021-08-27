@@ -23,6 +23,9 @@ import java.time.temporal.WeekFields;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ * A controller for the Main Dashboard for appointments.
+ */
 public class AppointmentMainController implements Initializable {
 
     //Appointment tableview components.
@@ -55,7 +58,7 @@ public class AppointmentMainController implements Initializable {
 
     /**
      * Goes to the AddAppointmentForm
-     * @throws IOException
+     * @throws IOException Throws exception if the AppointmentMainForm cannot be retrieved.
      */
     @FXML
     private void goToAddAppForm() throws IOException {
@@ -68,7 +71,7 @@ public class AppointmentMainController implements Initializable {
 
     /**
      * Goes to the UpdateAppointmentForm
-     * @throws IOException
+     * @throws IOException Throws exception if the UpdateMainForm cannot be retrieved.
      */
     @FXML
     private void goToUpdateForm() throws IOException {
@@ -89,7 +92,8 @@ public class AppointmentMainController implements Initializable {
     }
 
     /**
-     * Deletes a selected appointment and then removes the appointment from the list.
+     * Lambda expression that deletes a selected appointment and then removes it from the <code>appointments</code> list.
+     * A lambda expression was used to reduce the amount of code that a traditional for-loop would require.
      */
     @FXML
     private void deleteAppointment() {
@@ -105,7 +109,7 @@ public class AppointmentMainController implements Initializable {
     }
 
     /**
-     * Exits the application
+     * Exits the application.
      */
     @FXML
     private void exitApp() {
@@ -113,21 +117,14 @@ public class AppointmentMainController implements Initializable {
     }
 
     /**
-     * Goes to the MainDashboard
-     * @throws IOException
+     * Goes to the MainDashboard.
+     * @throws IOException Throws exception if the MainDashBoard cannot be retrieved.
      */
     @FXML
     private void backToMainDashboard() throws IOException {
         Buttons.toMainDashboard(backToMainScreenButton);
     }
 
-    /**
-     * Initializes components of the AppointmentMain Form.
-     * Lambda Expressions used for the startDateColumn and endDateColumn to provide the values based on the
-     * getter methods created in the appointment model, so that the times are formatted correctly.
-     * @param url
-     * @param resourceBundle
-     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         appointments = appointmentDAO.getAppointmentsList();
@@ -150,7 +147,7 @@ public class AppointmentMainController implements Initializable {
 
     /**
      * Lambda Expression used when filtering appointments to reduce code, instead of using a traditional for loop.
-     * set to the monthlyRadioButton - if selected, this method is called.
+     * Set on the <code>monthlyRadioButton </code> - if selected, this method is called.
      * Gets the current month and then creates a filtered list of appointments that consist of only appointments in that
      * month. The list is then set as the tableview.
      */
@@ -171,7 +168,7 @@ public class AppointmentMainController implements Initializable {
     }
 
     /**
-     * set to the weeklyRadioButton - if selected, this method is called.
+     * Set on the <code>weeklyRadioButton</code> - if selected, this method is called.
      * Gets the current week and then displays a list of appointments only in the current week.
      * Sets the tableview to the list.
      */
@@ -197,9 +194,7 @@ public class AppointmentMainController implements Initializable {
     }
 
     /**
-     * Gets all the appointments and displays them. This method is initialized when this view is selected.
-     * Method is set to the allAppointmentsRadioButton in case the user toggled to another filter, and would like to
-     * see all appointments again.
+     * Gets all the appointments and displays them.
      */
     @FXML
     private void getAllAppointments() {

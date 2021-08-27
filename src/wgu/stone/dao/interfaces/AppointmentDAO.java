@@ -5,7 +5,7 @@ import wgu.stone.model.Appointment;
 import wgu.stone.model.Contact;
 
 /**
- * DAO Interface that the controllers will call to retrieve these methods from the AppointmentDAOImpl.
+ * DAO Interface for AppointmentDAOImpl methods.
  */
 public interface AppointmentDAO {
     ObservableList<Appointment> getAppointmentsList();

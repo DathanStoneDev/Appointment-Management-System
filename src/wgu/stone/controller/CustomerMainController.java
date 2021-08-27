@@ -19,6 +19,9 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * A controller for the Main Dashboard for Customers.
+ */
 public class CustomerMainController implements Initializable {
 
     //Tableview of records and their columns.
@@ -43,11 +46,6 @@ public class CustomerMainController implements Initializable {
     //List of customer objects to populate the tableview.
     private ObservableList<Customer> customers = FXCollections.observableArrayList();
 
-    /**
-     * Initializes the Customer Records Tableview.
-     * @param url
-     * @param resourceBundle
-     */
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         //Initialize tableview and columns
@@ -91,8 +89,8 @@ public class CustomerMainController implements Initializable {
     }
 
     /**
-     * Takes the user to the AddAppointmentForm
-     * @throws IOException
+     * Takes the user to the Main Dashboard.
+     * @throws IOException Throws exception if the MainDashboard cannot be retrieved.
      */
     @FXML
     private void goToMainDashboard() throws IOException {
@@ -106,7 +104,7 @@ public class CustomerMainController implements Initializable {
 
     /**
      * Takes the user to the CustomerAddForm.
-     * @throws IOException
+     * @throws IOException Throws exception if the AddCustomerForm cannot be retrieved.
      */
     @FXML
     private void goToCustomerAddForm() throws IOException {
@@ -119,7 +117,7 @@ public class CustomerMainController implements Initializable {
 
     /**
      * Takes the user to the CustomerUpdateForm.
-     * @throws IOException
+     * @throws IOException Throws exception if the UpdateCustomerForm cannot be retrieved.
      */
     @FXML
     private void goToCustomerUpdateForm() throws IOException {

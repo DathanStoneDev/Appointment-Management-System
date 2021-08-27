@@ -1,5 +1,6 @@
 package wgu.stone.dao.databaseConnection;
 
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -17,7 +18,7 @@ public final class DatabaseConnection {
      * Starts the initial connection.
      * @return connection to conn variable.
      */
-    public static Connection startConnection() {
+    public static Connection startConnection(){
         ResourceBundle reader;
         reader = ResourceBundle.getBundle("db");
         try {
@@ -30,14 +31,14 @@ public final class DatabaseConnection {
     }
 
     /**
-     * gets the connection without restarting the process through the DriverManager.
+     * Gets the connection without restarting the process through the DriverManager.
      * @return returns connection.
      */
     public static Connection getConnection() { return conn; }
 
 
     /**
-     * closes the connection.
+     * Closes the connection.
      * @return returns null if the connection could not be closed.
      */
     public static Connection closeConnection() {

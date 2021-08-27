@@ -8,8 +8,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 /**
- * Holds the methods that are associated with going to the Main Dashboard or exiting the app.
- * These are the two common actions associated with each view.
+ * Holds the methods that are associated with going to different views.
+ *
  */
 public final class Buttons {
 
@@ -21,9 +21,9 @@ public final class Buttons {
     }
 
     /**
-     * Takes the user to the Main Dashboard view.
+     * Takes the user to the MainDashboard view.
      * @param button Assigned Button on the form for this method.
-     * @throws IOException
+     * @throws IOException Throws exception if the MainDashboard cannot be retrieved.
      */
     public static void toMainDashboard(Button button) throws IOException {
         Parent mainDash = FXMLLoader.load(Buttons.class.getResource("/wgu/stone/view/MainDashboard.fxml"));
@@ -36,7 +36,6 @@ public final class Buttons {
     /**
      * Exits the application.
      * @param button Assigned Button on the form for this method.
-     * @throws IOException
      */
     public static void exitApplication(Button button) {
         Stage window = (Stage) button.getScene().getWindow();
@@ -44,9 +43,9 @@ public final class Buttons {
     }
 
     /**
-     * Takes the user to the Main Customer Form view.
+     * Takes the user to the MainCustomerForm view.
      * @param button Assigned Button on the form for this method.
-     * @throws IOException
+     * @throws IOException Throws exception if the CustomerMainForm cannot be retrieved.
      */
     public static void toMainCustomerForm(Button button) throws IOException {
         Parent addCustomer = FXMLLoader.load(Buttons.class.getResource("/wgu/stone/view/CustomerMainForm.fxml"));
@@ -57,9 +56,9 @@ public final class Buttons {
     }
 
     /**
-     * Takes the user to the Main Appointment Form view.
+     * Takes the user to the AppointmentMainForm view.
      * @param button Assigned Button on the form for this method.
-     * @throws IOException
+     * @throws IOException Throws exception if the AppointmentMainForm cannot be retrieved.
      */
     public static void toMainAppointmentForm(Button button) throws IOException {
         Parent mainApp = FXMLLoader.load(Buttons.class.getResource("/wgu/stone/view/AppointmentMainForm.fxml"));

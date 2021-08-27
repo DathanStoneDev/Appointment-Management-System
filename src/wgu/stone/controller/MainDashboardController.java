@@ -18,8 +18,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * User Interface that is presented to the user upon successful login.
- * Allows the user to navigate to the Report, Customers, or Appointment forms.
+ * A controller for the Main Dashboard.
  */
 public class MainDashboardController implements Initializable {
 
@@ -33,7 +32,7 @@ public class MainDashboardController implements Initializable {
 
     /**
      * Goes to the ReportForm.
-     * @throws IOException
+     * @throws IOException Throws exception if ReportsForm cannot be retrieved.
      */
     @FXML
     private void goToReportForm() throws IOException {
@@ -42,12 +41,11 @@ public class MainDashboardController implements Initializable {
         Stage window = (Stage) reportFormButton.getScene().getWindow();
         window.setScene(reportScene);
         window.show();
-
     }
 
     /**
-     * Goes to the MainAppointmentForm
-     * @throws IOException
+     * Goes to the AppointmentMainForm
+     * @throws IOException Throws exception if AppointmentMainForm cannot be retrieved.
      */
     @FXML
     private void goToMainAppointmentForm() throws IOException {
@@ -61,7 +59,7 @@ public class MainDashboardController implements Initializable {
 
     /**
      * Goes to the CustomerMainForm.
-     * @throws IOException
+     * @throws IOException Throws exception if CustomerMainForm cannot be retrieved.
      */
     @FXML
     private void goToCustomerMainForm() throws IOException {

@@ -19,6 +19,9 @@ import java.net.URL;
 import java.time.*;
 import java.util.ResourceBundle;
 
+/**
+ * A controller for adding appointments.
+ */
 public class AddAppointmentController implements Initializable {
 
     //Customer tableview
@@ -40,7 +43,7 @@ public class AddAppointmentController implements Initializable {
     @FXML private ComboBox<Contact> contactNameComboBox;
     @FXML private ComboBox<String> typeComboBox;
 
-    //Type and Locations lists that be used within this package.
+    //Type and Locations lists that can be used within this package.
     protected static final ObservableList<String> types = FXCollections.observableArrayList(new String[]{"Consult", "Business", "Project"});
     protected static final ObservableList<String> locations = FXCollections.observableArrayList("Phoenix Arizona",
             "White Plains New York", "Montreal Canada", "London England");
@@ -73,7 +76,7 @@ public class AddAppointmentController implements Initializable {
     }
 
     /**
-     * Creates a LocalDateTime from the LocalDate and LocalTime selections from the date picker and startTimeComboBox.
+     * Creates a LocalDateTime from the LocalDate and LocalTime selections from the <code>datePicker</code>and <code>startTimeComboBox</code>..
      * @return returns the Start LocalDateTime.
      */
     private LocalDateTime createStartLocaleDateTime() {
@@ -86,7 +89,7 @@ public class AddAppointmentController implements Initializable {
     }
 
         /**
-         * Creates a LocalDateTime from the LocalDate and LocalTime selections from the date picker and endTimeComboBox.
+         * Creates a LocalDateTime from the LocalDate and LocalTime selections from the <code>datePicker</code>and <code>endTimeComboBox</code>.
          * @return returns the End LocalDateTime.
          */
         private LocalDateTime createEndLocaleDateTime () {
@@ -136,11 +139,6 @@ public class AddAppointmentController implements Initializable {
             }
         }
 
-    /**
-     * Initializes the components on the Add Appointment form.
-     * @param url
-     * @param resourceBundle
-     */
     @Override
         public void initialize (URL url, ResourceBundle resourceBundle){
             customerTable.setItems(customerDAO.getCustomerIdAndNamesList());
@@ -162,9 +160,8 @@ public class AddAppointmentController implements Initializable {
         }
 
         /**
-         * Goes to the MainAppointmentForm.
-         *
-         * @throws IOException
+         * Takes the user back to the main appointment form if the cancel button is clicked.
+         * @throws IOException Throws exception if the AppointmentMainForm cannot be retrieved.
          */
         @FXML
         private void backToMainAppointment () throws IOException {
@@ -172,12 +169,12 @@ public class AddAppointmentController implements Initializable {
         }
 
         /**
-         * First, checks the appointment that is being made for valid start and end times.
-         * Second, if the appointment has valid start and end times, those times are checked against all other appointments
-         * to prevent overlapping appointments.
-         *
-         * @return returns true for valid appointment times or false for non valid appointment time.
-         */
+        * Validates that the appointment start and end times do not overlap with other appointments.
+        * First, checks the appointment that is being made for valid start and end times.
+        * Second, if the appointment has valid start and end times, those times are checked against all other appointments
+        * to prevent overlapping appointments.
+        * @return Returns Boolean: true for valid appointment times or false for an invalid appointment times.
+        */
         private Boolean isValidWithoutOverlaps() {
 
             //grabs the appointment Start and End dates.
@@ -207,12 +204,12 @@ public class AddAppointmentController implements Initializable {
         }
 
     /**
-     * Validation to ensure the start and end times are valid.
+     * Validates that the appointment start and end times against EST hours.
      * Validates: Ensures times are within EST Business hours, have a start time before the end time, and checks if the
      * appointment is before the current LocalDateTime.
      * @param start LocalDateTime from the createStartTime Method.
      * @param end LocalDateTime from the createEndTime Method.
-     * @return Returns Boolean.
+     * @return Returns Boolean: true for valid appointment times or false for an invalid appointment times.
      */
     private Boolean isValidAppointmentTime(LocalDateTime start, LocalDateTime end) {
 

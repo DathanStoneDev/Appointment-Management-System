@@ -6,7 +6,7 @@ import wgu.stone.model.Customer;
 import wgu.stone.model.Division;
 
 /**
- * DAO Interface that the controllers will call to retrieve these methods from the CustomerDAOImpl.
+ * DAO Interface for CustomerDAOImpl methods.
  */
 public interface CustomerDAO {
 

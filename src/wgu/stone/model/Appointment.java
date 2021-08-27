@@ -52,7 +52,7 @@ public class Appointment {
     }
 
     /**
-     * Update Appointment Constructor
+     * Update an Appointment Constructor.
      */
     public Appointment(int appId, String appTitle, String appDescription, String appLocation, String appType,
                        LocalDateTime startDatetime, LocalDateTime endDatetime, int customerId,

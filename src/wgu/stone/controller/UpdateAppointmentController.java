@@ -14,9 +14,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.*;
 import java.util.ResourceBundle;
-
 import static wgu.stone.controller.AddAppointmentController.*;
 
+/**
+ * A controller for updating appointments.
+ */
 public class UpdateAppointmentController implements Initializable {
 
     @FXML private TextField appIdField;
@@ -59,8 +61,8 @@ public class UpdateAppointmentController implements Initializable {
     }
 
     /**
-     * Creates a LocalDateTime from the LocalDate and LocalTime selections from the date picker and startTimeComboBox.
-     * @return Returns the start LocalDateTime.
+     * Creates a LocalDateTime from the LocalDate and LocalTime selections from the <code>datePicker</code>and <code>startTimeComboBox</code>.
+     * @return Returns the <code>start</code>LocalDateTime.
      */
     private LocalDateTime createStartLocaleDateTime() {
 
@@ -71,8 +73,8 @@ public class UpdateAppointmentController implements Initializable {
     }
 
     /**
-     * Creates a LocalDateTime from the LocalDate and LocalTime selections from the date picker and endTimeComboBox.
-     * @return Returns the End LocalDateTime.
+     * Creates a LocalDateTime from the LocalDate and LocalTime selections from the <code>datePicker</code>and <code>endTimeComboBox</code>.
+     * @return Returns the <code>end</code> LocalDateTime.
      */
     private LocalDateTime createEndLocaleDateTime() {
 
@@ -125,7 +127,7 @@ public class UpdateAppointmentController implements Initializable {
     }
 
     /**
-     * Initializes the selected appointment data from the Main Appointment Form.
+     * Initializes the selected appointment data from the AppointmentMainForm.
      * @param appointment Object that will be updated.
      */
     public void initData(Appointment appointment) {
@@ -147,11 +149,6 @@ public class UpdateAppointmentController implements Initializable {
         }
     }
 
-    /**
-     * Initializes the components of the update appointment form.
-     * @param url
-     * @param resourceBundle
-     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         locationComboBox.setItems(AddAppointmentController.locations);
@@ -166,11 +163,22 @@ public class UpdateAppointmentController implements Initializable {
 
     }
 
+    /**
+     * Parses a LocalDateTime to retrieve a start Date.
+     * @param dateTime LocalDateTime object passed from <code>isValidWithoutOverlaps()</code>method.
+     * @return Returns a Date from a LocalDateTime object that will be compared to appointment times
+     * to check for overlaps.
+     */
     private LocalDate getDateFromDateTime(LocalDateTime dateTime) {
         LocalDate date = LocalDate.from(dateTime);
         return date;
     }
-
+    /**
+     * Parses a LocalDateTime to retrieve an end Date.
+     * @param dateTime LocalDateTime object passed from <code>isValidWithoutOverlaps()</code>method.
+     * @return Returns a Date from a LocalDateTime object that will be compared to appointment times
+     * to check for overlaps.
+     */
     private LocalTime getTimeFromDateTime(LocalDateTime dateTime) {
         LocalTime time = LocalTime.from(dateTime);
         return time;
@@ -186,7 +194,7 @@ public class UpdateAppointmentController implements Initializable {
 
     /**
      * Takes the user back to the main appointment form if the cancel button is clicked.
-     * @throws IOException
+     * @throws IOException Throws exception if the AppointmentMainForm cannot be retrieved.
      */
     @FXML
     private void backToMainAppointmentForm() throws IOException {
@@ -195,11 +203,11 @@ public class UpdateAppointmentController implements Initializable {
 
 
     /**
+     * Validates that the appointment start and end times do not overlap with other appointments.
      * First, checks the appointment that is being made for valid start and end times.
      * Second, if the appointment has valid start and end times, those times are checked against all other appointments
      * to prevent overlapping appointments.
-     *
-     * @return returns true for valid appointment times or false for non valid appointment time.
+     * @return Returns Boolean: true for valid appointment times or false for an invalid appointment times.
      */
     private Boolean isValidWithoutOverlaps() {
 
@@ -230,12 +238,12 @@ public class UpdateAppointmentController implements Initializable {
     }
 
     /**
-     * Validation to ensure the start and end times are valid.
+     * Validates that the appointment start and end times against EST hours.
      * Validates: Ensures times are within EST Business hours, have a start time before the end time, and checks if the
      * appointment is before the current LocalDateTime.
      * @param start LocalDateTime from the createStartTime Method.
      * @param end LocalDateTime from the createEndTime Method.
-     * @return Returns Boolean.
+     * @return Returns Boolean: true for valid appointment times or false for an invalid appointment times.
      */
     private Boolean isValidAppointmentTime(LocalDateTime start, LocalDateTime end) {
 
