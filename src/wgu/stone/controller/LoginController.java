@@ -1,13 +1,15 @@
 package wgu.stone.controller;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import wgu.stone.dao.databaseConnection.Login;
+import wgu.stone.dao.implementations.AppointmentDAOImpl;
+import wgu.stone.dao.interfaces.AppointmentDAO;
+import wgu.stone.model.Appointment;
 import wgu.stone.utility.Buttons;
+import wgu.stone.utility.DateTimeFormatterUtility;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -42,11 +44,15 @@ public class LoginController implements Initializable {
     //Provides the login methods
     private Login login = new Login();
 
+    //Instance of the appointmentDAO.
+    AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
+
     //Resource bundle that gets the locale of a user.
     private ResourceBundle rb = ResourceBundle.getBundle("Resources/Nat", Locale.getDefault());
 
     //Logged in user.
     protected static int loggedInUser;
+    protected static String loggedInUserName;
 
 
 
@@ -68,17 +74,20 @@ public class LoginController implements Initializable {
         //creates the login_activity.txt file to write login attempts.
         FileWriter fileWriter = new FileWriter("login_activity.txt", true);
         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+        String enteredUsername = userNameField.getText();
 
         //Checks for valid userName and userPassword and logs the attempt.
         if(login.checkUserInfo(userName, userPassword)) {
             loggedInUser = login.getUserId(userName);
-            bufferedWriter.write("Time: " + loginTime + " - Success");
+            loggedInUserName = enteredUsername;
+            bufferedWriter.write("Username: " + enteredUsername + " Time: " + loginTime + " - Success");
             bufferedWriter.newLine();
             bufferedWriter.close();
 
+            alertForUpcomingAppointments();
             Buttons.toMainDashboard(loginButton);
         } else {
-            bufferedWriter.write("Time: " + loginTime + " - Unsuccessful");
+            bufferedWriter.write("Username: " + enteredUsername + "Time: " + loginTime + " - Unsuccessful");
             bufferedWriter.newLine();
             bufferedWriter.close();
             loginErrorLabel.setText(rb.getString("loginErrorLabel"));
@@ -109,6 +118,33 @@ public class LoginController implements Initializable {
     @FXML
     private void exitApplication() {
         Buttons.exitApplication(exitAppButton);
+    }
+
+    /**
+     * Provides an alert once the Dashboard appears to show a user if an appointment is within 15 minutes or not.
+     * If an appointment is upcoming, a description of the appointment is shown.
+     */
+    private void alertForUpcomingAppointments() {
+
+        ObservableList<Appointment> appointmentsIn15Minutes = appointmentDAO.getAppointmentsOnLogin();
+        String app = "";
+
+        if(!appointmentsIn15Minutes.isEmpty()) {
+            for(Appointment a : appointmentsIn15Minutes) {
+                int id = a.getAppId();
+                String start = DateTimeFormatterUtility.formatDateTimeForTableview(a.getStartDatetime());
+                String end = DateTimeFormatterUtility.formatDateTimeForTableview(a.getEndDatetime());
+
+                app = "App ID: " + id + " Start: " + start + " End: " + end;
+            }
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText(app);
+            alert.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("No Appointments coming up!");
+            alert.showAndWait();
+        }
     }
 
     @Override

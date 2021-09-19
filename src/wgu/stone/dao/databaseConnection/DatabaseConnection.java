@@ -1,15 +1,21 @@
 package wgu.stone.dao.databaseConnection;
 
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ResourceBundle;
+
 
 /**
  * Database connection methods.
  */
 public final class DatabaseConnection {
+
+    /**
+     * Empty private constructor to prevent instantiation.
+     */
+    private DatabaseConnection() {
+
+    }
 
     //connection variable.
     private static Connection conn;
@@ -19,11 +25,14 @@ public final class DatabaseConnection {
      * @return connection to conn variable.
      */
     public static Connection startConnection(){
-        ResourceBundle reader;
-        reader = ResourceBundle.getBundle("db");
+
+        final String url = "jdbc:mysql://wgudb.ucertify.com:3306/WJ08BhZ?autoReconnect=true&useSSL=false";
+        final String username = "U08BhZ";
+        final String password = "53689239164";
+
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection(reader.getString("url"), reader.getString("username"), reader.getString("password"));
+            conn = DriverManager.getConnection(url, username, password);
             System.out.println("Successfully connected!");
         } catch (SQLException | ClassNotFoundException e) {
             System.out.println("Couldn't connect to the database: " + e.getMessage());

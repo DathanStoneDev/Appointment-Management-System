@@ -61,7 +61,7 @@ public class CustomerMainController implements Initializable {
     }
 
     /**
-     * Deletes a customer from the database and the tableview.
+     * -LAMBDA- Deletes a customer from the database and the tableview and reduces code for removing customers from the <code>customers</code> list.
      */
     @FXML
     private void deleteCustomer() {

@@ -85,7 +85,7 @@ public class AddCustomerController implements Initializable {
     }
 
     /**
-     * Filters the <code>divisionCombo</code> for divisions based on the selection of the country from the <code>countryCombo</code>.
+     * -LAMBDA- Filters the <code>divisionCombo</code> for divisions based on the selection of the country from the <code>countryCombo</code>.
      */
     @FXML
     private void setDivisionCombo() {

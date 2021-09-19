@@ -39,6 +39,7 @@ public class AppointmentMainController implements Initializable {
     @FXML private TableColumn<Appointment, String> startDateColumn;
     @FXML private TableColumn<Appointment, String> endDateColumn;
     @FXML private TableColumn<Appointment, Integer> customerIdColumn;
+    @FXML private TableColumn<Appointment, Integer> userIdColumn;
 
     //Appointment form buttons.
     @FXML private Button addAppointmentButton;
@@ -49,6 +50,9 @@ public class AppointmentMainController implements Initializable {
     @FXML private RadioButton weeklyRadioButton;
     @FXML private RadioButton allAppointmentsRadioButton;
     @FXML private ToggleGroup filterAppsGroup;
+
+    //current user label
+    @FXML private Label currentUserLabel;
 
     //Instance of AppointmentDAO Interface.
     private AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
@@ -67,6 +71,8 @@ public class AppointmentMainController implements Initializable {
         Stage window = (Stage) addAppointmentButton.getScene().getWindow();
         window.setScene(addAppScene);
         window.show();
+
+        System.out.println("Button click");
     }
 
     /**
@@ -92,19 +98,26 @@ public class AppointmentMainController implements Initializable {
     }
 
     /**
-     * Lambda expression that deletes a selected appointment and then removes it from the <code>appointments</code> list.
+     * -LAMBDA- expression that deletes a selected appointment and then removes it from the <code>appointments</code> list.
      * A lambda expression was used to reduce the amount of code that a traditional for-loop would require.
      */
     @FXML
     private void deleteAppointment() {
 
         try {
-            int appId = appointmentTableView.getSelectionModel().getSelectedItem().getAppId();
+            Appointment selectedApp = appointmentTableView.getSelectionModel().getSelectedItem();
+            int appId = selectedApp.getAppId();
+            String appType = selectedApp.getAppType();
             appointmentDAO.deleteAppointment(appId);
             appointments.removeIf(a -> a.getAppId() == appId);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("Appointment with ID: " + appId + " and Type: " + appType + " has been deleted.");
+            alert.show();
         } catch (NullPointerException e) {
             e.printStackTrace();
-            //make an alert
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("No Appointment was selected.");
+            alert.show();
         }
     }
 
@@ -125,6 +138,9 @@ public class AppointmentMainController implements Initializable {
         Buttons.toMainDashboard(backToMainScreenButton);
     }
 
+    /**
+     * -LAMBDA- used for startDateColumn and endDateColumn to easily get the LocalDateTime in a formatted string form.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         appointments = appointmentDAO.getAppointmentsList();
@@ -137,16 +153,18 @@ public class AppointmentMainController implements Initializable {
         startDateColumn.setCellValueFactory(cell -> new ReadOnlyStringWrapper(cell.getValue().getStartTimeFormatted()));
         endDateColumn.setCellValueFactory(cell -> new ReadOnlyStringWrapper(cell.getValue().getEndTimeFormatted()));
         customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        userIdColumn.setCellValueFactory(new PropertyValueFactory<>("userId"));
         filterAppsGroup = new ToggleGroup();
         monthlyRadioButton.setToggleGroup(filterAppsGroup);
         weeklyRadioButton.setToggleGroup(filterAppsGroup);
         allAppointmentsRadioButton.setToggleGroup(filterAppsGroup);
         allAppointmentsRadioButton.setSelected(true);
         appointmentTableView.setItems(appointments);
+        currentUserLabel.setText("Current User: " + LoginController.loggedInUserName);
     }
 
     /**
-     * Lambda Expression used when filtering appointments to reduce code, instead of using a traditional for loop.
+     * -LAMBDA- used to filter appointments by current month and reduces code, instead of using a traditional for loop.
      * Set on the <code>monthlyRadioButton </code> - if selected, this method is called.
      * Gets the current month and then creates a filtered list of appointments that consist of only appointments in that
      * month. The list is then set as the tableview.

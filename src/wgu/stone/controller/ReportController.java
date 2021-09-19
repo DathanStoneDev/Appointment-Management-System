@@ -57,6 +57,9 @@ public class ReportController implements Initializable {
     //Instance of the appointmentDAO.
     private final AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
 
+    /**
+     * -LAMBDA- used for: <code>startColumn, endColumn, startColumnLoc and endColumnLoc</code> to easily get the LocalDateTime in a formatted string form.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //Contact Report TableView
@@ -90,24 +93,22 @@ public class ReportController implements Initializable {
     }
 
     /**
-     * Lambda Expression used when filtering appointments to reduce code, instead of using a traditional for loop.
+     * -LAMBDA- used to filter appointments by contacts and to reduce code, instead of using a traditional for loop.
      * Creates a filtered list from the <code>contactAppointmentList</code> based on the <code>contactComboBox</code>selection.
      * Displays the filtered list in the <code>contactAppointmentsView</code>.
      */
-    @FXML
-    private void setContactAppTableView() {
+    @FXML private void setContactAppTableView() {
 
         FilteredList<Appointment> filteredList = contactAppointmentsList.filtered(c -> c.getAppContact().equals(contactsComboBox.getValue().getContactName()));
         contactAppointmentsView.setItems(filteredList);
     }
 
     /**
-     * Lambda Expression used when filtering appointments to reduce code, instead of using a traditional for loop.
+     * -LAMBDA- used to filter appointments by locations and to reduce code, instead of using a traditional for loop.
      * Creates a filtered list from the <code>contactAppointmentList</code> based on the locationComboBox selection.
      * Displays the filtered list in the <code>locationAppointmentsView</code>.
      */
-    @FXML
-    private void setLocationAppTableView() {
+    @FXML private void setLocationAppTableView() {
 
         FilteredList<Appointment> filteredList = contactAppointmentsList.filtered(c -> c.getAppLocation().equals(locationComboBox.getValue()));
         locationAppointmentsView.setItems(filteredList);
@@ -131,8 +132,7 @@ public class ReportController implements Initializable {
      * Takes the user back to the Dashboard.
      * @throws IOException Throws exception if the MainDashboard cannot be retrieved.
      */
-    @FXML
-    private void backToMainDashboard() throws IOException {
+    @FXML private void backToMainDashboard() throws IOException {
         Buttons.toMainDashboard(backToMainScreenButton);
     }
 

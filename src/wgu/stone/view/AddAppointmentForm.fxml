@@ -42,4 +42,5 @@
    </TableView>
    <ComboBox fx:id="typeComboBox" layoutX="342.0" layoutY="411.0" prefWidth="150.0" />
    <Label layoutX="300.0" layoutY="415.0" text="Type" />
+   <Label fx:id="currentUserLabel" layoutX="9.0" layoutY="10.0" />
 </AnchorPane>

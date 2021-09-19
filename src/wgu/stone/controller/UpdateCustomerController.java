@@ -18,7 +18,6 @@ import wgu.stone.model.Country;
 import wgu.stone.model.Customer;
 import wgu.stone.model.Division;
 import wgu.stone.utility.Buttons;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -132,12 +131,7 @@ public class UpdateCustomerController implements Initializable {
      */
     @FXML
     private void backToMainCustomerForm() throws IOException {
-
-        Parent mainCustomer = FXMLLoader.load(getClass().getResource("/wgu/stone/view/CustomerMainForm.fxml"));
-        Scene mainCustomerScene = new Scene(mainCustomer);
-        Stage window = (Stage) cancelUpdateButton.getScene().getWindow();
-        window.setScene(mainCustomerScene);
-        window.show();
+        Buttons.toMainCustomerForm(cancelUpdateButton);
     }
 
     /**
@@ -150,7 +144,7 @@ public class UpdateCustomerController implements Initializable {
     }
 
     /**
-     * Sets the <code>divisionCombo</code> to a filtered list based on the <code>countryCombo</code>selection.
+     * -LAMBDA- Sets the <code>divisionCombo</code> to a filtered list based on the <code>countryCombo</code>selection.
      */
     @FXML
     private void setDivisionCombo() {

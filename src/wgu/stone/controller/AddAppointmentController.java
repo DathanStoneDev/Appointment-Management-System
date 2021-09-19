@@ -53,6 +53,9 @@ public class AddAppointmentController implements Initializable {
     @FXML private Button backToMainAppointmentButton;
     @FXML private Button saveAppointmentButton;
 
+    //current user label
+    @FXML private Label currentUserLabel;
+
     //DAO Interface Instances
     private AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
     private CustomerDAO customerDAO = new CustomerDAOImpl();
@@ -65,15 +68,17 @@ public class AddAppointmentController implements Initializable {
      */
     private void setTimesForComboBoxes() {
 
-        LocalTime start = LocalTime.of(8, 0);
-        LocalTime end = LocalTime.of(22, 0);
+        LocalTime start = LocalTime.of(0, 0);
+        //LocalTime end = LocalTime.of(23, 59);
 
-        while (start.isBefore(end.plusSeconds(1))) {
+        for(int i = 0; i < 96; i++) {
             startTimeComboBox.getItems().add(start);
             endTimeComboBox.getItems().add(start);
-            start = start.plusMinutes(30);
+            start = start.plusMinutes(15);
+            }
         }
-    }
+
+
 
     /**
      * Creates a LocalDateTime from the LocalDate and LocalTime selections from the <code>datePicker</code>and <code>startTimeComboBox</code>..
@@ -149,6 +154,7 @@ public class AddAppointmentController implements Initializable {
             locationComboBox.setItems(locations);
             typeComboBox.setItems(types);
             appointments = appointmentDAO.getAppointmentsList();
+            currentUserLabel.setText("Current User: " + LoginController.loggedInUserName);
         }
 
         /**
@@ -192,7 +198,9 @@ public class AddAppointmentController implements Initializable {
                     LocalDateTime listOfAppsEnd = a.getEndDatetime();
 
                     if (currentAppStart.isAfter(listOfAppsStart) && currentAppStart.isBefore(listOfAppsEnd)
-                            || currentAppEnd.isAfter(listOfAppsStart) && currentAppEnd.isBefore(listOfAppsEnd)) {
+                            || currentAppEnd.isAfter(listOfAppsStart) && currentAppEnd.isBefore(listOfAppsEnd)
+                    || currentAppStart.isBefore(listOfAppsStart) && listOfAppsEnd.isBefore(currentAppEnd)
+                        || currentAppStart.isEqual(listOfAppsStart) && currentAppEnd.isEqual(listOfAppsEnd)) {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Invalid Appointment Time: Overlap");
                         alert.setContentText("The appointment has an overlap with another customer. Please try another selection");

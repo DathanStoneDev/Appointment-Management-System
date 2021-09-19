@@ -36,6 +36,9 @@ public class UpdateAppointmentController implements Initializable {
     @FXML private Button backToMainAppointmentButton;
     @FXML private Button exitAppButton;
 
+    //current user label
+    @FXML private Label currentUserLabel;
+
     //DAO Interface Instances
     private AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
 
@@ -50,13 +53,13 @@ public class UpdateAppointmentController implements Initializable {
      */
     private void setTimesForComboBoxes() {
 
-        LocalTime start = LocalTime.of(8, 0);
-        LocalTime end = LocalTime.of(22, 0);
+        LocalTime start = LocalTime.of(0, 0);
+        //LocalTime end = LocalTime.of(23, 59);
 
-        while(start.isBefore(end.plusSeconds(1))) {
+        for(int i = 0; i < 96; i++) {
             startTimeComboBox.getItems().add(start);
             endTimeComboBox.getItems().add(start);
-            start = start.plusMinutes(30);
+            start = start.plusMinutes(15);
         }
     }
 
@@ -160,6 +163,7 @@ public class UpdateAppointmentController implements Initializable {
         setTimesForComboBoxes();
         locationComboBox.setItems(locations);
         typeComboBox.setItems(types);
+        currentUserLabel.setText("Current User: " + LoginController.loggedInUserName);
 
     }
 
@@ -203,10 +207,13 @@ public class UpdateAppointmentController implements Initializable {
 
 
     /**
+     * -LAMBDA- removes the current appointment from the list to prevent an error with updating appointments if the times are not changed.
+     * <p>
      * Validates that the appointment start and end times do not overlap with other appointments.
      * First, checks the appointment that is being made for valid start and end times.
      * Second, if the appointment has valid start and end times, those times are checked against all other appointments
      * to prevent overlapping appointments.
+     * </p>
      * @return Returns Boolean: true for valid appointment times or false for an invalid appointment times.
      */
     private Boolean isValidWithoutOverlaps() {
@@ -220,13 +227,17 @@ public class UpdateAppointmentController implements Initializable {
         if(!isValidAppointmentTime(currentAppStart, currentAppEnd)) {
             return false;
         } else {
+            appointments.removeIf(a -> a.getStartDatetime().isEqual(currentAppStart) && a.getEndDatetime().isEqual(currentAppEnd));
+
             for (Appointment a : appointments) {
 
                 LocalDateTime listOfAppsStart = a.getStartDatetime();
                 LocalDateTime listOfAppsEnd = a.getEndDatetime();
 
                 if (currentAppStart.isAfter(listOfAppsStart) && currentAppStart.isBefore(listOfAppsEnd)
-                        || currentAppEnd.isAfter(listOfAppsStart) && currentAppEnd.isBefore(listOfAppsEnd)) {
+                        || currentAppEnd.isAfter(listOfAppsStart) && currentAppEnd.isBefore(listOfAppsEnd)
+                        || currentAppStart.isBefore(listOfAppsStart) && listOfAppsEnd.isBefore(currentAppEnd)
+                        || currentAppStart.isEqual(listOfAppsStart) && currentAppEnd.isEqual(listOfAppsEnd)) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Invalid Appointment Time: Overlap");
                     alert.setContentText("The appointment has an overlap with another customer. Please try another selection");
