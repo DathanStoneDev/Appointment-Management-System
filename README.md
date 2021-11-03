@@ -1,6 +1,6 @@
-# C195 - Management System
+# Appointment Management System
 
-A scheduling desktop application with a JavaFX Interface for C195
+A scheduling desktop application with a JavaFX Interface
 
 ## Author Information
 Author: Dathan Stone
