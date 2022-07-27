@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"wgu.stone"},{"l":"wgu.stone.controller"},{"l":"wgu.stone.dao.databaseConnection"},{"l":"wgu.stone.dao.implementations"},{"l":"wgu.stone.dao.interfaces"},{"l":"wgu.stone.model"},{"l":"wgu.stone.utility"}]
